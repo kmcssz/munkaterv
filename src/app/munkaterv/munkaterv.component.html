@@ -1,0 +1,10 @@
+<div class="munkaterv">
+    <div cdkDropList class="programok" (cdkDropListDropped)="drop($event)">
+        <div cdkDrag class="program" *ngFor="let program of programs">
+            <app-program></app-program>
+        </div>
+        <button mat-fab color="primary" (click)="addNewProgram()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</div>
