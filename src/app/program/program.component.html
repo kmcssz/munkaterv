@@ -1,3 +1,31 @@
-<mat-card class="program">
-    program
+<mat-card>
+    <mat-card-content class="program">
+        <section class="time">
+            <mat-form-field class="duration">
+                <input matInput type="number" value="5"/>
+                <mat-hint [align]="'start'">perc</mat-hint>
+            </mat-form-field>
+        </section>
+        <section>
+            <div>
+                <mat-slider #ageSlider
+                    (change)="changeAge($event.value ?? age)"
+                    thumbLabel
+                    tickInterval="1"
+                    step="1"
+                    min="10"
+                    max="16">
+                </mat-slider>
+            </div>
+            <div>
+                <mat-button-toggle-group>
+                    <mat-button-toggle *ngFor="let proba of probak"
+                        [value]="proba.name"
+                        matTooltip="{{proba.name}}">
+                        <img class="proba-jelveny" [src]="proba.imageUri"/>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </section>
+    </mat-card-content>
 </mat-card>
