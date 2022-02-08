@@ -1,5 +1,5 @@
-<mat-card>
-    <mat-card-content class="program">
+<mat-card class="program-card">
+    <mat-card-content class="program-card-content">
         <section class="time">
             <mat-form-field class="duration">
                 <input matInput type="number" value="5"/>
@@ -9,7 +9,7 @@
         <section>
             <div>
                 <mat-slider #ageSlider
-                    (change)="changeAge($event.value ?? age)"
+                    (change)="changeAge($event.value ?? 10)"
                     thumbLabel
                     tickInterval="1"
                     step="1"
@@ -22,7 +22,17 @@
                     <mat-button-toggle *ngFor="let proba of probak"
                         [value]="proba.name"
                         matTooltip="{{proba.name}}">
-                        <img class="proba-jelveny" [src]="proba.imageUri"/>
+                        <img class="proba-image" [src]="proba.imageUri"/>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <div>
+                <mat-button-toggle-group>
+                    <mat-button-toggle *ngFor="let tema of temak"
+                        [value]="tema.name"
+                        matTooltip="{{tema.name}}"
+                        class="tema-emoji">
+                        {{ tema.emoji }}
                     </mat-button-toggle>
                 </mat-button-toggle-group>
             </div>

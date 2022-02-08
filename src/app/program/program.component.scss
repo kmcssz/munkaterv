@@ -1,8 +1,10 @@
-.program {
-    //padding: 20px;
-    border-radius: 10px;
-    text-align: left;
-    display: flex;
+.program-card {
+    border-radius: 20px;
+}
+
+.program-card-content {
+  text-align: left;
+  display: flex;
 }
 
 section {
@@ -24,8 +26,16 @@ mat-slider {
     width: 100px;
 }
 
-.proba-jelveny {
+.proba-selected {
     max-width: 32px;
+}
+
+.proba-image {
+    max-width: 32px;
+}
+
+.tema-emoji {
+  font-size: xx-large;
 }
 
 ::ng-deep {

@@ -4,7 +4,7 @@
             <div cdkDragHandle class="drag-handle">
                 <mat-icon>drag_indicator</mat-icon>
             </div>
-            <app-program></app-program>
+            <app-program [program]="program"></app-program>
         </div>
         <button mat-fab color="primary" (click)="addNewProgram()">
             <mat-icon>add</mat-icon>

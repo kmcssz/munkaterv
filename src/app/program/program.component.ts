@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core'
-import { Proba } from '../proba-rendszer/proba'
-import { PROBA_MAP } from '../proba-rendszer/proba-rendszer'
+import { Component, Input, OnInit } from '@angular/core'
+import { Proba } from '../proba-rendszer/proba-rendszer.models'
+import { Probak, Temak } from '../proba-rendszer/proba-rendszer'
+import { Program } from './program.models'
 
 @Component({
     selector: 'app-program',
@@ -9,23 +10,27 @@ import { PROBA_MAP } from '../proba-rendszer/proba-rendszer'
 })
 export class ProgramComponent implements OnInit {
 
-    age: number = 10
-    probak: Proba[] = []
+    @Input()
+    program!: Program
+
+    probak!: Proba[]
+    temak = Object.values(Temak)
 
     constructor() {
     }
 
     ngOnInit(): void {
-        this.changeAge(this.age)
+        this.probak = getProbakForAge(this.program.age)
     }
 
     changeAge(age: number) {
-        this.age = age
+        this.program.age = age
         this.probak = getProbakForAge(age)
-        console.log(this.probak)
+        this.program.proba = this.probak[0]
     }
 }
 
 function getProbakForAge(age: number): Proba[] {
-    return PROBA_MAP.filter((proba) => proba.startAge <= age && age <= proba.endAge)
+    return Object.values(Probak)
+        .filter((proba) => proba.startAge <= age && age <= proba.endAge)
 }
