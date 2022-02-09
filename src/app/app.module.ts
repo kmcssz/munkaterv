@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSliderModule } from '@angular/material/slider'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { MatTooltipModule } from '@angular/material/tooltip'
+import { OverlayModule } from '@angular/cdk/overlay'
 
 import { AppComponent } from './app.component'
 import { MunkatervComponent } from './munkaterv/munkaterv.component'
@@ -33,6 +34,7 @@ import { ProgramComponent } from './program/program.component'
         MatSliderModule,
         MatButtonToggleModule,
         MatTooltipModule,
+        OverlayModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
