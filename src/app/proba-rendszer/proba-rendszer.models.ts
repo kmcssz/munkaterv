@@ -34,7 +34,16 @@ export class Alproba {
 
     constructor(
         public readonly name: string,
-        public readonly pontok: string[],
+        public readonly pontok: Pont[],
+    ) {
+    }
+}
+
+export class Pont {
+
+    constructor(
+        public readonly name: string,
+        public selected = false,
     ) {
     }
 }

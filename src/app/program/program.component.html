@@ -59,9 +59,12 @@
             </div>
         </section>
         <section>
-            <mat-selection-list #pontokSelectionList>
-                <mat-list-option *ngFor="let pont of program.alproba.pontok">
-                    {{pont}}
+            <mat-selection-list (selectionChange)="changePontok($event.options)">
+                <mat-list-option *ngFor="let pont of program.pontok"
+                    [selected]="pont.selected"
+                    [value]="pont"
+                >
+                    {{pont.name}}
                 </mat-list-option>
             </mat-selection-list>
         </section>

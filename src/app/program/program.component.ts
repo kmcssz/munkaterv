@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core'
-import { Alproba, Cserkesz, Proba, Tema } from '../proba-rendszer/proba-rendszer.models'
+import { Alproba, Cserkesz, Pont, Proba, Tema } from '../proba-rendszer/proba-rendszer.models'
 import { Alprobak, Cserkeszek, Probak, ProbaRendszer, Temak } from '../proba-rendszer/proba-rendszer'
 import { Program } from './program.models'
-import { MatSelectionList } from '@angular/material/list'
+import { MatListOption, MatSelectionList } from '@angular/material/list'
 import { AngularEditorConfig } from '@kolkov/angular-editor'
 
 @Component({
@@ -14,9 +14,6 @@ export class ProgramComponent implements OnInit {
 
     @Input()
     program!: Program
-
-    @ViewChild("pontokSelectionList")
-    pontokSelectionList?: MatSelectionList
 
     areProbakOpen = false
     areTemakOpen = false
@@ -35,7 +32,7 @@ export class ProgramComponent implements OnInit {
           translate: 'yes',
           enableToolbar: true,
           showToolbar: true,
-          placeholder: 'Enter text here...',
+          placeholder: 'Ide írjál valamit...',
           defaultParagraphSeparator: '',
           defaultFontName: '',
           defaultFontSize: '',
@@ -105,7 +102,13 @@ export class ProgramComponent implements OnInit {
 
     changeAlproba(alproba: Alproba) {
         this.program.alproba = alproba
-        this.pontokSelectionList?.deselectAll()
+        this.program.pontok = alproba.pontok
+    }
+
+    changePontok(options: MatListOption[]) {
+        options.forEach((option) => {
+            (option.value as Pont).selected = option.selected
+        })
     }
 }
 
