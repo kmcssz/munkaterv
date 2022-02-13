@@ -51,7 +51,9 @@
                         [value]="program.alproba"
                         (selectionChange)="changeAlproba($event.value)"
                     >
-                        <mat-option *ngFor="let alproba of alprobak" [value]="alproba">
+                        <mat-option *ngFor="let alproba of alprobak"
+                            [value]="alproba"
+                        >
                             {{alproba.name}}
                         </mat-option>
                     </mat-select>
@@ -60,11 +62,11 @@
         </section>
         <section>
             <mat-selection-list (selectionChange)="changePontok($event.options)">
-                <mat-list-option *ngFor="let pont of program.pontok"
-                    [selected]="pont.selected"
-                    [value]="pont"
+                <mat-list-option *ngFor="let pontSelection of program.pontSelection | keyvalue"
+                    [selected]="pontSelection.value"
+                    [value]="pontSelection.key"
                 >
-                    {{pont.name}}
+                    {{pontSelection.key.name}}
                 </mat-list-option>
             </mat-selection-list>
         </section>

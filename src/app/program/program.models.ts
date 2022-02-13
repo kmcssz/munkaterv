@@ -9,13 +9,19 @@ export class Program {
         public proba = Probak.MagyarCimer,
         public tema = Temak.Cserkeszismeretek,
         public alproba = Alprobak.AlapCserkesztudas,
-        public pontok: Pont[] = [
-            new Pont("El tudod énekelni a cserkészinduló 1. versszakát.", false),
-            new Pont("Tudod a cserkész jelszót és tisztelgést.", true),
-            new Pont("Le tudod rajzolni a cserkészliliomot.", false),
-        ],
+        public pontSelection = new Map<Pont, boolean>([
+            [new Pont("El tudod énekelni a cserkészinduló 1. versszakát."), false],
+            [new Pont("Tudod a cserkész jelszót és tisztelgést."), false],
+            [new Pont("Le tudod rajzolni a cserkészliliomot."), false],
+        ]),
         public leiras = "",
     ) {
 
     }
+
+    setPontok(pontok: Pont[]) {
+        this.pontSelection.clear()
+        pontok.forEach((pont) => this.pontSelection.set(pont, false))
+    }
+
 }

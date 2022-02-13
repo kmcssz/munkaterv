@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core'
-import { Alproba, Cserkesz, Pont, Proba, Tema } from '../proba-rendszer/proba-rendszer.models'
-import { Alprobak, Cserkeszek, Probak, ProbaRendszer, Temak } from '../proba-rendszer/proba-rendszer'
-import { Program } from './program.models'
-import { MatListOption, MatSelectionList } from '@angular/material/list'
+import { Component, Input, OnInit } from '@angular/core'
+import { MatListOption } from '@angular/material/list'
 import { AngularEditorConfig } from '@kolkov/angular-editor'
+import { Cserkeszek, ProbaRendszer, Temak } from '../proba-rendszer/proba-rendszer'
+import { Alproba, Cserkesz, Proba, Tema } from '../proba-rendszer/proba-rendszer.models'
+import { Program } from './program.models'
 
 @Component({
     selector: 'app-program',
@@ -23,45 +23,42 @@ export class ProgramComponent implements OnInit {
     alprobak!: Alproba[]
     editorConfig: AngularEditorConfig = {
         editable: true,
-          spellcheck: true,
-          height: 'auto',
-          minHeight: '0',
-          maxHeight: 'auto',
-          width: 'auto',
-          minWidth: '0',
-          translate: 'yes',
-          enableToolbar: true,
-          showToolbar: true,
-          placeholder: 'Ide írjál valamit...',
-          defaultParagraphSeparator: '',
-          defaultFontName: '',
-          defaultFontSize: '',
-          fonts: [
+        spellcheck: true,
+        height: 'auto',
+        minHeight: '0',
+        maxHeight: 'auto',
+        width: 'auto',
+        minWidth: '0',
+        translate: 'yes',
+        enableToolbar: true,
+        showToolbar: true,
+        placeholder: 'Ide írjál valamit...',
+        defaultParagraphSeparator: '',
+        defaultFontName: '',
+        defaultFontSize: '',
+        fonts: [
             {class: 'arial', name: 'Arial'},
             {class: 'times-new-roman', name: 'Times New Roman'},
-            {class: 'calibri', name: 'Calibri'},
             {class: 'comic-sans-ms', name: 'Comic Sans MS'}
-          ],
-          customClasses: [
-          {
-            name: 'quote',
-            class: 'quote',
-          },
-          {
-            name: 'redText',
-            class: 'redText'
-          },
-          {
-            name: 'titleText',
-            class: 'titleText',
-            tag: 'h1',
-          },
         ],
         sanitize: true,
         toolbarPosition: 'top',
         toolbarHiddenButtons: [
-          [],
-          ['customClasses', 'insertImage', 'toggleEditorMode']
+            [
+                'strikeThrough',
+                'subscript',
+                'superscript',
+                'justifyLeft',
+                'justifyCenter',
+                'justifyRight',
+                'justifyFull',
+                'textColor',
+                'backgroundColor',
+                'customClasses',
+                'insertImage',
+                'removeFormat',
+                'toggleEditorMode',
+            ]
         ]
     }
 
@@ -102,12 +99,14 @@ export class ProgramComponent implements OnInit {
 
     changeAlproba(alproba: Alproba) {
         this.program.alproba = alproba
-        this.program.pontok = alproba.pontok
+        this.program.setPontok(alproba.pontok)
     }
 
     changePontok(options: MatListOption[]) {
+        this.editorConfig.editable = !this.editorConfig.editable
+        this.editorConfig.showToolbar = !this.editorConfig.showToolbar
         options.forEach((option) => {
-            (option.value as Pont).selected = option.selected
+            this.program.pontSelection.set(option.value, option.selected)
         })
     }
 }
