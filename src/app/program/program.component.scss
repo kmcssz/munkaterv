@@ -24,6 +24,7 @@ section {
 
 mat-slider {
     width: 100px;
+    margin-top: 10px;
 }
 
 .proba-selected {
@@ -38,6 +39,10 @@ mat-slider {
   font-size: xx-large;
 }
 
+.alproba {
+  margin-top: 10px;
+}
+
 ::ng-deep {
     .mat-slider-thumb-label {
       transform: rotate(45deg) !important;
@@ -49,4 +54,14 @@ mat-slider {
     .mat-slider-thumb-label-text {
       opacity: 1 !important;
     }
+    // .mat-slider-wrapper {
+    //   .mat-slider-thumb-container {
+    //     .mat-slider-thumb-label {
+    //       width: 100px;
+    //       height: 100px;
+    //       // top: -62px;
+    //       // right: -25px;
+    //     }
+    //   }
+    // }
   }

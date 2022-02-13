@@ -1,12 +1,19 @@
 
+export class Cserkesz {
+
+    constructor(
+        public readonly name: string,
+        public readonly startAge: number,
+        public readonly endAge: number,
+    ) {
+    }
+}
+
 export class Proba {
 
     public readonly imageUri: string
 
     constructor(
-        public readonly startAge: number,
-        public readonly endAge: number,
-        public readonly cserkesz: string,
         public readonly name: string,
         imageFileName: string,
     ) {

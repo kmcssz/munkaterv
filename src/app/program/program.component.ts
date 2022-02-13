@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { Proba, Tema } from '../proba-rendszer/proba-rendszer.models'
-import { Probak, Temak } from '../proba-rendszer/proba-rendszer'
+import { Component, Input, OnInit, ViewChild } from '@angular/core'
+import { Alproba, Cserkesz, Proba, Tema } from '../proba-rendszer/proba-rendszer.models'
+import { Alprobak, Cserkeszek, Probak, ProbaRendszer, Temak } from '../proba-rendszer/proba-rendszer'
 import { Program } from './program.models'
+import { MatSelectionList } from '@angular/material/list'
+import { AngularEditorConfig } from '@kolkov/angular-editor'
 
 @Component({
     selector: 'app-program',
@@ -13,11 +15,58 @@ export class ProgramComponent implements OnInit {
     @Input()
     program!: Program
 
+    @ViewChild("pontokSelectionList")
+    pontokSelectionList?: MatSelectionList
+
     areProbakOpen = false
     areTemakOpen = false
 
     probak!: Proba[]
     temak = Object.values(Temak)
+    alprobak!: Alproba[]
+    editorConfig: AngularEditorConfig = {
+        editable: true,
+          spellcheck: true,
+          height: 'auto',
+          minHeight: '0',
+          maxHeight: 'auto',
+          width: 'auto',
+          minWidth: '0',
+          translate: 'yes',
+          enableToolbar: true,
+          showToolbar: true,
+          placeholder: 'Enter text here...',
+          defaultParagraphSeparator: '',
+          defaultFontName: '',
+          defaultFontSize: '',
+          fonts: [
+            {class: 'arial', name: 'Arial'},
+            {class: 'times-new-roman', name: 'Times New Roman'},
+            {class: 'calibri', name: 'Calibri'},
+            {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+          ],
+          customClasses: [
+          {
+            name: 'quote',
+            class: 'quote',
+          },
+          {
+            name: 'redText',
+            class: 'redText'
+          },
+          {
+            name: 'titleText',
+            class: 'titleText',
+            tag: 'h1',
+          },
+        ],
+        sanitize: true,
+        toolbarPosition: 'top',
+        toolbarHiddenButtons: [
+          [],
+          ['customClasses', 'insertImage', 'toggleEditorMode']
+        ]
+    }
 
     constructor() {
     }
@@ -25,26 +74,51 @@ export class ProgramComponent implements OnInit {
     ngOnInit(): void {
         // This will set the probak
         this.changeAge(this.program.age)
+        this.changeProba(this.program.proba)
+        this.changeTema(this.program.tema)
+        this.changeAlproba(this.program.alproba)
     }
 
     changeAge(age: number) {
         this.program.age = age
-        this.probak = getProbakForAge(age)
-        this.program.proba = this.probak[0]
+        this.program.cserkesz = getCserkeszForAge(age)
+        this.probak = getProbakForCserkesz(this.program.cserkesz)
+        this.changeProba(this.probak[0])
     }
 
     changeProba(proba: Proba) {
         this.program.proba = proba
         this.areProbakOpen = false
+        this.changeTema(Temak.Cserkeszismeretek)
     }
 
     changeTema(tema: Tema) {
         this.program.tema = tema
         this.areTemakOpen = false
+        this.alprobak = getAlprobakForTema(
+            this.program.cserkesz,
+            this.program.proba,
+            tema,
+        )
+        this.changeAlproba(this.alprobak[0])
+    }
+
+    changeAlproba(alproba: Alproba) {
+        this.program.alproba = alproba
+        this.pontokSelectionList?.deselectAll()
     }
 }
 
-function getProbakForAge(age: number): Proba[] {
-    return Object.values(Probak)
-        .filter((proba) => proba.startAge <= age && age <= proba.endAge)
+function getCserkeszForAge(age: number): Cserkesz {
+    return Object.values(Cserkeszek)
+        .filter((cserkesz) => cserkesz.startAge <= age && age <= cserkesz.endAge)
+        [0]
+}
+
+function getProbakForCserkesz(cserkesz: Cserkesz): Proba[] {
+    return Array.from(ProbaRendszer.get(cserkesz)!.keys()!)
+}
+
+function getAlprobakForTema(cserkesz: Cserkesz, proba: Proba, tema: Tema): Alproba[] {
+    return Array.from(ProbaRendszer.get(cserkesz)!.get(proba)!.get(tema)!)
 }

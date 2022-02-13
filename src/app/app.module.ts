@@ -11,7 +11,11 @@ import { MatSliderModule } from '@angular/material/slider'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { OverlayModule } from '@angular/cdk/overlay'
-
+import { MatSelectModule } from '@angular/material/select'
+import { HttpClientModule} from '@angular/common/http'
+import { AngularEditorModule } from '@kolkov/angular-editor'
+import { FormsModule } from '@angular/forms'
+import {MatListModule} from '@angular/material/list'
 import { AppComponent } from './app.component'
 import { MunkatervComponent } from './munkaterv/munkaterv.component'
 import { ProgramComponent } from './program/program.component'
@@ -35,6 +39,11 @@ import { ProgramComponent } from './program/program.component'
         MatButtonToggleModule,
         MatTooltipModule,
         OverlayModule,
+        MatSelectModule,
+        HttpClientModule,
+        AngularEditorModule,
+        FormsModule,
+        MatListModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

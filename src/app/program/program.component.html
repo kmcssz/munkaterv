@@ -2,79 +2,74 @@
     <mat-card-content class="program-card-content">
         <section class="time">
             <mat-form-field class="duration">
-                <input matInput type="number" value="5"/>
+                <input matInput type="number" value="5" />
                 <mat-hint [align]="'start'">perc</mat-hint>
             </mat-form-field>
         </section>
         <section>
             <div>
-                <mat-slider #ageSlider
-                    (change)="changeAge($event.value ?? 10)"
-                    thumbLabel
-                    tickInterval="1"
-                    step="1"
-                    min="10"
-                    max="16">
+                <mat-slider #ageSlider (change)="changeAge($event.value ?? 10)" thumbLabel tickInterval="1" step="1"
+                    min="10" max="16">
                 </mat-slider>
+                {{program.cserkesz.name}}
             </div>
             <div>
-                <button
-                    mat-button
-                    cdkOverlayOrigin
-                    #probaTrigger="cdkOverlayOrigin"
-                    [value]="program.proba.name"
-                    matTooltip="{{program.proba.name}}"
-                    (click)="areProbakOpen = !areProbakOpen"
-                >
-                    <img class="proba-image" [src]="program.proba.imageUri"/>
+                <button mat-button cdkOverlayOrigin #probaTrigger="cdkOverlayOrigin" [value]="program.proba.name"
+                    matTooltip="{{program.proba.name}}" (click)="areProbakOpen = !areProbakOpen">
+                    <img class="proba-image" [src]="program.proba.imageUri" />
                 </button>
 
-                <ng-template
-                    cdkConnectedOverlay
-                    [cdkConnectedOverlayOrigin]="probaTrigger"
-                    [cdkConnectedOverlayOpen]="areProbakOpen"
-                >
-                    <mat-button-toggle-group
-                        (change)="changeProba($event.value)"
-                    >
-                        <mat-button-toggle *ngFor="let proba of probak"
-                            [value]="proba"
-                            matTooltip="{{proba.name}}"
-                        >
-                            <img class="proba-image" [src]="proba.imageUri"/>
+                <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="probaTrigger"
+                    [cdkConnectedOverlayOpen]="areProbakOpen">
+                    <mat-button-toggle-group (change)="changeProba($event.value)">
+                        <mat-button-toggle *ngFor="let proba of probak" [value]="proba" matTooltip="{{proba.name}}">
+                            <img class="proba-image" [src]="proba.imageUri" />
                         </mat-button-toggle>
                     </mat-button-toggle-group>
                 </ng-template>
 
-                <button
-                    mat-button
-                    cdkOverlayOrigin
-                    #temaTrigger="cdkOverlayOrigin"
-                    matTooltip="{{program.tema.name}}"
-                    class="tema-emoji"
-                    (click)="areTemakOpen = !areTemakOpen"
-                >
+                <button mat-button cdkOverlayOrigin #temaTrigger="cdkOverlayOrigin" matTooltip="{{program.tema.name}}"
+                    class="tema-emoji" (click)="areTemakOpen = !areTemakOpen">
                     {{program.tema.emoji}}
                 </button>
 
-                <ng-template
-                    cdkConnectedOverlay
-                    [cdkConnectedOverlayOrigin]="temaTrigger"
-                    [cdkConnectedOverlayOpen]="areTemakOpen"
-                >
-                    <mat-button-toggle-group
-                        (change)="changeTema($event.value)"
-                    >
-                        <mat-button-toggle *ngFor="let tema of temak"
-                            [value]="tema"
-                            matTooltip="{{tema.name}}"
-                            class="tema-emoji"
-                        >
+                <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="temaTrigger"
+                    [cdkConnectedOverlayOpen]="areTemakOpen">
+                    <mat-button-toggle-group (change)="changeTema($event.value)">
+                        <mat-button-toggle *ngFor="let tema of temak" [value]="tema" matTooltip="{{tema.name}}"
+                            class="tema-emoji">
                             {{tema.emoji}}
                         </mat-button-toggle>
                     </mat-button-toggle-group>
                 </ng-template>
             </div>
+            <div class="alproba">
+                <mat-form-field appearance="fill">
+                    <mat-label>Alpróba</mat-label>
+                    <mat-select
+                        [disabled]="alprobak.length == 1"
+                        [value]="program.alproba"
+                        (selectionChange)="changeAlproba($event.value)"
+                    >
+                        <mat-option *ngFor="let alproba of alprobak" [value]="alproba">
+                            {{alproba.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </section>
+        <section>
+            <mat-selection-list #pontokSelectionList>
+                <mat-list-option *ngFor="let pont of program.alproba.pontok">
+                    {{pont}}
+                </mat-list-option>
+            </mat-selection-list>
+        </section>
+        <section>
+            <angular-editor
+                [config]="editorConfig"
+                [(ngModel)]="program.leiras"
+            ></angular-editor>
         </section>
     </mat-card-content>
 </mat-card>
