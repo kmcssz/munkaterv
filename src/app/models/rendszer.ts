@@ -1,4 +1,4 @@
-import { Alproba, Cserkesz, Proba, Tema, Pont } from "./proba-rendszer.models"
+import { Alproba, Cserkesz, Proba, Tema, Pont } from "./proba"
 
 export const Cserkeszek = {
     Ujonc: new Cserkesz("Újonc", 10, 10),

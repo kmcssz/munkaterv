@@ -18,13 +18,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AngularEditorModule } from '@kolkov/angular-editor'
 import { AppComponent } from './app.component'
 import { MunkatervComponent } from './munkaterv/munkaterv.component'
-import { ProgramComponent } from './program/program.component'
+import { OrsiProgramComponent } from './orsi-program/orsi-program.component';
+import { RajProgramComponent } from './raj-program/raj-program.component';
+import { CsapatProgramComponent } from './csapat-program/csapat-program.component'
 
 @NgModule({
     declarations: [
         AppComponent,
         MunkatervComponent,
-        ProgramComponent
+        OrsiProgramComponent,
+        RajProgramComponent,
+        CsapatProgramComponent
     ],
     imports: [
         AngularEditorModule,

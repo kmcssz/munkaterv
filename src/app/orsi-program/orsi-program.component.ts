@@ -1,19 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { MatListOption } from '@angular/material/list'
 import { AngularEditorConfig } from '@kolkov/angular-editor'
-import { Cserkeszek, ProbaRendszer, Temak } from '../proba-rendszer/proba-rendszer'
-import { Alproba, Cserkesz, Proba, Tema } from '../proba-rendszer/proba-rendszer.models'
-import { Program } from './program.models'
+import { Cserkeszek, ProbaRendszer, Temak } from '../models/rendszer'
+import { Alproba, Cserkesz, Proba, Tema } from '../models/proba'
+import { OrsiProgram } from '../models/munkaterv'
 
 @Component({
     selector: 'app-program',
-    templateUrl: './program.component.html',
-    styleUrls: ['./program.component.scss']
+    templateUrl: './orsi-program.component.html',
+    styleUrls: ['./orsi-program.component.scss']
 })
-export class ProgramComponent implements OnInit {
+export class OrsiProgramComponent implements OnInit {
 
     @Input()
-    program!: Program
+    program!: OrsiProgram
 
     areProbakOpen = false
     areTemakOpen = false
@@ -83,7 +83,8 @@ export class ProgramComponent implements OnInit {
     changeProba(proba: Proba) {
         this.program.proba = proba
         this.areProbakOpen = false
-        this.changeTema(Temak.Cserkeszismeretek)
+        this.temak = getTemakForProba(this.program.cserkesz, proba)
+        this.changeTema(this.temak[0])
     }
 
     changeTema(tema: Tema) {
@@ -103,8 +104,8 @@ export class ProgramComponent implements OnInit {
     }
 
     changePontok(options: MatListOption[]) {
-        this.editorConfig.editable = !this.editorConfig.editable
-        this.editorConfig.showToolbar = !this.editorConfig.showToolbar
+        // this.editorConfig.editable = !this.editorConfig.editable
+        // this.editorConfig.showToolbar = !this.editorConfig.showToolbar
         options.forEach((option) => {
             this.program.pontSelection.set(option.value, option.selected)
         })
@@ -119,6 +120,10 @@ function getCserkeszForAge(age: number): Cserkesz {
 
 function getProbakForCserkesz(cserkesz: Cserkesz): Proba[] {
     return Array.from(ProbaRendszer.get(cserkesz)!.keys()!)
+}
+
+function getTemakForProba(cserkesz: Cserkesz, proba: Proba): Tema[] {
+    return Array.from(ProbaRendszer.get(cserkesz)!.get(proba)!.keys())
 }
 
 function getAlprobakForTema(cserkesz: Cserkesz, proba: Proba, tema: Tema): Alproba[] {
