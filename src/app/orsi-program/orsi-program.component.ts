@@ -3,7 +3,7 @@ import { MatListOption } from '@angular/material/list'
 import { AngularEditorConfig } from '@kolkov/angular-editor'
 import { Cserkeszek, ProbaRendszer, Temak } from '../models/rendszer'
 import { Alproba, Cserkesz, Proba, Tema } from '../models/proba'
-import { OrsiProgram } from '../models/munkaterv'
+import { OrsiFoglalkozas } from '../models/foglalkozas'
 
 @Component({
     selector: 'app-program',
@@ -13,7 +13,7 @@ import { OrsiProgram } from '../models/munkaterv'
 export class OrsiProgramComponent implements OnInit {
 
     @Input()
-    program!: OrsiProgram
+    program!: OrsiFoglalkozas
 
     areProbakOpen = false
     areTemakOpen = false

@@ -6,13 +6,31 @@
             </div>
             <app-program [program]="program"></app-program>
         </div>
-        <button mat-fab color="gold" (click)="addNewProgram()">
+        <button mat-fab
+            class="add-new-foglalkozas-button"
+            color="gold"
+            matTooltip="Új csapat foglalkozás"
+            matTooltipClass="large"
+            (click)="addNewProgram()"
+        >
             <mat-icon>add</mat-icon>
         </button>
-        <button mat-fab color="silver" (click)="addNewProgram()">
+        <button mat-fab
+            class="add-new-foglalkozas-button"
+            color="silver"
+            matTooltip="Új raj foglalkozás"
+            matTooltipClass="large"
+            (click)="addNewProgram()"
+        >
             <mat-icon>add</mat-icon>
         </button>
-        <button mat-fab color="bronze" (click)="addNewProgram()">
+        <button mat-fab
+            class="add-new-foglalkozas-button"
+            color="bronze"
+            matTooltip="Új őrsi foglalkozás"
+            matTooltipClass="large"
+            (click)="addNewProgram()"
+        >
             <mat-icon>add</mat-icon>
         </button>
     </div>

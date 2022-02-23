@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { OrsiProgram } from '../models/munkaterv'
+import { OrsiFoglalkozas } from '../models/foglalkozas'
 
 @Component({
     selector: 'app-munkaterv',
@@ -9,7 +9,7 @@ import { OrsiProgram } from '../models/munkaterv'
 })
 export class MunkatervComponent implements OnInit {
 
-    public programs: OrsiProgram[] = []
+    public programs: OrsiFoglalkozas[] = []
 
     constructor() { }
 
@@ -21,6 +21,6 @@ export class MunkatervComponent implements OnInit {
     }
 
     addNewProgram() {
-        this.programs.push(new OrsiProgram())
+        this.programs.push(new OrsiFoglalkozas())
     }
 }
