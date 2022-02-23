@@ -5,45 +5,46 @@ import { Pont } from "./proba"
 class Munkaterv {
 
     constructor(
-        public startTime: Time,
+        public startTime: Time = {hours: 13, minutes: 0},
+        public foglalkozasok: Foglalkozas[]
     ){
     }
 }
 
-export enum ProgramType {
+export enum FoglalkozasType {
     CSAPAT,
     RAJ,
     ORS,
 }
 
-export class Program {
+export class Foglalkozas {
 
     constructor(
-        public readonly type: ProgramType,
+        public readonly type: FoglalkozasType,
         public duration = 15,
     ){
     }
 }
 
-export class CsapatProgram extends Program {
+export class CsapatFoglalkozas extends Foglalkozas {
 
     constructor(
         public leiras = "",
     ) {
-        super(ProgramType.CSAPAT)
+        super(FoglalkozasType.CSAPAT)
     }
 }
 
-export class RajProgram extends Program {
+export class RajFoglalkozas extends Foglalkozas {
 
     constructor(
         public leiras = "",
     ) {
-        super(ProgramType.RAJ)
+        super(FoglalkozasType.RAJ)
     }
 }
 
-export class OrsiProgram extends Program {
+export class OrsiFoglalkozas extends Foglalkozas {
 
     constructor(
         public age = 10,
@@ -54,7 +55,7 @@ export class OrsiProgram extends Program {
         public pontSelection = new Map<Pont, boolean>(),
         public leiras = "",
     ) {
-        super(ProgramType.ORS)
+        super(FoglalkozasType.ORS)
         this.setPontok(Alprobak.AlapCserkesztudas.pontok)
     }
 
