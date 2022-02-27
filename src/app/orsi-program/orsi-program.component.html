@@ -14,30 +14,51 @@
                 {{program.cserkesz.name}}
             </div>
             <div>
-                <button mat-button cdkOverlayOrigin #probaTrigger="cdkOverlayOrigin" [value]="program.proba.name"
-                    matTooltip="{{program.proba.name}}" (click)="areProbakOpen = !areProbakOpen">
+                <button
+                    mat-button
+                    cdkOverlayOrigin
+                    #probaTrigger="cdkOverlayOrigin"
+                    [value]="program.proba.name"
+                    matTooltip="{{program.proba.name}}"
+                    matTooltipClass="large"
+                    (click)="areProbakOpen = !areProbakOpen"
+                >
                     <img class="proba-image" [src]="program.proba.imageUri" />
                 </button>
 
                 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="probaTrigger"
                     [cdkConnectedOverlayOpen]="areProbakOpen">
                     <mat-button-toggle-group (change)="changeProba($event.value)">
-                        <mat-button-toggle *ngFor="let proba of probak" [value]="proba" matTooltip="{{proba.name}}">
+                        <mat-button-toggle *ngFor="let proba of probak"
+                            [value]="proba"
+                            matTooltip="{{proba.name}}"
+                            matTooltipClass="large"
+                        >
                             <img class="proba-image" [src]="proba.imageUri" />
                         </mat-button-toggle>
                     </mat-button-toggle-group>
                 </ng-template>
 
-                <button mat-button cdkOverlayOrigin #temaTrigger="cdkOverlayOrigin" matTooltip="{{program.tema.name}}"
-                    class="tema-emoji" (click)="areTemakOpen = !areTemakOpen">
+                <button mat-button
+                    cdkOverlayOrigin
+                    #temaTrigger="cdkOverlayOrigin"
+                    matTooltip="{{program.tema.name}}"
+                    matTooltipClass="large"
+                    class="tema-emoji"
+                    (click)="areTemakOpen = !areTemakOpen"
+                >
                     {{program.tema.emoji}}
                 </button>
 
                 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="temaTrigger"
                     [cdkConnectedOverlayOpen]="areTemakOpen">
                     <mat-button-toggle-group (change)="changeTema($event.value)">
-                        <mat-button-toggle *ngFor="let tema of temak" [value]="tema" matTooltip="{{tema.name}}"
-                            class="tema-emoji">
+                        <mat-button-toggle *ngFor="let tema of temak"
+                            [value]="tema"
+                            matTooltip="{{tema.name}}"
+                            matTooltipClass="large"
+                            class="tema-emoji"
+                        >
                             {{tema.emoji}}
                         </mat-button-toggle>
                     </mat-button-toggle-group>

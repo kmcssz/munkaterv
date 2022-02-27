@@ -104,8 +104,8 @@ export class OrsiProgramComponent implements OnInit {
     }
 
     changePontok(options: MatListOption[]) {
-        // this.editorConfig.editable = !this.editorConfig.editable
-        // this.editorConfig.showToolbar = !this.editorConfig.showToolbar
+        this.editorConfig.editable = !this.editorConfig.editable
+        this.editorConfig.showToolbar = !this.editorConfig.showToolbar
         options.forEach((option) => {
             this.program.pontSelection.set(option.value, option.selected)
         })

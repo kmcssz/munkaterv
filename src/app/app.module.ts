@@ -18,9 +18,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AngularEditorModule } from '@kolkov/angular-editor'
 import { AppComponent } from './app.component'
 import { MunkatervComponent } from './munkaterv/munkaterv.component'
-import { OrsiProgramComponent } from './orsi-program/orsi-program.component';
-import { RajProgramComponent } from './raj-program/raj-program.component';
+import { OrsiProgramComponent } from './orsi-program/orsi-program.component'
+import { RajProgramComponent } from './raj-program/raj-program.component'
 import { CsapatProgramComponent } from './csapat-program/csapat-program.component'
+import { CsapatSelectionComponent } from './csapat-selection/csapat-selection.component'
+import { AppRoutingModule } from './app-routing.module';
+import { CsapatTervComponent } from './csapat-terv/csapat-terv.component'
 
 @NgModule({
     declarations: [
@@ -28,7 +31,9 @@ import { CsapatProgramComponent } from './csapat-program/csapat-program.componen
         MunkatervComponent,
         OrsiProgramComponent,
         RajProgramComponent,
-        CsapatProgramComponent
+        CsapatProgramComponent,
+        CsapatSelectionComponent,
+        CsapatTervComponent
     ],
     imports: [
         AngularEditorModule,
@@ -48,6 +53,7 @@ import { CsapatProgramComponent } from './csapat-program/csapat-program.componen
         MatSliderModule,
         MatTooltipModule,
         OverlayModule,
+        AppRoutingModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
