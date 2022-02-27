@@ -1,0 +1,37 @@
+.csapat-terv {
+    padding: 20px;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.back-button-icon {
+    font-size: xx-large;
+}
+
+.csapat-background {
+    height: 200px;
+}
+
+.csapat-logo {
+    position: absolute;
+    top: 60px;
+    transform: translate(calc(50% - 62.5px), 0%);
+    height: 125px;
+}
+
+.add-button {
+    padding: 20px;
+}
+
+.tervek {
+    padding: 20px;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+}

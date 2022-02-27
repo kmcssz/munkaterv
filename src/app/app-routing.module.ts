@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CsapatSelectionComponent } from './csapat-selection/csapat-selection.component'
-import { CsapatTervComponent } from './csapat-terv/csapat-terv.component'
+import { CsapatTervekComponent } from './csapat-tervek/csapat-tervek.component'
 
 const routes: Routes = [
-    { path: 'csapat/:name', component: CsapatTervComponent },
+    { path: 'csapat/:name', component: CsapatTervekComponent },
     { path: '', component: CsapatSelectionComponent },
 ]
 

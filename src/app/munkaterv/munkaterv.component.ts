@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { OrsiFoglalkozas } from '../models/foglalkozas'
+import { Munkaterv, OrsiFoglalkozas } from '../models/foglalkozas'
 
 @Component({
     selector: 'app-munkaterv',
@@ -8,6 +8,9 @@ import { OrsiFoglalkozas } from '../models/foglalkozas'
     styleUrls: ['./munkaterv.component.scss']
 })
 export class MunkatervComponent implements OnInit {
+
+    @Input()
+    munkaterv!: Munkaterv
 
     public programs: OrsiFoglalkozas[] = []
 

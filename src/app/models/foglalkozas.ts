@@ -2,11 +2,12 @@ import { Time } from "@angular/common"
 import { Alprobak, Cserkeszek, Probak, Temak } from "./rendszer"
 import { Pont } from "./proba"
 
-class Munkaterv {
+export class Munkaterv {
 
     constructor(
-        public startTime: Time = {hours: 13, minutes: 0},
-        public foglalkozasok: Foglalkozas[]
+        public start: Date,
+        // public startTime: Time = {hours: 13, minutes: 0},
+        public foglalkozasok: Foglalkozas[] = [],
     ){
     }
 }

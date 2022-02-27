@@ -1,6 +1,6 @@
 <div class="csapatok" *ngFor="let csapat of csapatok">
     <div class="csapat">
-        <a [routerLink]="'/csapat/' + csapat.name" routerLinkActive="active">
+        <a [routerLink]="'csapat/' + csapat.name">
             <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
             <img class="csapat-logo" [src]="csapat.logoUri" />
         </a>

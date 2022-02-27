@@ -15,7 +15,10 @@ import { MatSliderModule } from '@angular/material/slider'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AngularEditorModule } from '@kolkov/angular-editor'
+
 import { AppComponent } from './app.component'
 import { MunkatervComponent } from './munkaterv/munkaterv.component'
 import { OrsiProgramComponent } from './orsi-program/orsi-program.component'
@@ -23,7 +26,8 @@ import { RajProgramComponent } from './raj-program/raj-program.component'
 import { CsapatProgramComponent } from './csapat-program/csapat-program.component'
 import { CsapatSelectionComponent } from './csapat-selection/csapat-selection.component'
 import { AppRoutingModule } from './app-routing.module';
-import { CsapatTervComponent } from './csapat-terv/csapat-terv.component'
+import { CsapatTervekComponent } from './csapat-tervek/csapat-tervek.component'
+import { APP_DATE_FORMATS, MagyarDateAdapter } from './date-adaptor'
 
 @NgModule({
     declarations: [
@@ -33,7 +37,7 @@ import { CsapatTervComponent } from './csapat-terv/csapat-terv.component'
         RajProgramComponent,
         CsapatProgramComponent,
         CsapatSelectionComponent,
-        CsapatTervComponent
+        CsapatTervekComponent
     ],
     imports: [
         AngularEditorModule,
@@ -52,10 +56,15 @@ import { CsapatTervComponent } from './csapat-terv/csapat-terv.component'
         MatSelectModule,
         MatSliderModule,
         MatTooltipModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
         OverlayModule,
         AppRoutingModule,
     ],
-    providers: [],
+    providers: [
+        { provide: DateAdapter, useClass: MagyarDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

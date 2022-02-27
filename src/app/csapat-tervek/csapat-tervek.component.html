@@ -1,0 +1,42 @@
+<div class="csapat-terv">
+    <a mat-icon-button
+        routerLink=""
+        class="back-button"
+        matTooltip="Vissza csapatokhoz"
+        matTooltipClass="large"
+    >
+        <mat-icon class="back-button-icon">arrow_back</mat-icon>
+    </a>
+
+    <div class="centered">
+        <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
+        <img class="csapat-logo" [src]="csapat.logoUri" />
+    </div>
+
+    <div class="add-button centered">
+        <button mat-fab
+            color="gold"
+            matTooltip="Új munkaterv"
+            matTooltipClass="large"
+            (click)="addNewMunkaterv()"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div *ngFor="let munkaterv of munkatervek"
+        class="tervek centered">
+        <mat-card class="munkaterv-card">
+            <mat-card-content class="munkaterv-card-content">
+                <section class="time">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Dátum</mat-label>
+                        <input matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </section>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<router-outlet></router-outlet>
