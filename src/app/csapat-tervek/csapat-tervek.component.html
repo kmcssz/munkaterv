@@ -1,6 +1,6 @@
 <div class="csapat-terv">
     <a mat-icon-button
-        routerLink=""
+        routerLink="/"
         class="back-button"
         matTooltip="Vissza csapatokhoz"
         matTooltipClass="large"
@@ -8,7 +8,7 @@
         <mat-icon class="back-button-icon">arrow_back</mat-icon>
     </a>
 
-    <div class="centered">
+    <div class="csapat-sign centered">
         <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
         <img class="csapat-logo" [src]="csapat.logoUri" />
     </div>
@@ -27,14 +27,9 @@
         class="tervek centered">
         <mat-card class="munkaterv-card">
             <mat-card-content class="munkaterv-card-content">
-                <section class="time">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Dátum</mat-label>
-                        <input matInput [matDatepicker]="picker">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </section>
+                <button mat-button [routerLink]="getLink(munkaterv)">
+                    {{formatHungarianDateTime(munkaterv.start)}}
+                </button>
             </mat-card-content>
         </mat-card>
     </div>

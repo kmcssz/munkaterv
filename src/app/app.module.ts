@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AngularEditorModule } from '@kolkov/angular-editor'
+import { MatDialogModule } from '@angular/material/dialog'
 
 import { AppComponent } from './app.component'
 import { MunkatervComponent } from './munkaterv/munkaterv.component'
@@ -26,7 +27,7 @@ import { RajProgramComponent } from './raj-program/raj-program.component'
 import { CsapatProgramComponent } from './csapat-program/csapat-program.component'
 import { CsapatSelectionComponent } from './csapat-selection/csapat-selection.component'
 import { AppRoutingModule } from './app-routing.module';
-import { CsapatTervekComponent } from './csapat-tervek/csapat-tervek.component'
+import { CsapatTervekComponent, NewMunkatervDialog } from './csapat-tervek/csapat-tervek.component'
 import { APP_DATE_FORMATS, MagyarDateAdapter } from './date-adaptor'
 
 @NgModule({
@@ -37,7 +38,8 @@ import { APP_DATE_FORMATS, MagyarDateAdapter } from './date-adaptor'
         RajProgramComponent,
         CsapatProgramComponent,
         CsapatSelectionComponent,
-        CsapatTervekComponent
+        CsapatTervekComponent,
+        NewMunkatervDialog,
     ],
     imports: [
         AngularEditorModule,
@@ -60,6 +62,7 @@ import { APP_DATE_FORMATS, MagyarDateAdapter } from './date-adaptor'
         MatNativeDateModule,
         OverlayModule,
         AppRoutingModule,
+        MatDialogModule,
     ],
     providers: [
         { provide: DateAdapter, useClass: MagyarDateAdapter },

@@ -1,5 +1,73 @@
 <div class="munkaterv">
-    <div cdkDropList class="programok" (cdkDropListDropped)="drop($event)">
+    <mat-button-toggle-group class="persona" name="persona">
+        <mat-button-toggle value="tiszt" [checked]="true">
+            <img
+                class="harsfalevel"
+                matTooltip="Parancsnoki szemszög"
+                matTooltipClass="large"
+                [src]="'assets/rangok/harsfalevel-tiszt.svg'"
+            />
+        </mat-button-toggle>
+        <mat-button-toggle value="segedtiszt">
+            <img
+                class="harsfalevel"
+                matTooltip="Rajvezetői szemszög"
+                matTooltipClass="large"
+                [src]="'assets/rangok/harsfalevel-segedtiszt.svg'"
+            />
+        </mat-button-toggle>
+        <mat-button-toggle value="orsvezeto">
+            <img
+                class="harsfalevel"
+                matTooltip="Őrsvezetői szemszög"
+                matTooltipClass="large"
+                [src]="'assets/rangok/harsfalevel-orsvezeto.svg'"
+            />
+        </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <a mat-icon-button
+        [routerLink]="'/csapat/' + csapat.name"
+        class="back-button"
+        matTooltip="Vissza csapatokhoz"
+        matTooltipClass="large"
+    >
+        <mat-icon class="back-button-icon">arrow_back</mat-icon>
+    </a>
+
+    <div class="csapat-sign centered">
+        <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
+        <img class="csapat-logo" [src]="csapat.logoUri" />
+    </div>
+
+    <div class="date">{{formatHungarianDate(munkaterv.start)}}</div>
+    <div class="start">{{formatHungarianTime(munkaterv.start)}}</div>
+
+    <button mat-fab
+        class="add-new-foglalkozas-button"
+        color="gold"
+        matTooltip="Új csapat foglalkozás"
+        matTooltipClass="large"
+        (click)="addNewProgram()"
+    >
+        <mat-icon>add</mat-icon>
+    </button>
+
+    <button mat-fab
+        class="add-new-foglalkozas-button"
+        color="silver"
+        matTooltip="Új raj foglalkozás"
+        matTooltipClass="large"
+        (click)="addNewProgram()"
+    >
+        <mat-icon>add</mat-icon>
+    </button>
+
+
+
+
+
+    <!-- <div cdkDropList class="programok" (cdkDropListDropped)="drop($event)">
         <div cdkDrag class="program" *ngFor="let program of programs">
             <div cdkDragHandle class="drag-handle">
                 <mat-icon>drag_indicator</mat-icon>
@@ -33,5 +101,5 @@
         >
             <mat-icon>add</mat-icon>
         </button>
-    </div>
+    </div> -->
 </div>

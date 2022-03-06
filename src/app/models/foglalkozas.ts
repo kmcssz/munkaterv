@@ -6,7 +6,6 @@ export class Munkaterv {
 
     constructor(
         public start: Date,
-        // public startTime: Time = {hours: 13, minutes: 0},
         public foglalkozasok: Foglalkozas[] = [],
     ){
     }

@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Mikor?</h1>
+<div mat-dialog-content>
+    <mat-calendar [(selected)]="data.date"></mat-calendar>
+    <form>
+        <!-- <section>
+            <mat-form-field appearance="fill">
+                <mat-label>Dátum</mat-label>
+                <input matInput
+                    name="datum"
+                    [matDatepicker]="picker"
+                    [(ngModel)]="data.date"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </section> -->
+        <section>
+            <mat-form-field class="">
+                <input matInput
+                    name="ido"
+                    type="time"
+                    value="13:00"
+                    [(ngModel)]="data.time"
+                />
+                <mat-hint [align]="'start'">Kezdés ídő</mat-hint>
+            </mat-form-field>
+        </section>
+        <section class="ok-button-section">
+            <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+                Kész
+            </button>
+        </section>
+    </form>
+</div>
