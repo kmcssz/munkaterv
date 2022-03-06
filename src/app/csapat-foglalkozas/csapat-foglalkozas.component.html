@@ -6,5 +6,12 @@
                 <mat-hint [align]="'start'">perc</mat-hint>
             </mat-form-field>
         </section>
+
+        <section class="editor-section">
+            <angular-editor
+                [config]="editorConfig"
+                [(ngModel)]="csapatFoglalkozas.leiras"
+            ></angular-editor>
+        </section>
     </mat-card-content>
 </mat-card>

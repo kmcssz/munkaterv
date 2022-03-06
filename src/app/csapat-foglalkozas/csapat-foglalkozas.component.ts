@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
+import { ANGULAR_EDITOR_CONFIG } from '../angular-editor'
 import { CsapatFoglalkozas } from '../models/foglalkozas'
 
 @Component({
@@ -9,6 +10,8 @@ import { CsapatFoglalkozas } from '../models/foglalkozas'
 export class CsapatFoglalkozasComponent implements OnInit {
 
     @Input() csapatFoglalkozas!: CsapatFoglalkozas
+
+    editorConfig = ANGULAR_EDITOR_CONFIG
 
     constructor() {}
 

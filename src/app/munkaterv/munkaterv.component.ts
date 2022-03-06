@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { Foglalkozas, Munkaterv, OrsiFoglalkozas } from '../models/foglalkozas'
+import { CsapatFoglalkozas, Foglalkozas, Munkaterv, OrsiFoglalkozas, RajFoglalkozas } from '../models/foglalkozas'
 import { ActivatedRoute } from '@angular/router'
 import { Csapat } from '../models/csapat'
 import { CSAPATOK } from '../models/beosztas'
@@ -35,7 +35,15 @@ export class MunkatervComponent implements OnInit {
         moveItemInArray(this.munkaterv.foglalkozasok, event.previousIndex, event.currentIndex)
     }
 
-    addNewFoglalkozas() {
+    addCsapatFoglalkozas() {
+        this.munkaterv.foglalkozasok.push(new CsapatFoglalkozas())
+    }
+
+    addRajFoglalkozas() {
+        this.munkaterv.foglalkozasok.push(new RajFoglalkozas())
+    }
+
+    addOrsiFoglalkozas() {
         this.munkaterv.foglalkozasok.push(new OrsiFoglalkozas())
     }
 

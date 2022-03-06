@@ -12,5 +12,9 @@ $dark-green: #1b4125;
 $dark-blue: #02193c;
 
 $page-background: #202020;
-$foglalkozas-background: #666666;
+$foglalkozas-background: $dark-silver;
 $date-and-time: #666666;
+
+$csapat-foglalkozas-background: linear-gradient(to right, $gold, $foglalkozas-background, 200px, $foglalkozas-background);
+$raj-foglalkozas-background: linear-gradient(to right, $silver, $foglalkozas-background, 200px, $foglalkozas-background);
+$orsi-foglalkozas-background: linear-gradient(to right, $bronze, $foglalkozas-background, 200px, $foglalkozas-background);

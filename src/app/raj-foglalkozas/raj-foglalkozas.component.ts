@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core'
+import { RajFoglalkozas } from '../models/foglalkozas'
 
 @Component({
-  selector: 'app-raj-foglalkozas',
-  templateUrl: './raj-foglalkozas.component.html',
-  styleUrls: ['./raj-foglalkozas.component.scss']
+    selector: 'app-raj-foglalkozas',
+    templateUrl: './raj-foglalkozas.component.html',
+    styleUrls: ['./raj-foglalkozas.component.scss']
 })
 export class RajFoglalkozasComponent implements OnInit {
 
-  constructor() { }
+    @Input() rajFoglalkozas!: RajFoglalkozas
 
-  ngOnInit(): void {
-  }
+    constructor() { }
+
+    ngOnInit(): void {
+    }
 
 }

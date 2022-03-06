@@ -2,7 +2,7 @@
 
 .foglalkozas-card {
     border-radius: 20px;
-    background-color: $dark-silver;
+    background: $orsi-foglalkozas-background;
 }
 
 .foglalkozas-card-content {
@@ -43,6 +43,10 @@ mat-slider {
 
 .alproba {
     margin-top: 10px;
+}
+
+.editor-section {
+    width: 100%;
 }
 
 ::ng-deep {
