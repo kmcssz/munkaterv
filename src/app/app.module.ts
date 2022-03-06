@@ -22,24 +22,26 @@ import { MatDialogModule } from '@angular/material/dialog'
 
 import { AppComponent } from './app.component'
 import { MunkatervComponent } from './munkaterv/munkaterv.component'
-import { OrsiProgramComponent } from './orsi-program/orsi-program.component'
-import { RajProgramComponent } from './raj-program/raj-program.component'
-import { CsapatProgramComponent } from './csapat-program/csapat-program.component'
+import { OrsiFoglalkozasComponent } from './orsi-foglalkozas/orsi-foglalkozas.component'
+import { RajFoglalkozasComponent } from './raj-foglalkozas/raj-foglalkozas.component'
+import { CsapatFoglalkozasComponent } from './csapat-foglalkozas/csapat-foglalkozas.component'
 import { CsapatSelectionComponent } from './csapat-selection/csapat-selection.component'
 import { AppRoutingModule } from './app-routing.module';
 import { CsapatTervekComponent, NewMunkatervDialog } from './csapat-tervek/csapat-tervek.component'
-import { APP_DATE_FORMATS, MagyarDateAdapter } from './date-adaptor'
+import { APP_DATE_FORMATS, MagyarDateAdapter } from './date-adaptor';
+import { FoglalkozasComponent } from './foglalkozas/foglalkozas.component'
 
 @NgModule({
     declarations: [
         AppComponent,
         MunkatervComponent,
-        OrsiProgramComponent,
-        RajProgramComponent,
-        CsapatProgramComponent,
+        OrsiFoglalkozasComponent,
+        RajFoglalkozasComponent,
+        CsapatFoglalkozasComponent,
         CsapatSelectionComponent,
         CsapatTervekComponent,
         NewMunkatervDialog,
+        FoglalkozasComponent,
     ],
     imports: [
         AngularEditorModule,

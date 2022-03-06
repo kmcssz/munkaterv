@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RajProgramComponent } from './raj-program.component';
+import { FoglalkozasComponent } from './foglalkozas.component';
 
-describe('RajProgramComponent', () => {
-  let component: RajProgramComponent;
-  let fixture: ComponentFixture<RajProgramComponent>;
+describe('FoglalkozasComponent', () => {
+  let component: FoglalkozasComponent;
+  let fixture: ComponentFixture<FoglalkozasComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RajProgramComponent ]
+      declarations: [ FoglalkozasComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RajProgramComponent);
+    fixture = TestBed.createComponent(FoglalkozasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

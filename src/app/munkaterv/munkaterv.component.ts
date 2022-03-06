@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { Munkaterv, OrsiFoglalkozas } from '../models/foglalkozas'
+import { Foglalkozas, Munkaterv, OrsiFoglalkozas } from '../models/foglalkozas'
 import { ActivatedRoute } from '@angular/router'
 import { Csapat } from '../models/csapat'
 import { CSAPATOK } from '../models/beosztas'
@@ -15,7 +15,6 @@ export class MunkatervComponent implements OnInit {
 
     csapat!: Csapat
     munkaterv!: Munkaterv
-    programs: OrsiFoglalkozas[] = []
     formatHungarianDate = formatHungarianDate
     formatHungarianTime = formatHungarianTime
 
@@ -33,10 +32,20 @@ export class MunkatervComponent implements OnInit {
     }
 
     drop(event: CdkDragDrop<string[]>) {
-        moveItemInArray(this.programs, event.previousIndex, event.currentIndex)
+        moveItemInArray(this.munkaterv.foglalkozasok, event.previousIndex, event.currentIndex)
     }
 
-    addNewProgram() {
-        this.programs.push(new OrsiFoglalkozas())
+    addNewFoglalkozas() {
+        this.munkaterv.foglalkozasok.push(new OrsiFoglalkozas())
+    }
+
+    computeTime(foglalkozas: Foglalkozas): string {
+        const minutesToMillis = 60 * 1000
+        let timeMillis = this.munkaterv.start.getTime()
+        const foglalkozasIndex = this.munkaterv.foglalkozasok.findIndex(f => f === foglalkozas)
+        for (let i = 0; i <= foglalkozasIndex; ++i) {
+            timeMillis += this.munkaterv.foglalkozasok[i].duration * minutesToMillis
+        }
+        return formatHungarianTime(new Date(timeMillis))
     }
 }

@@ -1,11 +1,11 @@
 @import "../../colors";
 
-.program-card {
+.foglalkozas-card {
     border-radius: 20px;
     background-color: $dark-silver;
 }
 
-.program-card-content {
+.foglalkozas-card-content {
     text-align: left;
     display: flex;
 }
@@ -17,7 +17,6 @@ section {
 
 .time {
     display: block;
-    //padding: 10px;
 }
 
 .duration {

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrsiProgramComponent } from './orsi-program.component';
+import { RajFoglalkozasComponent } from './raj-foglalkozas.component';
 
-describe('ProgramComponent', () => {
-  let component: OrsiProgramComponent;
-  let fixture: ComponentFixture<OrsiProgramComponent>;
+describe('RajProgramComponent', () => {
+  let component: RajFoglalkozasComponent;
+  let fixture: ComponentFixture<RajFoglalkozasComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OrsiProgramComponent ]
+      declarations: [ RajFoglalkozasComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrsiProgramComponent);
+    fixture = TestBed.createComponent(RajFoglalkozasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

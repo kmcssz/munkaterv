@@ -6,14 +6,13 @@ import { Alproba, Cserkesz, Proba, Tema } from '../models/proba'
 import { OrsiFoglalkozas } from '../models/foglalkozas'
 
 @Component({
-    selector: 'app-program',
-    templateUrl: './orsi-program.component.html',
-    styleUrls: ['./orsi-program.component.scss']
+    selector: 'app-orsi-foglalkozas',
+    templateUrl: './orsi-foglalkozas.component.html',
+    styleUrls: ['./orsi-foglalkozas.component.scss']
 })
-export class OrsiProgramComponent implements OnInit {
+export class OrsiFoglalkozasComponent implements OnInit {
 
-    @Input()
-    program!: OrsiFoglalkozas
+    @Input() orsiFoglalkozas!: OrsiFoglalkozas
 
     areProbakOpen = false
     areTemakOpen = false
@@ -66,48 +65,47 @@ export class OrsiProgramComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // This will set the probak
-        this.changeAge(this.program.age)
-        this.changeProba(this.program.proba)
-        this.changeTema(this.program.tema)
-        this.changeAlproba(this.program.alproba)
+        this.changeAge(this.orsiFoglalkozas.age)
+        this.changeProba(this.orsiFoglalkozas.proba)
+        this.changeTema(this.orsiFoglalkozas.tema)
+        this.changeAlproba(this.orsiFoglalkozas.alproba)
     }
 
     changeAge(age: number) {
-        this.program.age = age
-        this.program.cserkesz = getCserkeszForAge(age)
-        this.probak = getProbakForCserkesz(this.program.cserkesz)
+        this.orsiFoglalkozas.age = age
+        this.orsiFoglalkozas.cserkesz = getCserkeszForAge(age)
+        this.probak = getProbakForCserkesz(this.orsiFoglalkozas.cserkesz)
         this.changeProba(this.probak[0])
     }
 
     changeProba(proba: Proba) {
-        this.program.proba = proba
+        this.orsiFoglalkozas.proba = proba
         this.areProbakOpen = false
-        this.temak = getTemakForProba(this.program.cserkesz, proba)
+        this.temak = getTemakForProba(this.orsiFoglalkozas.cserkesz, proba)
         this.changeTema(this.temak[0])
     }
 
     changeTema(tema: Tema) {
-        this.program.tema = tema
+        this.orsiFoglalkozas.tema = tema
         this.areTemakOpen = false
         this.alprobak = getAlprobakForTema(
-            this.program.cserkesz,
-            this.program.proba,
+            this.orsiFoglalkozas.cserkesz,
+            this.orsiFoglalkozas.proba,
             tema,
         )
         this.changeAlproba(this.alprobak[0])
     }
 
     changeAlproba(alproba: Alproba) {
-        this.program.alproba = alproba
-        this.program.setPontok(alproba.pontok)
+        this.orsiFoglalkozas.alproba = alproba
+        this.orsiFoglalkozas.setPontok(alproba.pontok)
     }
 
     changePontok(options: MatListOption[]) {
         this.editorConfig.editable = !this.editorConfig.editable
         this.editorConfig.showToolbar = !this.editorConfig.showToolbar
         options.forEach((option) => {
-            this.program.pontSelection.set(option.value, option.selected)
+            this.orsiFoglalkozas.pontSelection.set(option.value, option.selected)
         })
     }
 }

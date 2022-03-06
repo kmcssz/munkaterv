@@ -1,8 +1,8 @@
-<mat-card class="program-card">
-    <mat-card-content class="program-card-content">
+<mat-card class="foglalkozas-card">
+    <mat-card-content class="foglalkozas-card-content">
         <section class="time">
             <mat-form-field class="duration">
-                <input matInput type="number" value="5" />
+                <input matInput type="number" [(ngModel)]="orsiFoglalkozas.duration" />
                 <mat-hint [align]="'start'">perc</mat-hint>
             </mat-form-field>
         </section>
@@ -11,19 +11,19 @@
                 <mat-slider #ageSlider (change)="changeAge($event.value ?? 10)" thumbLabel tickInterval="1" step="1"
                     min="10" max="16">
                 </mat-slider>
-                {{program.cserkesz.name}}
+                {{orsiFoglalkozas.cserkesz.name}}
             </div>
             <div>
                 <button
                     mat-button
                     cdkOverlayOrigin
                     #probaTrigger="cdkOverlayOrigin"
-                    [value]="program.proba.name"
-                    matTooltip="{{program.proba.name}}"
+                    [value]="orsiFoglalkozas.proba.name"
+                    matTooltip="{{orsiFoglalkozas.proba.name}}"
                     matTooltipClass="large"
                     (click)="areProbakOpen = !areProbakOpen"
                 >
-                    <img class="proba-image" [src]="program.proba.imageUri" />
+                    <img class="proba-image" [src]="orsiFoglalkozas.proba.imageUri" />
                 </button>
 
                 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="probaTrigger"
@@ -42,12 +42,12 @@
                 <button mat-button
                     cdkOverlayOrigin
                     #temaTrigger="cdkOverlayOrigin"
-                    matTooltip="{{program.tema.name}}"
+                    matTooltip="{{orsiFoglalkozas.tema.name}}"
                     matTooltipClass="large"
                     class="tema-emoji"
                     (click)="areTemakOpen = !areTemakOpen"
                 >
-                    {{program.tema.emoji}}
+                    {{orsiFoglalkozas.tema.emoji}}
                 </button>
 
                 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="temaTrigger"
@@ -69,7 +69,7 @@
                     <mat-label>Alpróba</mat-label>
                     <mat-select
                         [disabled]="alprobak.length == 1"
-                        [value]="program.alproba"
+                        [value]="orsiFoglalkozas.alproba"
                         (selectionChange)="changeAlproba($event.value)"
                     >
                         <mat-option *ngFor="let alproba of alprobak"
@@ -83,7 +83,7 @@
         </section>
         <section>
             <mat-selection-list (selectionChange)="changePontok($event.options)">
-                <mat-list-option *ngFor="let pontSelection of program.pontSelection | keyvalue"
+                <mat-list-option *ngFor="let pontSelection of orsiFoglalkozas.pontSelection | keyvalue"
                     [selected]="pontSelection.value"
                     [value]="pontSelection.key"
                 >
@@ -94,7 +94,7 @@
         <section>
             <angular-editor
                 [config]="editorConfig"
-                [(ngModel)]="program.leiras"
+                [(ngModel)]="orsiFoglalkozas.leiras"
             ></angular-editor>
         </section>
     </mat-card-content>

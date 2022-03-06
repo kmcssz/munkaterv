@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CsapatProgramComponent } from './csapat-program.component';
+import { CsapatFoglalkozasComponent } from './csapat-foglalkozas.component';
 
 describe('CsapatProgramComponent', () => {
-  let component: CsapatProgramComponent;
-  let fixture: ComponentFixture<CsapatProgramComponent>;
+  let component: CsapatFoglalkozasComponent;
+  let fixture: ComponentFixture<CsapatFoglalkozasComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CsapatProgramComponent ]
+      declarations: [ CsapatFoglalkozasComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CsapatProgramComponent);
+    fixture = TestBed.createComponent(CsapatFoglalkozasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
