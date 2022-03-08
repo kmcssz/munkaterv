@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
+import { Rang } from '../models/csapat'
 import { RajFoglalkozas } from '../models/foglalkozas'
 
 @Component({
@@ -9,6 +10,7 @@ import { RajFoglalkozas } from '../models/foglalkozas'
 export class RajFoglalkozasComponent implements OnInit {
 
     @Input() rajFoglalkozas!: RajFoglalkozas
+    @Input() rang!: Rang
 
     constructor() { }
 

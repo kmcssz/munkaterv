@@ -1,9 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Inject, Input, OnInit } from '@angular/core'
 import { MatListOption } from '@angular/material/list'
 import { Cserkeszek, ProbaRendszer, Temak } from '../models/rendszer'
 import { Alproba, Cserkesz, Proba, Tema } from '../models/proba'
 import { OrsiFoglalkozas } from '../models/foglalkozas'
-import { ANGULAR_EDITOR_CONFIG } from '../angular-editor'
+import { getDefaultAngularEditorConfig } from '../angular-editor'
+import { Rang } from '../models/csapat'
+import { RANG } from '../injection-tokens'
+import { Observable } from 'rxjs'
 
 @Component({
     selector: 'app-orsi-foglalkozas',
@@ -13,6 +16,7 @@ import { ANGULAR_EDITOR_CONFIG } from '../angular-editor'
 export class OrsiFoglalkozasComponent implements OnInit {
 
     @Input() orsiFoglalkozas!: OrsiFoglalkozas
+    @Input() rang!: Rang
 
     areProbakOpen = false
     areTemakOpen = false
@@ -20,9 +24,11 @@ export class OrsiFoglalkozasComponent implements OnInit {
     probak!: Proba[]
     temak = Object.values(Temak)
     alprobak!: Alproba[]
-    editorConfig = ANGULAR_EDITOR_CONFIG
+    editorConfig = getDefaultAngularEditorConfig()
 
-    constructor() {
+    constructor(
+        @Inject(RANG) public rang$: Observable<Rang>,
+    ) {
     }
 
     ngOnInit(): void {

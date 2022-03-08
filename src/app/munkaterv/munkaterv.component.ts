@@ -1,25 +1,36 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Inject, InjectionToken, Input, OnInit } from '@angular/core'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { CsapatFoglalkozas, Foglalkozas, Munkaterv, OrsiFoglalkozas, RajFoglalkozas } from '../models/foglalkozas'
 import { ActivatedRoute } from '@angular/router'
-import { Csapat } from '../models/csapat'
+import { Csapat, Rang } from '../models/csapat'
 import { CSAPATOK } from '../models/beosztas'
 import { formatHungarianDate, formatHungarianTime } from '../date-adaptor'
+import { BehaviorSubject } from 'rxjs'
+import { RANG } from '../injection-tokens'
 
 @Component({
     selector: 'app-munkaterv',
     templateUrl: './munkaterv.component.html',
-    styleUrls: ['./munkaterv.component.scss']
+    styleUrls: ['./munkaterv.component.scss'],
+    providers: [
+        {
+            provide: RANG,
+            useFactory: () => new BehaviorSubject<Rang>(Rang.CserkeszTiszt)
+        },
+    ],
 })
 export class MunkatervComponent implements OnInit {
 
     csapat!: Csapat
     munkaterv!: Munkaterv
+
+    Rang = Rang
     formatHungarianDate = formatHungarianDate
     formatHungarianTime = formatHungarianTime
 
     constructor(
         private route: ActivatedRoute,
+        @Inject(RANG) public rang$: BehaviorSubject<Rang>,
     ) { }
 
     ngOnInit(): void {
@@ -33,6 +44,10 @@ export class MunkatervComponent implements OnInit {
 
     drop(event: CdkDragDrop<string[]>) {
         moveItemInArray(this.munkaterv.foglalkozasok, event.previousIndex, event.currentIndex)
+    }
+
+    changeRang(rang: Rang) {
+        this.rang$.next(rang)
     }
 
     addCsapatFoglalkozas() {

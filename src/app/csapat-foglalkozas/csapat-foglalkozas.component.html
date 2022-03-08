@@ -9,6 +9,7 @@
 
         <section class="editor-section">
             <angular-editor
+                [id]="uuidv4()"
                 [config]="editorConfig"
                 [(ngModel)]="csapatFoglalkozas.leiras"
             ></angular-editor>

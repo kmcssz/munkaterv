@@ -14,10 +14,7 @@ export class FoglalkozasComponent implements OnInit {
     rajFoglalkozas?: RajFoglalkozas
     orsiFoglalkozas?: OrsiFoglalkozas
 
-    constructor() { }
-
     ngOnInit(): void {
-        console.log(this.foglalkozas.type)
         switch(this.foglalkozas.type) {
             case FoglalkozasType.CSAPAT:
                 this.csapatFoglalkozas = this.foglalkozas as CsapatFoglalkozas

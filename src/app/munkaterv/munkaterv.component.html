@@ -1,6 +1,10 @@
 <div class="munkaterv">
-    <mat-button-toggle-group class="persona" name="persona">
-        <mat-button-toggle value="tiszt" [checked]="true">
+    <mat-button-toggle-group
+        class="rang"
+        name="rang"
+        (change)="changeRang($event.value)"
+    >
+        <mat-button-toggle [value]="Rang.CserkeszTiszt" [checked]="true">
             <img
                 class="harsfalevel"
                 matTooltip="Parancsnoki szemszög"
@@ -8,7 +12,7 @@
                 [src]="'assets/rangok/harsfalevel-tiszt.svg'"
             />
         </mat-button-toggle>
-        <mat-button-toggle value="segedtiszt">
+        <mat-button-toggle [value]="Rang.SegedTiszt">
             <img
                 class="harsfalevel"
                 matTooltip="Rajvezetői szemszög"
@@ -16,7 +20,7 @@
                 [src]="'assets/rangok/harsfalevel-segedtiszt.svg'"
             />
         </mat-button-toggle>
-        <mat-button-toggle value="orsvezeto">
+        <mat-button-toggle [value]="Rang.OrsVezeto">
             <img
                 class="harsfalevel"
                 matTooltip="Őrsvezetői szemszög"
@@ -49,7 +53,10 @@
                 <div cdkDragHandle class="drag-handle">
                     <mat-icon>drag_indicator</mat-icon>
                 </div>
-                <app-foglalkozas [foglalkozas]="foglalkozas"></app-foglalkozas>
+                <app-foglalkozas
+                    [foglalkozas]="foglalkozas"
+                >
+                </app-foglalkozas>
             </div>
             <div class="time">{{computeTime(foglalkozas)}}</div>
         </div>

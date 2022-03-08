@@ -1,4 +1,10 @@
 
+export enum Rang {
+    CserkeszTiszt,
+    SegedTiszt,
+    OrsVezeto,
+}
+
 export class Csapat {
 
     logoUri: string
@@ -12,11 +18,11 @@ export class Csapat {
 }
 
 export enum Korosztaj {
-    APRO_CSERKESZ = "#add8e6",
-    KIS_CSERKESZ = "#0000ff",
-    CSERKESZ = "#008900",
-    ROVER = "#9a9a9a",
-    FELNOT = "#571616",
+    AproCserkesz = "#add8e6",
+    KisCserkesz = "#0000ff",
+    Cserkesz = "#008900",
+    Rover = "#9a9a9a",
+    Felnot = "#571616",
 }
 
 export class Raj {

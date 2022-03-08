@@ -6,7 +6,7 @@ export const CSAPATOK = [
         [
             new Raj(
                 "Katicabogár",
-                Korosztaj.KIS_CSERKESZ,
+                Korosztaj.KisCserkesz,
                 [
                     new Ors("Bagoly", "🦉"),
                     new Ors("Méhecske", "🐝"),
@@ -14,7 +14,7 @@ export const CSAPATOK = [
             ),
             new Raj(
                 "Munkács",
-                Korosztaj.CSERKESZ,
+                Korosztaj.Cserkesz,
                 [
                     new Ors("Ibolya", "🌸"),
                     new Ors("Páva", "🦚"),
@@ -22,7 +22,7 @@ export const CSAPATOK = [
             ),
             new Raj(
                 "Besztercebánya",
-                Korosztaj.CSERKESZ,
+                Korosztaj.Cserkesz,
                 [
                     new Ors("Róka", "🦊"),
                     new Ors("Kígyó", "🐍"),
