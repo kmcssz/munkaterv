@@ -8,11 +8,10 @@
         </section>
 
         <section class="editor-section">
-            <angular-editor
-                [id]="uuidv4()"
-                [config]="editorConfig"
-                [(ngModel)]="csapatFoglalkozas.leiras"
-            ></angular-editor>
+            <app-editor-wrapper
+                [editable]="(editableEditor$ | async) ?? false"
+                [(leiras)]="csapatFoglalkozas.leiras"
+            ></app-editor-wrapper>
         </section>
     </mat-card-content>
 </mat-card>

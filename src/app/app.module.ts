@@ -29,11 +29,13 @@ import { CsapatSelectionComponent } from './csapat-selection/csapat-selection.co
 import { AppRoutingModule } from './app-routing.module';
 import { CsapatTervekComponent, NewMunkatervDialog } from './csapat-tervek/csapat-tervek.component'
 import { APP_DATE_FORMATS, MagyarDateAdapter } from './date-adaptor';
-import { FoglalkozasComponent } from './foglalkozas/foglalkozas.component'
+import { FoglalkozasComponent } from './foglalkozas/foglalkozas.component';
+import { EditorWrapperComponent } from './editor-wrapper/editor-wrapper.component'
 
 @NgModule({
     declarations: [
         AppComponent,
+        EditorWrapperComponent,
         MunkatervComponent,
         OrsiFoglalkozasComponent,
         RajFoglalkozasComponent,

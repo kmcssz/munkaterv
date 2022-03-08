@@ -3,10 +3,9 @@ import { MatListOption } from '@angular/material/list'
 import { Cserkeszek, ProbaRendszer, Temak } from '../models/rendszer'
 import { Alproba, Cserkesz, Proba, Tema } from '../models/proba'
 import { OrsiFoglalkozas } from '../models/foglalkozas'
-import { getDefaultAngularEditorConfig } from '../angular-editor'
 import { Rang } from '../models/csapat'
 import { RANG } from '../injection-tokens'
-import { Observable } from 'rxjs'
+import { map, Observable } from 'rxjs'
 
 @Component({
     selector: 'app-orsi-foglalkozas',
@@ -16,19 +15,21 @@ import { Observable } from 'rxjs'
 export class OrsiFoglalkozasComponent implements OnInit {
 
     @Input() orsiFoglalkozas!: OrsiFoglalkozas
-    @Input() rang!: Rang
 
+    editableEditor$: Observable<boolean>
     areProbakOpen = false
     areTemakOpen = false
 
     probak!: Proba[]
     temak = Object.values(Temak)
     alprobak!: Alproba[]
-    editorConfig = getDefaultAngularEditorConfig()
 
     constructor(
         @Inject(RANG) public rang$: Observable<Rang>,
     ) {
+        this.editableEditor$ = rang$.pipe(
+            map(rang => rang === Rang.OrsVezeto),
+        )
     }
 
     ngOnInit(): void {
@@ -69,8 +70,6 @@ export class OrsiFoglalkozasComponent implements OnInit {
     }
 
     changePontok(options: MatListOption[]) {
-        this.editorConfig.editable = !this.editorConfig.editable
-        this.editorConfig.showToolbar = !this.editorConfig.showToolbar
         options.forEach((option) => {
             this.orsiFoglalkozas.pontSelection.set(option.value, option.selected)
         })

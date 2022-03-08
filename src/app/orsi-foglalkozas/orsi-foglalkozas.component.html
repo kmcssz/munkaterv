@@ -92,10 +92,10 @@
             </mat-selection-list>
         </section>
         <section class="editor-section">
-            <angular-editor
-                [config]="editorConfig"
-                [(ngModel)]="orsiFoglalkozas.leiras"
-            ></angular-editor>
+            <app-editor-wrapper
+                [editable]="(editableEditor$ | async) ?? false"
+                [(leiras)]="orsiFoglalkozas.leiras"
+            ></app-editor-wrapper>
         </section>
     </mat-card-content>
 </mat-card>
