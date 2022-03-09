@@ -93,7 +93,7 @@
         </section>
         <section class="editor-section">
             <app-editor-wrapper
-                [editable]="(editableEditor$ | async) ?? false"
+                [editable$]="editableEditor$"
                 [(leiras)]="orsiFoglalkozas.leiras"
             ></app-editor-wrapper>
         </section>
