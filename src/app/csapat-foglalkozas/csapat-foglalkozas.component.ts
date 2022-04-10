@@ -13,12 +13,12 @@ export class CsapatFoglalkozasComponent {
 
     @Input() csapatFoglalkozas!: CsapatFoglalkozas
 
-    editableEditor$: Observable<boolean>
+    editable$: Observable<boolean>
 
     constructor(
         @Inject(RANG) rang$: Observable<Rang>,
     ) {
-        this.editableEditor$ = rang$.pipe(
+        this.editable$ = rang$.pipe(
             map(rang => rang === Rang.CserkeszTiszt),
         )
     }

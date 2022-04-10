@@ -55,14 +55,14 @@
                 </div>
                 <app-foglalkozas
                     [foglalkozas]="foglalkozas"
-                >
-                </app-foglalkozas>
+                ></app-foglalkozas>
             </div>
             <div class="time">{{computeTime(foglalkozas)}}</div>
         </div>
     </div>
 
-    <button mat-fab
+    <button *ngIf="editable$ | async"
+        mat-fab
         class="add-new-foglalkozas-button"
         color="gold"
         matTooltip="Új csapat foglalkozás"
@@ -72,22 +72,13 @@
         <mat-icon>add</mat-icon>
     </button>
 
-    <button mat-fab
+    <button *ngIf="editable$ | async"
+        mat-fab
         class="add-new-foglalkozas-button"
         color="silver"
         matTooltip="Új raj foglalkozás"
         matTooltipClass="large"
         (click)="addRajFoglalkozas()"
-    >
-        <mat-icon>add</mat-icon>
-    </button>
-
-    <button mat-fab
-        class="add-new-foglalkozas-button"
-        color="bronze"
-        matTooltip="Új őrsi foglalkozás"
-        matTooltipClass="large"
-        (click)="addOrsiFoglalkozas()"
     >
         <mat-icon>add</mat-icon>
     </button>

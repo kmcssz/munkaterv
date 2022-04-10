@@ -1,11 +1,11 @@
 import { Component, Inject, InjectionToken, Input, OnInit } from '@angular/core'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { CsapatFoglalkozas, Foglalkozas, Munkaterv, OrsiFoglalkozas, RajFoglalkozas } from '../models/foglalkozas'
+import { CsapatFoglalkozas, Foglalkozas, Munkaterv, OrsiFoglalkozas, RajFoglalkozas, RajTerv } from '../models/foglalkozas'
 import { ActivatedRoute } from '@angular/router'
 import { Csapat, Rang } from '../models/csapat'
 import { CSAPATOK } from '../models/beosztas'
 import { formatHungarianDate, formatHungarianTime } from '../date-adaptor'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, map, Observable } from 'rxjs'
 import { RANG } from '../injection-tokens'
 
 @Component({
@@ -24,6 +24,8 @@ export class MunkatervComponent implements OnInit {
     csapat!: Csapat
     munkaterv!: Munkaterv
 
+    editable$: Observable<boolean>
+
     Rang = Rang
     formatHungarianDate = formatHungarianDate
     formatHungarianTime = formatHungarianTime
@@ -31,7 +33,11 @@ export class MunkatervComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         @Inject(RANG) public rang$: BehaviorSubject<Rang>,
-    ) { }
+    ) {
+        this.editable$ = rang$.pipe(
+            map(rang => rang === Rang.CserkeszTiszt),
+        )
+    }
 
     ngOnInit(): void {
         const name = this.route.snapshot.paramMap.get('name')!
@@ -55,11 +61,7 @@ export class MunkatervComponent implements OnInit {
     }
 
     addRajFoglalkozas() {
-        this.munkaterv.foglalkozasok.push(new RajFoglalkozas())
-    }
-
-    addOrsiFoglalkozas() {
-        this.munkaterv.foglalkozasok.push(new OrsiFoglalkozas())
+        this.munkaterv.foglalkozasok.push(new RajTerv())
     }
 
     computeTime(foglalkozas: Foglalkozas): string {

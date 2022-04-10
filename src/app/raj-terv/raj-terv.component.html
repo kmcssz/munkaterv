@@ -1,0 +1,34 @@
+<mat-card class="foglalkozas-card">
+    <mat-card-content class="foglalkozas-card-content">
+        <section class="time">
+            <mat-form-field class="duration">
+                <input
+                    matInput type="number"
+                    [(ngModel)]="rajTerv.duration"
+                    [readonly]="!(editable$ | async)"
+                />
+                <mat-hint [align]="'start'">perc</mat-hint>
+            </mat-form-field>
+        </section>
+
+        <button mat-fab
+            class="add-new-foglalkozas-button"
+            color="silver"
+            matTooltip="Új raj foglalkozás"
+            matTooltipClass="large"
+            (click)="addRajFoglalkozas()"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+
+        <button mat-fab
+            class="add-new-foglalkozas-button"
+            color="bronze"
+            matTooltip="Új őrsi foglalkozás"
+            matTooltipClass="large"
+            (click)="addOrsiFoglalkozas()"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-card-content>
+</mat-card>

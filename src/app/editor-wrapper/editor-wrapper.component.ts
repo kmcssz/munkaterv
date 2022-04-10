@@ -20,7 +20,6 @@ export class EditorWrapperComponent implements OnInit, OnDestroy {
     readonly uuid = uuidv4()
 
     ngOnInit(): void {
-        // TODO: Take until
         this.editable$.pipe(
             takeUntil(this.destroy$)
         ).subscribe(editable => {

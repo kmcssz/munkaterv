@@ -4,6 +4,11 @@
             [csapatFoglalkozas]="csapatFoglalkozas"
         ></app-csapat-foglalkozas>
     </div>
+    <div class="rajTerv" *ngIf="rajTerv">
+        <app-raj-terv
+            [rajTerv]="rajTerv"
+        ></app-raj-terv>
+    </div>
     <div class="rajFoglalkozas" *ngIf="rajFoglalkozas">
         <app-raj-foglalkozas
             [rajFoglalkozas]="rajFoglalkozas"

@@ -1,4 +1,3 @@
-import { Time } from "@angular/common"
 import { Alprobak, Cserkeszek, Probak, Temak } from "./rendszer"
 import { Pont } from "./proba"
 
@@ -12,9 +11,10 @@ export class Munkaterv {
 }
 
 export enum FoglalkozasType {
-    CSAPAT,
-    RAJ,
-    ORS,
+    Csapat,
+    RajTerv,
+    Raj,
+    Orsi,
 }
 
 export class Foglalkozas {
@@ -22,7 +22,7 @@ export class Foglalkozas {
     constructor(
         public readonly type: FoglalkozasType,
         public duration = 15,
-    ){
+    ) {
     }
 }
 
@@ -30,8 +30,20 @@ export class CsapatFoglalkozas extends Foglalkozas {
 
     constructor(
         public leiras = "",
+        duration = 15,
     ) {
-        super(FoglalkozasType.CSAPAT)
+        super(FoglalkozasType.Csapat, duration)
+    }
+}
+
+
+export class RajTerv extends Foglalkozas {
+
+    constructor(
+        public foglalkozasok: Foglalkozas[] = [],
+        maxDuration = 15,
+    ) {
+        super(FoglalkozasType.RajTerv, maxDuration)
     }
 }
 
@@ -39,8 +51,9 @@ export class RajFoglalkozas extends Foglalkozas {
 
     constructor(
         public leiras = "",
+        duration = 15,
     ) {
-        super(FoglalkozasType.RAJ)
+        super(FoglalkozasType.Raj, duration)
     }
 }
 
@@ -54,8 +67,9 @@ export class OrsiFoglalkozas extends Foglalkozas {
         public alproba = Alprobak.AlapCserkesztudas,
         public pontSelection = new Map<Pont, boolean>(),
         public leiras = "",
+        duration = 15,
     ) {
-        super(FoglalkozasType.ORS)
+        super(FoglalkozasType.Orsi, duration)
         this.setPontok(Alprobak.AlapCserkesztudas.pontok)
     }
 

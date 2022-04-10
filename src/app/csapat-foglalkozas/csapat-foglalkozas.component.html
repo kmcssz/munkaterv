@@ -2,14 +2,18 @@
     <mat-card-content class="foglalkozas-card-content">
         <section class="time">
             <mat-form-field class="duration">
-                <input matInput type="number" [(ngModel)]="csapatFoglalkozas.duration" />
+                <input
+                    matInput type="number"
+                    [(ngModel)]="csapatFoglalkozas.duration"
+                    [readonly]="!(editable$ | async)"
+                />
                 <mat-hint [align]="'start'">perc</mat-hint>
             </mat-form-field>
         </section>
 
         <section class="editor-section">
             <app-editor-wrapper
-                [editable$]="editableEditor$"
+                [editable$]="editable$"
                 [(leiras)]="csapatFoglalkozas.leiras"
             ></app-editor-wrapper>
         </section>
