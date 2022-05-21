@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { MatButtonToggleGroup } from '@angular/material/button-toggle'
 import { filter, Subject, takeUntil } from 'rxjs'
 import { SZEMSZOG } from '../injection-tokens'
@@ -9,7 +9,7 @@ import { Csapat, Csoport, CsoportType, Szemszog } from '../models/csapat'
     templateUrl: './szemszog-selection.component.html',
     styleUrls: ['./szemszog-selection.component.scss']
 })
-export class SzemszogSelectionComponent implements OnInit, OnDestroy {
+export class SzemszogSelectionComponent implements AfterViewInit, OnDestroy {
 
     @Input() csapat!: Csapat
     @ViewChild(MatButtonToggleGroup) private buttonGroup!: MatButtonToggleGroup
@@ -21,9 +21,7 @@ export class SzemszogSelectionComponent implements OnInit, OnDestroy {
     ) {
     }
 
-    ngOnInit(): void {
-        this.szemszog$.next(new Szemszog(this.csapat))
-
+    ngAfterViewInit(): void {
         this.szemszog$.pipe(
             filter(szemszog => szemszog.csoport.type === CsoportType.Csapat),
             takeUntil(this.distroy$)
