@@ -1,35 +1,4 @@
 <div class="munkaterv">
-    <mat-button-toggle-group
-        class="rang"
-        name="rang"
-        (change)="changeRang($event.value)"
-    >
-        <mat-button-toggle [value]="Rang.CserkeszTiszt" [checked]="true">
-            <img
-                class="harsfalevel"
-                matTooltip="Parancsnoki szemszög"
-                matTooltipClass="large"
-                [src]="'assets/rangok/harsfalevel-tiszt.svg'"
-            />
-        </mat-button-toggle>
-        <mat-button-toggle [value]="Rang.SegedTiszt">
-            <img
-                class="harsfalevel"
-                matTooltip="Rajvezetői szemszög"
-                matTooltipClass="large"
-                [src]="'assets/rangok/harsfalevel-segedtiszt.svg'"
-            />
-        </mat-button-toggle>
-        <mat-button-toggle [value]="Rang.OrsVezeto">
-            <img
-                class="harsfalevel"
-                matTooltip="Őrsvezetői szemszög"
-                matTooltipClass="large"
-                [src]="'assets/rangok/harsfalevel-orsvezeto.svg'"
-            />
-        </mat-button-toggle>
-    </mat-button-toggle-group>
-
     <a mat-icon-button
         [routerLink]="'/csapat/' + csapat.name"
         class="back-button"
@@ -39,10 +8,15 @@
         <mat-icon class="back-button-icon">arrow_back</mat-icon>
     </a>
 
-    <div class="csapat-sign centered">
+    <div
+        class="csapat-sign centered"
+        (click)="changeSzemszogToCsapat()"
+    >
         <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
         <img class="csapat-logo" [src]="csapat.logoUri" />
     </div>
+
+    <app-szemszog-selection class="szemszog" [csapat]="csapat"></app-szemszog-selection>
 
     <div class="date">{{formatHungarianDate(munkaterv.start)}}</div>
     <div class="start">{{formatHungarianTime(munkaterv.start)}}</div>

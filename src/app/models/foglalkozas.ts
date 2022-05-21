@@ -41,9 +41,9 @@ export class RajTerv extends Foglalkozas {
 
     constructor(
         public foglalkozasok: Foglalkozas[] = [],
-        maxDuration = 15,
+        duration = 90,
     ) {
-        super(FoglalkozasType.RajTerv, maxDuration)
+        super(FoglalkozasType.RajTerv, duration)
     }
 }
 

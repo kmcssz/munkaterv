@@ -31,7 +31,8 @@ import { CsapatNaptarComponent, NewMunkatervDialog } from './csapat-naptar/csapa
 import { APP_DATE_FORMATS, MagyarDateAdapter } from './date-adaptor';
 import { FoglalkozasComponent } from './foglalkozasok/foglalkozas/foglalkozas.component';
 import { EditorWrapperComponent } from './editor-wrapper/editor-wrapper.component'
-import { RajTervComponent } from './tervek/raj-terv/raj-terv.component'
+import { RajTervComponent } from './tervek/raj-terv/raj-terv.component';
+import { SzemszogSelectionComponent } from './szemszog-selection/szemszog-selection.component'
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { RajTervComponent } from './tervek/raj-terv/raj-terv.component'
         NewMunkatervDialog,
         FoglalkozasComponent,
         RajTervComponent,
+        SzemszogSelectionComponent,
     ],
     imports: [
         AngularEditorModule,

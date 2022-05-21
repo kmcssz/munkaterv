@@ -1,5 +1,5 @@
 import { InjectionToken } from "@angular/core"
 import { BehaviorSubject } from "rxjs"
-import { Rang } from "./models/csapat"
+import { Szemszog } from "./models/csapat"
 
-export const RANG = new InjectionToken<BehaviorSubject<Rang>>('rang');
+export const SZEMSZOG = new InjectionToken<BehaviorSubject<Szemszog>>('szemszog');

@@ -1,12 +1,12 @@
-import { Component, Inject, InjectionToken, Input, OnInit } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { CsapatFoglalkozas, Foglalkozas, Munkaterv, OrsiFoglalkozas, RajFoglalkozas, RajTerv } from '../../models/foglalkozas'
 import { ActivatedRoute } from '@angular/router'
-import { Csapat, Rang } from '../../models/csapat'
+import { Csapat, CsoportType, Rang, Szemszog as Szemszog } from '../../models/csapat'
 import { CSAPATOK } from '../../models/beosztas'
 import { formatHungarianDate, formatHungarianTime } from '../../date-adaptor'
-import { BehaviorSubject, map, Observable } from 'rxjs'
-import { RANG } from '../../injection-tokens'
+import { map, Observable, ReplaySubject, Subject, tap } from 'rxjs'
+import { SZEMSZOG } from '../../injection-tokens'
 
 @Component({
     selector: 'app-csapat-terv',
@@ -14,8 +14,8 @@ import { RANG } from '../../injection-tokens'
     styleUrls: ['./csapat-terv.component.scss'],
     providers: [
         {
-            provide: RANG,
-            useFactory: () => new BehaviorSubject<Rang>(Rang.CserkeszTiszt)
+            provide: SZEMSZOG,
+            useFactory: () => new ReplaySubject<Szemszog>(1)
         },
     ],
 })
@@ -32,28 +32,31 @@ export class CsapatTervComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        @Inject(RANG) public rang$: BehaviorSubject<Rang>,
+        @Inject(SZEMSZOG) private szemszog$: Subject<Szemszog>,
     ) {
-        this.editable$ = rang$.pipe(
-            map(rang => rang === Rang.CserkeszTiszt),
+        this.editable$ = szemszog$.pipe(
+            // tap(sz => console.log('szemszog: ', sz)),
+            map(szemszog => szemszog.csoport.type === CsoportType.Csapat),
+            // tap(sz => console.log('enable csapat buttons: ', sz)),
         )
     }
 
     ngOnInit(): void {
         const name = this.route.snapshot.paramMap.get('name')!
         this.csapat = CSAPATOK.find(cs => cs.name === name)!
+        this.changeSzemszogToCsapat()
         const start = this.route.snapshot.paramMap.get('start')!
 
-        // Get this from DB
+        // TODO: Get this from DB
         this.munkaterv = new Munkaterv(new Date(parseInt(start)))
+    }
+
+    changeSzemszogToCsapat() {
+        this.szemszog$.next(new Szemszog(this.csapat))
     }
 
     drop(event: CdkDragDrop<string[]>) {
         moveItemInArray(this.munkaterv.foglalkozasok, event.previousIndex, event.currentIndex)
-    }
-
-    changeRang(rang: Rang) {
-        this.rang$.next(rang)
     }
 
     addCsapatFoglalkozas() {

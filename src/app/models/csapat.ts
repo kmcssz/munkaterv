@@ -5,17 +5,14 @@ export enum Rang {
     OrsVezeto,
 }
 
-export class Csapat {
-
-    logoUri: string
+export class Szemszog {
 
     constructor(
-        public name: string,
-        public rajok: Raj[] = [],
+        public readonly csoport: Csoport,
     ) {
-        this.logoUri = `assets/csapatok/${name}.png`
     }
 }
+
 
 export enum Korosztaj {
     AproCserkesz = "#add8e6",
@@ -25,19 +22,54 @@ export enum Korosztaj {
     Felnot = "#571616",
 }
 
-export class Raj {
+export enum CsoportType {
+    Csapat,
+    Raj,
+    Ors,
+}
+
+export class Csoport {
+
     constructor(
-        public name: string,
-        public korosztaj: Korosztaj,
-        public orsok: Ors[] = [],
+        public readonly type: CsoportType,
+        public readonly name: string,
+        public readonly emoji: string,
     ) {
     }
 }
 
-export class Ors {
+export class Csapat extends Csoport {
+
+    readonly logoUri: string
+
     constructor(
-        public name: string,
-        public emoji: string,
+        name: string,
+        emoji: string = "🧑‍🤝‍🧑",
+        public readonly rajok: Raj[] = [],
     ) {
+        super(CsoportType.Csapat, name, emoji)
+        this.logoUri = `assets/csapatok/${name}.png`
+    }
+}
+
+export class Raj extends Csoport {
+
+    constructor(
+        name: string,
+        emoji: string,
+        public readonly korosztaj: Korosztaj,
+        public readonly orsok: Ors[] = [],
+    ) {
+        super(CsoportType.Raj, name, emoji)
+    }
+}
+
+export class Ors extends Csoport {
+
+    constructor(
+        name: string,
+        emoji: string,
+    ) {
+        super(CsoportType.Ors, name, emoji)
     }
 }

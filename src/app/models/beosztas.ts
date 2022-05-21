@@ -3,9 +3,11 @@ import { Csapat, Korosztaj, Ors, Raj } from "./csapat"
 export const CSAPATOK = [
     new Csapat(
         "Montreal",
+        "⚜️",
         [
             new Raj(
                 "Katicabogár",
+                "🐞",
                 Korosztaj.KisCserkesz,
                 [
                     new Ors("Bagoly", "🦉"),
@@ -14,6 +16,7 @@ export const CSAPATOK = [
             ),
             new Raj(
                 "Munkács",
+                "🏰",
                 Korosztaj.Cserkesz,
                 [
                     new Ors("Ibolya", "🌸"),
@@ -22,6 +25,7 @@ export const CSAPATOK = [
             ),
             new Raj(
                 "Besztercebánya",
+                "⚒️",
                 Korosztaj.Cserkesz,
                 [
                     new Ors("Róka", "🦊"),

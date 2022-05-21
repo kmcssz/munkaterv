@@ -3,8 +3,8 @@ import { MatListOption } from '@angular/material/list'
 import { Cserkeszek, ProbaRendszer, Temak } from '../../models/rendszer'
 import { Alproba, Cserkesz, Proba, Tema } from '../../models/proba'
 import { OrsiFoglalkozas } from '../../models/foglalkozas'
-import { Rang } from '../../models/csapat'
-import { RANG } from '../../injection-tokens'
+import { CsoportType, Szemszog } from '../../models/csapat'
+import { SZEMSZOG } from '../../injection-tokens'
 import { map, Observable } from 'rxjs'
 
 @Component({
@@ -16,7 +16,7 @@ export class OrsiFoglalkozasComponent implements OnInit {
 
     @Input() orsiFoglalkozas!: OrsiFoglalkozas
 
-    editableEditor$: Observable<boolean>
+    editable$: Observable<boolean>
     areProbakOpen = false
     areTemakOpen = false
 
@@ -25,10 +25,10 @@ export class OrsiFoglalkozasComponent implements OnInit {
     alprobak!: Alproba[]
 
     constructor(
-        @Inject(RANG) public rang$: Observable<Rang>,
+        @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
     ) {
-        this.editableEditor$ = rang$.pipe(
-            map(rang => rang === Rang.OrsVezeto),
+        this.editable$ = szemszog$.pipe(
+            map(szemszog => szemszog.csoport.type === CsoportType.Ors),
         )
     }
 

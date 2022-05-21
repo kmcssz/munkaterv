@@ -1,8 +1,8 @@
 import { Component, Inject, Input } from '@angular/core'
 import { CsapatFoglalkozas } from '../../models/foglalkozas'
-import { Rang } from '../../models/csapat'
+import { CsoportType, Szemszog } from '../../models/csapat'
 import { map, Observable } from 'rxjs'
-import { RANG } from '../../injection-tokens'
+import { SZEMSZOG } from '../../injection-tokens'
 
 @Component({
     selector: 'app-csapat-foglalkozas',
@@ -16,10 +16,10 @@ export class CsapatFoglalkozasComponent {
     editable$: Observable<boolean>
 
     constructor(
-        @Inject(RANG) rang$: Observable<Rang>,
+        @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
     ) {
-        this.editable$ = rang$.pipe(
-            map(rang => rang === Rang.CserkeszTiszt),
+        this.editable$ = szemszog$.pipe(
+            map(szemszog => szemszog.csoport.type === CsoportType.Csapat),
         )
     }
 }
