@@ -1,17 +1,17 @@
 import { Component, Inject, InjectionToken, Input, OnInit } from '@angular/core'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { CsapatFoglalkozas, Foglalkozas, Munkaterv, OrsiFoglalkozas, RajFoglalkozas, RajTerv } from '../models/foglalkozas'
+import { CsapatFoglalkozas, Foglalkozas, Munkaterv, OrsiFoglalkozas, RajFoglalkozas, RajTerv } from '../../models/foglalkozas'
 import { ActivatedRoute } from '@angular/router'
-import { Csapat, Rang } from '../models/csapat'
-import { CSAPATOK } from '../models/beosztas'
-import { formatHungarianDate, formatHungarianTime } from '../date-adaptor'
+import { Csapat, Rang } from '../../models/csapat'
+import { CSAPATOK } from '../../models/beosztas'
+import { formatHungarianDate, formatHungarianTime } from '../../date-adaptor'
 import { BehaviorSubject, map, Observable } from 'rxjs'
-import { RANG } from '../injection-tokens'
+import { RANG } from '../../injection-tokens'
 
 @Component({
-    selector: 'app-munkaterv',
-    templateUrl: './munkaterv.component.html',
-    styleUrls: ['./munkaterv.component.scss'],
+    selector: 'app-csapat-terv',
+    templateUrl: './csapat-terv.component.html',
+    styleUrls: ['./csapat-terv.component.scss'],
     providers: [
         {
             provide: RANG,
@@ -19,7 +19,7 @@ import { RANG } from '../injection-tokens'
         },
     ],
 })
-export class MunkatervComponent implements OnInit {
+export class CsapatTervComponent implements OnInit {
 
     csapat!: Csapat
     munkaterv!: Munkaterv

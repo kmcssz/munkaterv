@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { CsapatFoglalkozas, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, RajFoglalkozas, RajTerv } from '../models/foglalkozas'
+import { CsapatFoglalkozas, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, RajFoglalkozas, RajTerv } from '../../models/foglalkozas'
 
 @Component({
     selector: 'app-foglalkozas',

@@ -13,11 +13,11 @@ export interface NewMunkatervDialogData {
 }
 
 @Component({
-    selector: 'app-csapat-tervek',
-    templateUrl: './csapat-tervek.component.html',
-    styleUrls: ['./csapat-tervek.component.scss'],
+    selector: 'app-csapat-naptar',
+    templateUrl: './csapat-naptar.component.html',
+    styleUrls: ['./csapat-naptar.component.scss'],
 })
-export class CsapatTervekComponent implements OnInit {
+export class CsapatNaptarComponent implements OnInit {
 
     csapat!: Csapat
     munkatervek: Munkaterv[] = []

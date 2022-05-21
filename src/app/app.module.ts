@@ -21,28 +21,28 @@ import { AngularEditorModule } from '@kolkov/angular-editor'
 import { MatDialogModule } from '@angular/material/dialog'
 
 import { AppComponent } from './app.component'
-import { MunkatervComponent } from './munkaterv/munkaterv.component'
-import { OrsiFoglalkozasComponent } from './orsi-foglalkozas/orsi-foglalkozas.component'
-import { RajFoglalkozasComponent } from './raj-foglalkozas/raj-foglalkozas.component'
-import { CsapatFoglalkozasComponent } from './csapat-foglalkozas/csapat-foglalkozas.component'
+import { CsapatTervComponent } from './tervek/csapat-terv/csapat-terv.component'
+import { OrsiFoglalkozasComponent } from './foglalkozasok/orsi-foglalkozas/orsi-foglalkozas.component'
+import { RajFoglalkozasComponent } from './foglalkozasok/raj-foglalkozas/raj-foglalkozas.component'
+import { CsapatFoglalkozasComponent } from './foglalkozasok/csapat-foglalkozas/csapat-foglalkozas.component'
 import { CsapatSelectionComponent } from './csapat-selection/csapat-selection.component'
 import { AppRoutingModule } from './app-routing.module';
-import { CsapatTervekComponent, NewMunkatervDialog } from './csapat-tervek/csapat-tervek.component'
+import { CsapatNaptarComponent, NewMunkatervDialog } from './csapat-naptar/csapat-naptar.component'
 import { APP_DATE_FORMATS, MagyarDateAdapter } from './date-adaptor';
-import { FoglalkozasComponent } from './foglalkozas/foglalkozas.component';
+import { FoglalkozasComponent } from './foglalkozasok/foglalkozas/foglalkozas.component';
 import { EditorWrapperComponent } from './editor-wrapper/editor-wrapper.component'
-import { RajTervComponent } from './raj-terv/raj-terv.component'
+import { RajTervComponent } from './tervek/raj-terv/raj-terv.component'
 
 @NgModule({
     declarations: [
         AppComponent,
         EditorWrapperComponent,
-        MunkatervComponent,
+        CsapatTervComponent,
         OrsiFoglalkozasComponent,
         RajFoglalkozasComponent,
         CsapatFoglalkozasComponent,
         CsapatSelectionComponent,
-        CsapatTervekComponent,
+        CsapatNaptarComponent,
         NewMunkatervDialog,
         FoglalkozasComponent,
         RajTervComponent,

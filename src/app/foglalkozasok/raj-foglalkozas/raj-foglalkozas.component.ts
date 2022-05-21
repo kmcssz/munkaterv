@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Rang } from '../models/csapat'
-import { RajFoglalkozas } from '../models/foglalkozas'
+import { Rang } from '../../models/csapat'
+import { RajFoglalkozas } from '../../models/foglalkozas'
 
 @Component({
     selector: 'app-raj-foglalkozas',

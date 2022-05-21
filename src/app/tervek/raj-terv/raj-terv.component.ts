@@ -1,8 +1,8 @@
 import { Component, Inject, Input, OnInit } from '@angular/core'
 import { map, Observable } from 'rxjs'
-import { RANG } from '../injection-tokens'
-import { Rang } from '../models/csapat'
-import { OrsiFoglalkozas, RajFoglalkozas, RajTerv } from '../models/foglalkozas'
+import { RANG } from '../../injection-tokens'
+import { Rang } from '../../models/csapat'
+import { OrsiFoglalkozas, RajFoglalkozas, RajTerv } from '../../models/foglalkozas'
 
 @Component({
     selector: 'app-raj-terv',

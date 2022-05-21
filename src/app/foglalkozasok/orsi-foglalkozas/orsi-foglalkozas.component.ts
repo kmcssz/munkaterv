@@ -1,10 +1,10 @@
 import { Component, Inject, Input, OnInit } from '@angular/core'
 import { MatListOption } from '@angular/material/list'
-import { Cserkeszek, ProbaRendszer, Temak } from '../models/rendszer'
-import { Alproba, Cserkesz, Proba, Tema } from '../models/proba'
-import { OrsiFoglalkozas } from '../models/foglalkozas'
-import { Rang } from '../models/csapat'
-import { RANG } from '../injection-tokens'
+import { Cserkeszek, ProbaRendszer, Temak } from '../../models/rendszer'
+import { Alproba, Cserkesz, Proba, Tema } from '../../models/proba'
+import { OrsiFoglalkozas } from '../../models/foglalkozas'
+import { Rang } from '../../models/csapat'
+import { RANG } from '../../injection-tokens'
 import { map, Observable } from 'rxjs'
 
 @Component({
