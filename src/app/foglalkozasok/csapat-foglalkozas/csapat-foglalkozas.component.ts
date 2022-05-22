@@ -1,6 +1,6 @@
 import { Component, Inject, Input } from '@angular/core'
 import { CsapatFoglalkozas } from '../../models/foglalkozas'
-import { CsoportType, Szemszog } from '../../models/csapat'
+import { CsoportType, isCsapatSzemszog, Szemszog } from '../../models/csapat'
 import { map, Observable } from 'rxjs'
 import { SZEMSZOG } from '../../injection-tokens'
 
@@ -18,8 +18,6 @@ export class CsapatFoglalkozasComponent {
     constructor(
         @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
     ) {
-        this.editable$ = szemszog$.pipe(
-            map(szemszog => szemszog.csoport.type === CsoportType.Csapat),
-        )
+        this.editable$ = szemszog$.pipe(map(isCsapatSzemszog))
     }
 }

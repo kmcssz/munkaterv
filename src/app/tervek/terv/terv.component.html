@@ -1,0 +1,19 @@
+<div cdkDropList class="foglalkozasok" (cdkDropListDropped)="drop($event)">
+
+    <div *ngFor="let foglalkozas of terv.foglalkozasok; let last = last">
+
+        <div cdkDrag class="foglalkozas">
+            <div cdkDragHandle class="drag-handle">
+                <mat-icon>drag_indicator</mat-icon>
+            </div>
+
+            <app-foglalkozas
+                [start]="computeStartTime(foglalkozas)"
+                [foglalkozas]="foglalkozas"
+            ></app-foglalkozas>
+        </div>
+
+        <div *ngIf="!last" class="time">{{computeEndTime(foglalkozas)}}</div>
+
+    </div>
+</div>

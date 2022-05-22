@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core"
 import { NativeDateAdapter } from "@angular/material/core";
 
+export const minutesToMillis = 60 * 1000
+export const dayInMillis = 24 * 60 * minutesToMillis
+
 export const APP_DATE_FORMATS =
 {
     parse: {

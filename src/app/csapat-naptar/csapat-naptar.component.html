@@ -23,12 +23,12 @@
             <mat-icon>add</mat-icon>
         </button>
     </div>
-    <div *ngFor="let munkaterv of munkatervek"
+    <div *ngFor="let esemeny of esemenyek"
         class="tervek centered">
         <mat-card class="munkaterv-card">
             <mat-card-content class="munkaterv-card-content">
-                <button mat-button [routerLink]="getLink(munkaterv)">
-                    {{formatHungarianDateTime(munkaterv.start)}}
+                <button mat-button [routerLink]="getLink(esemeny)">
+                    {{formatHungarianDateTime(esemeny.start)}}
                 </button>
             </mat-card-content>
         </mat-card>

@@ -33,6 +33,10 @@ import { FoglalkozasComponent } from './foglalkozasok/foglalkozas/foglalkozas.co
 import { EditorWrapperComponent } from './editor-wrapper/editor-wrapper.component'
 import { RajTervComponent } from './tervek/raj-terv/raj-terv.component';
 import { SzemszogSelectionComponent } from './szemszog-selection/szemszog-selection.component'
+import { AsPipe } from './as-pipe';
+import { TervComponent } from './tervek/terv/terv.component';
+import { MunkatervComponent } from './tervek/munkaterv/munkaterv.component';
+import { OrsiTervComponent } from './tervek/orsi-terv/orsi-terv.component'
 
 @NgModule({
     declarations: [
@@ -48,6 +52,10 @@ import { SzemszogSelectionComponent } from './szemszog-selection/szemszog-select
         FoglalkozasComponent,
         RajTervComponent,
         SzemszogSelectionComponent,
+        AsPipe,
+        TervComponent,
+        MunkatervComponent,
+        OrsiTervComponent,
     ],
     imports: [
         AngularEditorModule,

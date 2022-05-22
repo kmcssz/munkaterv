@@ -1,0 +1,67 @@
+@import "../../../colors";
+
+.munkaterv {
+    padding: 20px;
+    display: block;
+    overflow: hidden;
+    text-align: center;
+}
+
+.szemszog {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.back-button-icon {
+    font-size: xx-large;
+}
+
+.csapat-sign {
+    padding: 20px;
+}
+
+.csapat-background {
+    height: 200px;
+}
+
+.csapat-logo {
+    position: absolute;
+    top: 80px;
+    transform: translate(calc(50% - 62.5px), 0%);
+    height: 125px;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+}
+
+.date {
+    position: absolute;
+    top: 150px;
+    left: 20px;
+    font-size: xx-large;
+    color: $date-and-time;
+}
+
+.start {
+    position: absolute;
+    top: 235px;
+    left: 20px;
+    font-size: x-large;
+    color: $date-and-time;
+}
+
+.time {
+    left: 20px;
+    font-size: x-large;
+    text-align: left;
+    color: $date-and-time;
+}

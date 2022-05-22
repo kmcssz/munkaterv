@@ -1,59 +1,26 @@
-<div class="munkaterv">
-    <a mat-icon-button
-        [routerLink]="'/csapat/' + csapat.name"
-        class="back-button"
-        [matTooltip]="'Vissza a ' + csapat.name + ' csapathoz'"
-        matTooltipClass="large"
-    >
-        <mat-icon class="back-button-icon">arrow_back</mat-icon>
-    </a>
+<app-terv
+    [start]="start"
+    [terv]="csapatTerv"
+></app-terv>
 
-    <div
-        class="csapat-sign centered"
-        (click)="changeSzemszogToCsapat()"
-    >
-        <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
-        <img class="csapat-logo" [src]="csapat.logoUri" />
-    </div>
+<button *ngIf="editable$ | async"
+    mat-fab
+    class="add-new-foglalkozas-button"
+    color="gold"
+    matTooltip="Új csapat foglalkozás"
+    matTooltipClass="large"
+    (click)="addCsapatFoglalkozas()"
+>
+    <mat-icon>add</mat-icon>
+</button>
 
-    <app-szemszog-selection class="szemszog" [csapat]="csapat"></app-szemszog-selection>
-
-    <div class="date">{{formatHungarianDate(munkaterv.start)}}</div>
-    <div class="start">{{formatHungarianTime(munkaterv.start)}}</div>
-
-    <div cdkDropList class="foglalkozasok" (cdkDropListDropped)="drop($event)">
-        <div *ngFor="let foglalkozas of munkaterv.foglalkozasok">
-            <div cdkDrag class="foglalkozas">
-                <div cdkDragHandle class="drag-handle">
-                    <mat-icon>drag_indicator</mat-icon>
-                </div>
-                <app-foglalkozas
-                    [foglalkozas]="foglalkozas"
-                ></app-foglalkozas>
-            </div>
-            <div class="time">{{computeTime(foglalkozas)}}</div>
-        </div>
-    </div>
-
-    <button *ngIf="editable$ | async"
-        mat-fab
-        class="add-new-foglalkozas-button"
-        color="gold"
-        matTooltip="Új csapat foglalkozás"
-        matTooltipClass="large"
-        (click)="addCsapatFoglalkozas()"
-    >
-        <mat-icon>add</mat-icon>
-    </button>
-
-    <button *ngIf="editable$ | async"
-        mat-fab
-        class="add-new-foglalkozas-button"
-        color="silver"
-        matTooltip="Új raj foglalkozás"
-        matTooltipClass="large"
-        (click)="addRajFoglalkozas()"
-    >
-        <mat-icon>add</mat-icon>
-    </button>
-</div>
+<button *ngIf="editable$ | async"
+    mat-fab
+    class="add-new-foglalkozas-button"
+    color="silver"
+    matTooltip="Új raj foglalkozás"
+    matTooltipClass="large"
+    (click)="addRajFoglalkozas()"
+>
+    <mat-icon>add</mat-icon>
+</button>

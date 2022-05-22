@@ -4,8 +4,8 @@
             <mat-form-field class="duration">
                 <input
                     matInput type="number"
-                    [(ngModel)]="rajTerv.duration"
-                    [readonly]="!(editableTime$ | async)"
+                    [(ngModel)]="orsiTerv.duration"
+                    [readonly]="!(editable$ | async)"
                 />
                 <mat-hint [align]="'start'">perc</mat-hint>
             </mat-form-field>
@@ -14,28 +14,18 @@
         <section class="terv-section">
             <app-terv
                 [start]="start"
-                [terv]="rajTerv"
+                [terv]="orsiTerv"
             ></app-terv>
 
-            <div *ngIf="rajTerv.computeRemainingDuration() > 0"
+            <div *ngIf="orsiTerv.computeRemainingDuration() > 0"
                 class="add-new-foglalkozas-buttons"
             >
-                <button mat-fab *ngIf="editableContent$ | async"
-                    class="add-new-foglalkozas-button"
-                    color="silver"
-                    matTooltip="Új raj foglalkozás"
-                    matTooltipClass="large"
-                    (click)="addRajFoglalkozas()"
-                >
-                    <mat-icon>add</mat-icon>
-                </button>
-
-                <button mat-fab *ngIf="editableContent$ | async"
+                <button mat-fab *ngIf="editable$ | async"
                     class="add-new-foglalkozas-button"
                     color="bronze"
                     matTooltip="Új őrsi foglalkozás"
                     matTooltipClass="large"
-                    (click)="addOrsiTerv()"
+                    (click)="addOrsiFoglalkozas()"
                 >
                     <mat-icon>add</mat-icon>
                 </button>

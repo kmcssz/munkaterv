@@ -1,0 +1,32 @@
+<div class="munkaterv">
+    <a mat-icon-button
+        class="back-button"
+        [routerLink]="'/csapat/' + csapat.name"
+        [matTooltip]="'Vissza a ' + csapat.name + ' csapathoz'"
+        matTooltipClass="large"
+    >
+        <mat-icon class="back-button-icon">arrow_back</mat-icon>
+    </a>
+
+    <div
+        class="csapat-sign centered"
+        [matTooltip]="csapat.name + 'i csapat'"
+        matTooltipClass="large"
+        (click)="changeSzemszogToCsapat()"
+    >
+        <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
+        <img class="csapat-logo" [src]="csapat.logoUri" />
+    </div>
+
+    <app-szemszog-selection class="szemszog" [csapat]="csapat"></app-szemszog-selection>
+
+    <div class="date">{{formatHungarianDate(munkaterv.start)}}</div>
+    <div class="start">{{formatHungarianTime(munkaterv.start)}}</div>
+
+    <app-foglalkozas
+        [start]="munkaterv.start"
+        [foglalkozas]="munkaterv.csapatTerv"
+    ></app-foglalkozas>
+
+    <div class="time">{{computeOszoljTime()}}</div>
+</div>

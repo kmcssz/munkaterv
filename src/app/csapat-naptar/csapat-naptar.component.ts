@@ -3,7 +3,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { ActivatedRoute } from '@angular/router'
 import { CSAPATOK } from '../models/beosztas'
 import { Csapat } from '../models/csapat'
-import { Munkaterv } from '../models/foglalkozas'
+import { CsapatTerv, Esemeny, Munkaterv } from '../models/foglalkozas'
 import { formatHungarianDateTime } from '../date-adaptor'
 import dateFormat, { masks } from 'dateformat'
 
@@ -20,7 +20,7 @@ export interface NewMunkatervDialogData {
 export class CsapatNaptarComponent implements OnInit {
 
     csapat!: Csapat
-    munkatervek: Munkaterv[] = []
+    esemenyek: Esemeny[] = []
     formatHungarianDateTime = formatHungarianDateTime
 
     constructor(
@@ -36,8 +36,8 @@ export class CsapatNaptarComponent implements OnInit {
 
     addNewMunkaterv(): void {
         const sevenDaysMillies = 604800000
-        const nextDate = this.munkatervek.length > 0
-            ? new Date(this.munkatervek[0].start.getTime() + sevenDaysMillies)
+        const nextDate = this.esemenyek.length > 0
+            ? new Date(this.esemenyek[0].start.getTime() + sevenDaysMillies)
             : new Date() // Today :)
 
         const dialogData: NewMunkatervDialogData = {
@@ -53,13 +53,13 @@ export class CsapatNaptarComponent implements OnInit {
                 parseInt(splitTime[0]),
                 parseInt(splitTime[1]),
             )
-            this.munkatervek.push(new Munkaterv(selectedDateTime))
-            this.munkatervek.sort((mtA, mtB) => mtB.start.getTime() - mtA.start.getTime())
+            this.esemenyek.push(new Esemeny(selectedDateTime))
+            this.esemenyek.sort((mtA, mtB) => mtB.start.getTime() - mtA.start.getTime())
         });
     }
 
-    getLink(munkaterv: Munkaterv): string {
-        return `/csapat/${this.csapat.name}/munkaterv/${munkaterv.start.getTime()}`
+    getLink(esemeny: Esemeny): string {
+        return `/csapat/${this.csapat.name}/munkaterv/${esemeny.start.getTime()}`
     }
 }
 

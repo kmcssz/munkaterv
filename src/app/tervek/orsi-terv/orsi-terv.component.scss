@@ -2,7 +2,7 @@
 
 .foglalkozas-card {
     border-radius: 20px;
-    background: $raj-terv-background;
+    background: $orsi-terv-background;
 }
 
 .foglalkozas-card-content {
@@ -28,16 +28,6 @@ section {
     font-size: x-large;
 }
 
-.mat-silver {
-    color: black;
-    background-color: $silver;
-}
-
-.mat-bronze {
-    color: black;
-    background-color: $bronze;
-}
-
 .add-new-foglalkozas-buttons {
     margin: auto;
     width: fit-content;
@@ -46,4 +36,9 @@ section {
 .add-new-foglalkozas-button {
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.mat-bronze {
+    color: black;
+    background-color: $bronze;
 }

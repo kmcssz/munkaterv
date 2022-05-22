@@ -5,6 +5,8 @@ $bronze: #b08d57;
 $green: #63b521;
 $blue: #0e4bef;
 
+$medium-silver: #4d4e4c;
+
 $dark-gold: #aa6c39;
 $dark-silver: #423f40;
 $dark-bronze: #514100;
@@ -14,7 +16,10 @@ $dark-blue: #02193c;
 $page-background: #202020;
 $foglalkozas-background: $dark-silver;
 $date-and-time: #666666;
+$date-and-time-raj: #999999;
 
 $csapat-foglalkozas-background: linear-gradient(to right, $gold, $foglalkozas-background, 200px, $foglalkozas-background);
-$raj-foglalkozas-background: linear-gradient(to right, $silver, $foglalkozas-background, 200px, $foglalkozas-background);
+$raj-terv-background: linear-gradient(to right, $silver, $foglalkozas-background, 200px, $foglalkozas-background);
+$raj-foglalkozas-background: linear-gradient(to right, $silver, $page-background, 200px, $page-background);
+$orsi-terv-background: linear-gradient(to right, $bronze, $page-background, 200px, $page-background);
 $orsi-foglalkozas-background: linear-gradient(to right, $bronze, $foglalkozas-background, 200px, $foglalkozas-background);

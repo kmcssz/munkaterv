@@ -13,6 +13,18 @@ export class Szemszog {
     }
 }
 
+export function isCsapatSzemszog(szemszog: Szemszog): boolean {
+    return szemszog.csoport.type === CsoportType.Csapat
+}
+
+export function isRajSzemszog(szemszog: Szemszog): boolean {
+    return szemszog.csoport.type === CsoportType.Raj
+}
+
+export function isOrsSzemszog(szemszog: Szemszog): boolean {
+    return szemszog.csoport.type === CsoportType.Ors
+}
+
 
 export enum Korosztaj {
     AproCserkesz = "#add8e6",

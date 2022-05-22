@@ -1,20 +1,32 @@
 import { Alprobak, Cserkeszek, Probak, Temak } from "./rendszer"
 import { Pont } from "./proba"
+import { dayInMillis } from "../date-adaptor"
 
-export class Munkaterv {
+export class Esemeny {
 
     constructor(
         public start: Date,
-        public foglalkozasok: Foglalkozas[] = [],
     ){
     }
 }
 
+export class Munkaterv extends Esemeny {
+
+    constructor(
+        start: Date,
+        public csapatTerv: CsapatTerv,
+    ){
+        super(start)
+    }
+}
+
 export enum FoglalkozasType {
-    Csapat,
+    CsapatTerv,
     RajTerv,
-    Raj,
-    Orsi,
+    OrsiTerv,
+    CsapatFoglalkozas,
+    RajFoglalkozas,
+    OrsiFoglalkozas,
 }
 
 export class Foglalkozas {
@@ -32,18 +44,55 @@ export class CsapatFoglalkozas extends Foglalkozas {
         public leiras = "",
         duration = 15,
     ) {
-        super(FoglalkozasType.Csapat, duration)
+        super(FoglalkozasType.CsapatFoglalkozas, duration)
     }
 }
 
-
-export class RajTerv extends Foglalkozas {
+export abstract class Terv extends Foglalkozas {
 
     constructor(
-        public foglalkozasok: Foglalkozas[] = [],
-        duration = 90,
+        type: FoglalkozasType,
+        duration: number,
+        public foglalkozasok: Foglalkozas[],
     ) {
-        super(FoglalkozasType.RajTerv, duration)
+        super(type, duration)
+    }
+
+    computeRemainingDuration(): number {
+        let totalDuration = 0
+        this.foglalkozasok.forEach(foglalkozas => {
+            totalDuration += foglalkozas.duration
+        })
+        return this.duration - totalDuration
+    }
+}
+
+export class CsapatTerv extends Terv {
+
+    constructor(
+        foglalkozasok: Foglalkozas[] = [],
+    ) {
+        super(FoglalkozasType.CsapatTerv, dayInMillis, foglalkozasok)
+    }
+}
+
+export class RajTerv extends Terv {
+
+    constructor(
+        duration = 90,
+        foglalkozasok: Foglalkozas[] = [],
+    ) {
+        super(FoglalkozasType.RajTerv, duration, foglalkozasok)
+    }
+}
+
+export class OrsiTerv extends Terv {
+
+    constructor(
+        duration = 90,
+        foglalkozasok: Foglalkozas[] = [],
+    ) {
+        super(FoglalkozasType.OrsiTerv, duration, foglalkozasok)
     }
 }
 
@@ -53,7 +102,7 @@ export class RajFoglalkozas extends Foglalkozas {
         public leiras = "",
         duration = 15,
     ) {
-        super(FoglalkozasType.Raj, duration)
+        super(FoglalkozasType.RajFoglalkozas, duration)
     }
 }
 
@@ -69,7 +118,7 @@ export class OrsiFoglalkozas extends Foglalkozas {
         public leiras = "",
         duration = 15,
     ) {
-        super(FoglalkozasType.Orsi, duration)
+        super(FoglalkozasType.OrsiFoglalkozas, duration)
         this.setPontok(Alprobak.AlapCserkesztudas.pontok)
     }
 

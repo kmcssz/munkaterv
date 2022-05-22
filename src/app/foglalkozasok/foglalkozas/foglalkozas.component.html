@@ -1,20 +1,33 @@
 <div class="foglalkozas">
-    <div class="csapatFoglalkozas" *ngIf="csapatFoglalkozas">
+    <div *ngIf="csapatTerv">
+        <app-csapat-terv
+            [start]="start"
+            [csapatTerv]="csapatTerv"
+        ></app-csapat-terv>
+    </div>
+    <div *ngIf="rajTerv">
+        <app-raj-terv
+            [start]="start"
+            [rajTerv]="rajTerv"
+        ></app-raj-terv>
+    </div>
+    <div *ngIf="orsiTerv">
+        <app-orsi-terv
+            [start]="start"
+            [orsiTerv]="orsiTerv"
+        ></app-orsi-terv>
+    </div>
+    <div *ngIf="csapatFoglalkozas">
         <app-csapat-foglalkozas
             [csapatFoglalkozas]="csapatFoglalkozas"
         ></app-csapat-foglalkozas>
     </div>
-    <div class="rajTerv" *ngIf="rajTerv">
-        <app-raj-terv
-            [rajTerv]="rajTerv"
-        ></app-raj-terv>
-    </div>
-    <div class="rajFoglalkozas" *ngIf="rajFoglalkozas">
+    <div *ngIf="rajFoglalkozas">
         <app-raj-foglalkozas
             [rajFoglalkozas]="rajFoglalkozas"
         ></app-raj-foglalkozas>
     </div>
-    <div class="orsiFoglalkozas" *ngIf="orsiFoglalkozas">
+    <div *ngIf="orsiFoglalkozas">
         <app-orsi-foglalkozas
             [orsiFoglalkozas]="orsiFoglalkozas"
         ></app-orsi-foglalkozas>
