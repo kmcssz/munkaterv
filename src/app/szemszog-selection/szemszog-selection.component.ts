@@ -1,20 +1,20 @@
-import { AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, Inject, Input, ViewChild } from '@angular/core'
 import { MatButtonToggleGroup } from '@angular/material/button-toggle'
-import { filter, Subject, takeUntil } from 'rxjs'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { filter, Subject } from 'rxjs'
 import { SZEMSZOG } from '../injection-tokens'
 import { Csapat, Csoport, CsoportType, Szemszog } from '../models/csapat'
 
+@UntilDestroy()
 @Component({
     selector: 'app-szemszog-selection',
     templateUrl: './szemszog-selection.component.html',
     styleUrls: ['./szemszog-selection.component.scss']
 })
-export class SzemszogSelectionComponent implements AfterViewInit, OnDestroy {
+export class SzemszogSelectionComponent implements AfterViewInit {
 
     @Input() csapat!: Csapat
     @ViewChild(MatButtonToggleGroup) private buttonGroup!: MatButtonToggleGroup
-
-    private distroy$ = new Subject<boolean>()
 
     constructor(
         @Inject(SZEMSZOG) public szemszog$: Subject<Szemszog>,
@@ -24,16 +24,11 @@ export class SzemszogSelectionComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.szemszog$.pipe(
             filter(szemszog => szemszog.csoport.type === CsoportType.Csapat),
-            takeUntil(this.distroy$)
+            untilDestroyed(this)
         ).subscribe(() => this.buttonGroup.value = undefined)
     }
 
-    ngOnDestroy(): void {
-        this.distroy$.next(true)
-        this.distroy$.complete()
-    }
-
     changeCsoport(csoport: Csoport) {
-        this.szemszog$.next(new Szemszog(csoport))
+        this.szemszog$.next(new Szemszog(this.csapat, csoport))
     }
 }

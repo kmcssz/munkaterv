@@ -1,101 +1,97 @@
-<mat-card class="foglalkozas-card">
-    <mat-card-content class="foglalkozas-card-content">
-        <section class="time">
-            <mat-form-field class="duration">
-                <input matInput type="number" [(ngModel)]="orsiFoglalkozas.duration" />
-                <mat-hint [align]="'start'">perc</mat-hint>
-            </mat-form-field>
-        </section>
-        <section>
-            <div>
-                <mat-slider #ageSlider (change)="changeAge($event.value ?? 10)" thumbLabel tickInterval="1" step="1"
-                    min="10" max="16">
-                </mat-slider>
-                {{orsiFoglalkozas.cserkesz.name}}
-            </div>
-            <div>
-                <button
-                    mat-button
-                    cdkOverlayOrigin
-                    #probaTrigger="cdkOverlayOrigin"
-                    [value]="orsiFoglalkozas.proba.name"
-                    matTooltip="{{orsiFoglalkozas.proba.name}}"
+<section class="time">
+    <mat-form-field class="duration">
+        <input matInput type="number" [(ngModel)]="orsiFoglalkozas.duration" />
+        <mat-hint [align]="'start'">perc</mat-hint>
+    </mat-form-field>
+</section>
+<section>
+    <div>
+        <mat-slider #ageSlider (change)="changeAge($event.value ?? 10)" thumbLabel tickInterval="1" step="1"
+            min="10" max="16">
+        </mat-slider>
+        {{orsiFoglalkozas.cserkesz.name}}
+    </div>
+    <div>
+        <button
+            mat-button
+            cdkOverlayOrigin
+            #probaTrigger="cdkOverlayOrigin"
+            [value]="orsiFoglalkozas.proba.name"
+            matTooltip="{{orsiFoglalkozas.proba.name}}"
+            matTooltipClass="large"
+            (click)="areProbakOpen = !areProbakOpen"
+        >
+            <img class="proba-image" [src]="orsiFoglalkozas.proba.imageUri" />
+        </button>
+
+        <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="probaTrigger"
+            [cdkConnectedOverlayOpen]="areProbakOpen">
+            <mat-button-toggle-group (change)="changeProba($event.value)">
+                <mat-button-toggle *ngFor="let proba of probak"
+                    [value]="proba"
+                    matTooltip="{{proba.name}}"
                     matTooltipClass="large"
-                    (click)="areProbakOpen = !areProbakOpen"
                 >
-                    <img class="proba-image" [src]="orsiFoglalkozas.proba.imageUri" />
-                </button>
+                    <img class="proba-image" [src]="proba.imageUri" />
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </ng-template>
 
-                <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="probaTrigger"
-                    [cdkConnectedOverlayOpen]="areProbakOpen">
-                    <mat-button-toggle-group (change)="changeProba($event.value)">
-                        <mat-button-toggle *ngFor="let proba of probak"
-                            [value]="proba"
-                            matTooltip="{{proba.name}}"
-                            matTooltipClass="large"
-                        >
-                            <img class="proba-image" [src]="proba.imageUri" />
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                </ng-template>
+        <button mat-button
+            cdkOverlayOrigin
+            #temaTrigger="cdkOverlayOrigin"
+            matTooltip="{{orsiFoglalkozas.tema.name}}"
+            matTooltipClass="large"
+            class="tema-emoji"
+            (click)="areTemakOpen = !areTemakOpen"
+        >
+            {{orsiFoglalkozas.tema.emoji}}
+        </button>
 
-                <button mat-button
-                    cdkOverlayOrigin
-                    #temaTrigger="cdkOverlayOrigin"
-                    matTooltip="{{orsiFoglalkozas.tema.name}}"
+        <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="temaTrigger"
+            [cdkConnectedOverlayOpen]="areTemakOpen">
+            <mat-button-toggle-group (change)="changeTema($event.value)">
+                <mat-button-toggle *ngFor="let tema of temak"
+                    [value]="tema"
+                    matTooltip="{{tema.name}}"
                     matTooltipClass="large"
                     class="tema-emoji"
-                    (click)="areTemakOpen = !areTemakOpen"
                 >
-                    {{orsiFoglalkozas.tema.emoji}}
-                </button>
-
-                <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="temaTrigger"
-                    [cdkConnectedOverlayOpen]="areTemakOpen">
-                    <mat-button-toggle-group (change)="changeTema($event.value)">
-                        <mat-button-toggle *ngFor="let tema of temak"
-                            [value]="tema"
-                            matTooltip="{{tema.name}}"
-                            matTooltipClass="large"
-                            class="tema-emoji"
-                        >
-                            {{tema.emoji}}
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                </ng-template>
-            </div>
-            <div class="alproba">
-                <mat-form-field appearance="fill">
-                    <mat-label>Alpróba</mat-label>
-                    <mat-select
-                        [disabled]="alprobak.length == 1"
-                        [value]="orsiFoglalkozas.alproba"
-                        (selectionChange)="changeAlproba($event.value)"
-                    >
-                        <mat-option *ngFor="let alproba of alprobak"
-                            [value]="alproba"
-                        >
-                            {{alproba.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </section>
-        <section>
-            <mat-selection-list (selectionChange)="changePontok($event.options)">
-                <mat-list-option *ngFor="let pontSelection of orsiFoglalkozas.pontSelection | keyvalue"
-                    [selected]="pontSelection.value"
-                    [value]="pontSelection.key"
+                    {{tema.emoji}}
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </ng-template>
+    </div>
+    <div class="alproba">
+        <mat-form-field appearance="fill">
+            <mat-label>Alpróba</mat-label>
+            <mat-select
+                [disabled]="alprobak.length == 1"
+                [value]="orsiFoglalkozas.alproba"
+                (selectionChange)="changeAlproba($event.value)"
+            >
+                <mat-option *ngFor="let alproba of alprobak"
+                    [value]="alproba"
                 >
-                    {{pontSelection.key.name}}
-                </mat-list-option>
-            </mat-selection-list>
-        </section>
-        <section class="editor-section">
-            <app-editor-wrapper
-                [editable$]="editable$"
-                [(leiras)]="orsiFoglalkozas.leiras"
-            ></app-editor-wrapper>
-        </section>
-    </mat-card-content>
-</mat-card>
+                    {{alproba.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</section>
+<section>
+    <mat-selection-list (selectionChange)="changePontok($event.options)">
+        <mat-list-option *ngFor="let pontSelection of orsiFoglalkozas.pontSelection | keyvalue"
+            [selected]="pontSelection.value"
+            [value]="pontSelection.key"
+        >
+            {{pontSelection.key.name}}
+        </mat-list-option>
+    </mat-selection-list>
+</section>
+<section class="editor-section">
+    <app-editor-wrapper
+        [editable$]="editable$"
+        [(leiras)]="orsiFoglalkozas.leiras"
+    ></app-editor-wrapper>
+</section>

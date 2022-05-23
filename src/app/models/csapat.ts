@@ -8,6 +8,7 @@ export enum Rang {
 export class Szemszog {
 
     constructor(
+        public readonly csapat: Csapat,
         public readonly csoport: Csoport,
     ) {
     }
@@ -40,13 +41,17 @@ export enum CsoportType {
     Ors,
 }
 
-export class Csoport {
+export abstract class Csoport {
 
     constructor(
         public readonly type: CsoportType,
         public readonly name: string,
         public readonly emoji: string,
     ) {
+    }
+
+    contains(csoport: Csoport): boolean {
+        return this === csoport
     }
 }
 
@@ -62,6 +67,10 @@ export class Csapat extends Csoport {
         super(CsoportType.Csapat, name, emoji)
         this.logoUri = `assets/csapatok/${name}.png`
     }
+
+    override contains(csoport: Csoport): boolean {
+        return super.contains(csoport) || this.rajok.some(raj => raj.contains(csoport))
+    }
 }
 
 export class Raj extends Csoport {
@@ -73,6 +82,10 @@ export class Raj extends Csoport {
         public readonly orsok: Ors[] = [],
     ) {
         super(CsoportType.Raj, name, emoji)
+    }
+
+    override contains(csoport: Csoport): boolean {
+        return super.contains(csoport) || this.orsok.some(ors => ors.contains(csoport))
     }
 }
 

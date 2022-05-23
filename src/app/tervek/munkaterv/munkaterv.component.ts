@@ -12,10 +12,7 @@ import { CsapatTerv, Foglalkozas, Munkaterv } from 'src/app/models/foglalkozas'
     templateUrl: './munkaterv.component.html',
     styleUrls: ['./munkaterv.component.scss'],
     providers: [
-        {
-            provide: SZEMSZOG,
-            useFactory: () => new ReplaySubject<Szemszog>(1)
-        },
+        { provide: SZEMSZOG, useFactory: () => new ReplaySubject<Szemszog>(1) },
     ],
 })
 export class MunkatervComponent {
@@ -42,7 +39,7 @@ export class MunkatervComponent {
     }
 
     changeSzemszogToCsapat() {
-        this.szemszog$.next(new Szemszog(this.csapat))
+        this.szemszog$.next(new Szemszog(this.csapat, this.csapat))
     }
 
     computeStartTime(foglalkozas: Foglalkozas): Date {

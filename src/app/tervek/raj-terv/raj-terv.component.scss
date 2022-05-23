@@ -1,11 +1,6 @@
 @import "../../../colors";
 
-.foglalkozas-card {
-    border-radius: 20px;
-    background: $raj-terv-background;
-}
-
-.foglalkozas-card-content {
+:host {
     text-align: left;
     display: flex;
 }

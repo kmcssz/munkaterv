@@ -36,7 +36,8 @@ import { SzemszogSelectionComponent } from './szemszog-selection/szemszog-select
 import { AsPipe } from './as-pipe';
 import { TervComponent } from './tervek/terv/terv.component';
 import { MunkatervComponent } from './tervek/munkaterv/munkaterv.component';
-import { OrsiTervComponent } from './tervek/orsi-terv/orsi-terv.component'
+import { OrsiTervComponent } from './tervek/orsi-terv/orsi-terv.component';
+import { ConcurrentTervekComponent } from './foglalkozasok/concurrent-tervek/concurrent-tervek.component'
 
 @NgModule({
     declarations: [
@@ -56,6 +57,7 @@ import { OrsiTervComponent } from './tervek/orsi-terv/orsi-terv.component'
         TervComponent,
         MunkatervComponent,
         OrsiTervComponent,
+        ConcurrentTervekComponent,
     ],
     imports: [
         AngularEditorModule,

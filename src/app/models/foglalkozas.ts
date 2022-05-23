@@ -1,6 +1,7 @@
 import { Alprobak, Cserkeszek, Probak, Temak } from "./rendszer"
 import { Pont } from "./proba"
 import { dayInMillis } from "../date-adaptor"
+import { Csoport } from "./csapat"
 
 export class Esemeny {
 
@@ -20,6 +21,7 @@ export class Munkaterv extends Esemeny {
     }
 }
 
+
 export enum FoglalkozasType {
     CsapatTerv,
     RajTerv,
@@ -27,9 +29,10 @@ export enum FoglalkozasType {
     CsapatFoglalkozas,
     RajFoglalkozas,
     OrsiFoglalkozas,
+    ConcurrentTervek
 }
 
-export class Foglalkozas {
+export abstract class Foglalkozas {
 
     constructor(
         public readonly type: FoglalkozasType,
@@ -45,54 +48,6 @@ export class CsapatFoglalkozas extends Foglalkozas {
         duration = 15,
     ) {
         super(FoglalkozasType.CsapatFoglalkozas, duration)
-    }
-}
-
-export abstract class Terv extends Foglalkozas {
-
-    constructor(
-        type: FoglalkozasType,
-        duration: number,
-        public foglalkozasok: Foglalkozas[],
-    ) {
-        super(type, duration)
-    }
-
-    computeRemainingDuration(): number {
-        let totalDuration = 0
-        this.foglalkozasok.forEach(foglalkozas => {
-            totalDuration += foglalkozas.duration
-        })
-        return this.duration - totalDuration
-    }
-}
-
-export class CsapatTerv extends Terv {
-
-    constructor(
-        foglalkozasok: Foglalkozas[] = [],
-    ) {
-        super(FoglalkozasType.CsapatTerv, dayInMillis, foglalkozasok)
-    }
-}
-
-export class RajTerv extends Terv {
-
-    constructor(
-        duration = 90,
-        foglalkozasok: Foglalkozas[] = [],
-    ) {
-        super(FoglalkozasType.RajTerv, duration, foglalkozasok)
-    }
-}
-
-export class OrsiTerv extends Terv {
-
-    constructor(
-        duration = 90,
-        foglalkozasok: Foglalkozas[] = [],
-    ) {
-        super(FoglalkozasType.OrsiTerv, duration, foglalkozasok)
     }
 }
 
@@ -125,5 +80,67 @@ export class OrsiFoglalkozas extends Foglalkozas {
     setPontok(pontok: Pont[]) {
         this.pontSelection.clear()
         pontok.forEach((pont) => this.pontSelection.set(pont, false))
+    }
+}
+
+export class ConcurrentTervek extends Foglalkozas {
+
+    constructor(
+        duration: number,
+        public tervek: Map<Csoport, Terv>
+    ) {
+        super(FoglalkozasType.ConcurrentTervek, duration)
+
+        // Propagate the duration to all tervek
+        tervek.forEach(terv => terv.duration = duration)
+    }
+}
+
+export abstract class Terv extends Foglalkozas {
+
+    constructor(
+        type: FoglalkozasType,
+        duration: number,
+        public foglalkozasok: Foglalkozas[],
+    ) {
+        super(type, duration)
+    }
+
+    computeRemainingDuration(): number {
+        let totalDuration = 0
+        this.foglalkozasok.forEach(foglalkozas => {
+            totalDuration += foglalkozas.duration
+        })
+        return this.duration - totalDuration
+    }
+}
+
+export class CsapatTerv extends Terv {
+
+    constructor(
+        duration = dayInMillis,
+        foglalkozasok: Foglalkozas[] = [],
+    ) {
+        super(FoglalkozasType.CsapatTerv, duration, foglalkozasok)
+    }
+}
+
+export class RajTerv extends Terv {
+
+    constructor(
+        duration = 90,
+        foglalkozasok: Foglalkozas[] = [],
+    ) {
+        super(FoglalkozasType.RajTerv, duration, foglalkozasok)
+    }
+}
+
+export class OrsiTerv extends Terv {
+
+    constructor(
+        duration = 90,
+        foglalkozasok: Foglalkozas[] = [],
+    ) {
+        super(FoglalkozasType.OrsiTerv, duration, foglalkozasok)
     }
 }

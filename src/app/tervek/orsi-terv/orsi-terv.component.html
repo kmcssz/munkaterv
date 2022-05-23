@@ -5,7 +5,7 @@
                 <input
                     matInput type="number"
                     [(ngModel)]="orsiTerv.duration"
-                    [readonly]="!(editable$ | async)"
+                    [readonly]="!(editableDuration$ | async)"
                 />
                 <mat-hint [align]="'start'">perc</mat-hint>
             </mat-form-field>
@@ -20,7 +20,7 @@
             <div *ngIf="orsiTerv.computeRemainingDuration() > 0"
                 class="add-new-foglalkozas-buttons"
             >
-                <button mat-fab *ngIf="editable$ | async"
+                <button mat-fab *ngIf="editableAdding$ | async"
                     class="add-new-foglalkozas-button"
                     color="bronze"
                     matTooltip="Új őrsi foglalkozás"

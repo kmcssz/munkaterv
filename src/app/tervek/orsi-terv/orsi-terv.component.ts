@@ -14,12 +14,14 @@ export class OrsiTervComponent {
     @Input() start!: Date
     @Input() orsiTerv!: OrsiTerv
 
-    editable$: Observable<boolean>
+    editableDuration$: Observable<boolean>
+    editableAdding$: Observable<boolean>
 
     constructor(
         @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
     ) {
-        this.editable$ = szemszog$.pipe(map(szSz => isRajSzemszog(szSz) || isOrsSzemszog(szSz)))
+        this.editableDuration$ = szemszog$.pipe(map(isRajSzemszog))
+        this.editableAdding$ = szemszog$.pipe(map(szSz => isRajSzemszog(szSz) || isOrsSzemszog(szSz)))
     }
 
     addOrsiFoglalkozas() {

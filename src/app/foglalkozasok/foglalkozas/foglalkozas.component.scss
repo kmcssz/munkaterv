@@ -1,8 +1,41 @@
+@import "../../../colors";
 
-.foglalkozas {
-    display: flex;
+:host {
+    width: 100%;
 }
 
-.foglalkozas div {
+.foglalkozas-card {
+    border-radius: 20px;
+}
+
+.foglalkozas-card-content {
     width: 100%;
+}
+
+.foglalkozas-card-content div {
+    width: 100%;
+}
+
+.csapat-foglalkozas {
+    background: $csapat-foglalkozas-background;
+}
+
+.raj-foglalkozas {
+    background: $raj-foglalkozas-background;
+}
+
+.orsi-foglalkozas {
+    background: $orsi-foglalkozas-background;
+}
+
+.csapat-terv {
+    background: $csapat-terv-background;
+}
+
+.raj-terv {
+    background: $raj-terv-background;
+}
+
+.orsi-terv {
+    background: $orsi-terv-background;
 }

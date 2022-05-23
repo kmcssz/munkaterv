@@ -1,4 +1,4 @@
-<div class="foglalkozas">
+<ng-template #foglalkozasContent>
     <div *ngIf="csapatTerv">
         <app-csapat-terv
             [start]="start"
@@ -17,6 +17,12 @@
             [orsiTerv]="orsiTerv"
         ></app-orsi-terv>
     </div>
+    <div *ngIf="concurrentTervek">
+        <app-concurrent-tervek
+            [start]="start"
+            [concurrentTervek]="concurrentTervek"
+        ></app-concurrent-tervek>
+    </div>
     <div *ngIf="csapatFoglalkozas">
         <app-csapat-foglalkozas
             [csapatFoglalkozas]="csapatFoglalkozas"
@@ -32,4 +38,12 @@
             [orsiFoglalkozas]="orsiFoglalkozas"
         ></app-orsi-foglalkozas>
     </div>
-</div>
+</ng-template>
+
+<ng-container *ngIf="wrapInCard; else foglalkozasContent">
+    <mat-card [ngClass]="foglalkozasCssStyle ?? ''" class="foglalkozas-card">
+        <mat-card-content class="foglalkozas-card-content">
+            <ng-container *ngTemplateOutlet="foglalkozasContent"></ng-container>
+        </mat-card-content>
+    </mat-card>
+</ng-container>

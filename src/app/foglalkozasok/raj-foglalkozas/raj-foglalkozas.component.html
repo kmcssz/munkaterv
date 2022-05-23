@@ -1,21 +1,17 @@
-<mat-card class="foglalkozas-card">
-    <mat-card-content class="foglalkozas-card-content">
-        <section class="time">
-            <mat-form-field class="duration">
-                <input
-                    matInput type="number"
-                    [(ngModel)]="rajFoglalkozas.duration"
-                    [readonly]="!(editable$ | async)"
-                />
-                <mat-hint [align]="'start'">perc</mat-hint>
-            </mat-form-field>
-        </section>
+<section class="time">
+    <mat-form-field class="duration">
+        <input
+            matInput type="number"
+            [(ngModel)]="rajFoglalkozas.duration"
+            [readonly]="!(editable$ | async)"
+        />
+        <mat-hint [align]="'start'">perc</mat-hint>
+    </mat-form-field>
+</section>
 
-        <section class="editor-section">
-            <app-editor-wrapper
-                [editable$]="editable$"
-                [(leiras)]="rajFoglalkozas.leiras"
-            ></app-editor-wrapper>
-        </section>
-    </mat-card-content>
-</mat-card>
+<section class="editor-section">
+    <app-editor-wrapper
+        [editable$]="editable$"
+        [(leiras)]="rajFoglalkozas.leiras"
+    ></app-editor-wrapper>
+</section>
