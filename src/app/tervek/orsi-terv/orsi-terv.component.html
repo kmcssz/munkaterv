@@ -1,36 +1,18 @@
-<mat-card class="foglalkozas-card">
-    <mat-card-content class="foglalkozas-card-content">
-        <section class="duration-section">
-            <mat-form-field class="duration">
-                <input
-                    matInput type="number"
-                    [(ngModel)]="orsiTerv.duration"
-                    [readonly]="!(editableDuration$ | async)"
-                />
-                <mat-hint [align]="'start'">perc</mat-hint>
-            </mat-form-field>
-        </section>
+<app-terv
+    [start]="start"
+    [terv]="orsiTerv"
+></app-terv>
 
-        <section class="terv-section">
-            <app-terv
-                [start]="start"
-                [terv]="orsiTerv"
-            ></app-terv>
-
-            <div *ngIf="orsiTerv.computeRemainingDuration() > 0"
-                class="add-new-foglalkozas-buttons"
-            >
-                <button mat-fab *ngIf="editableAdding$ | async"
-                    class="add-new-foglalkozas-button"
-                    color="bronze"
-                    matTooltip="Új őrsi foglalkozás"
-                    matTooltipClass="large"
-                    (click)="addOrsiFoglalkozas()"
-                >
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div>
-        </section>
-
-    </mat-card-content>
-</mat-card>
+<div *ngIf="orsiTerv.computeRemainingDuration() > 0"
+    class="add-new-foglalkozas-buttons"
+>
+    <button mat-fab *ngIf="editableAdding$ | async"
+        class="add-new-foglalkozas-button"
+        color="bronze"
+        matTooltip="Új őrsi foglalkozás"
+        matTooltipClass="large"
+        (click)="addOrsiFoglalkozas()"
+    >
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

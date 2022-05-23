@@ -35,6 +35,7 @@ export class CsapatTervComponent {
 
     addCsapatFoglalkozas() {
         this.csapatTerv.foglalkozasok.push(new CsapatFoglalkozas())
+        console.log(this.csapatTerv)
     }
 
     addRajFoglalkozas() {

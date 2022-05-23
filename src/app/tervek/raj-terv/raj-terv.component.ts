@@ -1,9 +1,11 @@
 import { Component, Inject, Input } from '@angular/core'
-import { map, Observable } from 'rxjs'
+import { filter, map, Observable } from 'rxjs'
 import { SZEMSZOG } from '../../injection-tokens'
-import { isCsapatSzemszog, isRajSzemszog, Szemszog } from '../../models/csapat'
-import { Foglalkozas, FoglalkozasType, OrsiFoglalkozas, OrsiTerv, RajFoglalkozas, RajTerv } from '../../models/foglalkozas'
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
+import { isCsapatSzemszog, isRajSzemszog, Ors, Raj, Szemszog } from '../../models/csapat'
+import { ConcurrentTervek, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, OrsiTerv, RajFoglalkozas, RajTerv } from '../../models/foglalkozas'
 
+@UntilDestroy()
 @Component({
     selector: 'app-raj-terv',
     templateUrl: './raj-terv.component.html',
@@ -16,6 +18,7 @@ export class RajTervComponent {
 
     editableTime$: Observable<boolean>
     editableContent$: Observable<boolean>
+    raj?: Raj
 
     FoglalkozasType = FoglalkozasType
     RajFoglalkozas = RajFoglalkozas
@@ -26,6 +29,11 @@ export class RajTervComponent {
     ) {
         this.editableTime$ = szemszog$.pipe(map(isCsapatSzemszog))
         this.editableContent$ = szemszog$.pipe(map(isRajSzemszog))
+
+        szemszog$.pipe(
+            filter(isRajSzemszog),
+            untilDestroyed(this)
+        ).subscribe(szSz => this.raj = szSz.csoport as Raj)
     }
 
     private addFoglalkozas(foglalkozas: Foglalkozas) {
@@ -38,6 +46,8 @@ export class RajTervComponent {
     }
 
     addOrsiTerv() {
-        this.addFoglalkozas(new OrsiTerv())
+        const orsiTervek = new Map<Ors, OrsiTerv>()
+        this.raj?.orsok.forEach(ors => orsiTervek.set(ors, new OrsiTerv()))
+        this.addFoglalkozas(new ConcurrentTervek(60, orsiTervek))
     }
 }

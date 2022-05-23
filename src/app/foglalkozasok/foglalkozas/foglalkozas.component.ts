@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { Csoport } from 'src/app/models/csapat'
 import { ConcurrentTervek, CsapatFoglalkozas, CsapatTerv, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, OrsiTerv, RajFoglalkozas, RajTerv } from '../../models/foglalkozas'
 
@@ -7,7 +7,7 @@ import { ConcurrentTervek, CsapatFoglalkozas, CsapatTerv, Foglalkozas, Foglalkoz
     templateUrl: './foglalkozas.component.html',
     styleUrls: ['./foglalkozas.component.scss']
 })
-export class FoglalkozasComponent implements OnInit {
+export class FoglalkozasComponent implements OnChanges {
 
     @Input() start!: Date
     @Input() foglalkozas!: Foglalkozas
@@ -35,7 +35,8 @@ export class FoglalkozasComponent implements OnInit {
 
     wrapInCard!: boolean
 
-    ngOnInit(): void {
+    ngOnChanges(_: SimpleChanges): void {
+
         this.foglalkozasCssStyle = this.foglalkozasTypeToCssStyle.get(this.foglalkozas.type)
 
         switch(this.foglalkozas.type) {
@@ -45,7 +46,7 @@ export class FoglalkozasComponent implements OnInit {
                 break;
             case FoglalkozasType.RajTerv:
                 this.rajTerv = this.foglalkozas as RajTerv
-                this.wrapInCard = true
+                this.wrapInCard = false
                 break;
             case FoglalkozasType.OrsiTerv:
                 this.orsiTerv = this.foglalkozas as OrsiTerv
@@ -55,7 +56,7 @@ export class FoglalkozasComponent implements OnInit {
                 this.concurrentTervek = this.foglalkozas as ConcurrentTervek
                 const firstFoglalkozas = this.concurrentTervek.tervek.values().next().value as Foglalkozas
                 this.foglalkozasCssStyle = this.foglalkozasTypeToCssStyle.get(firstFoglalkozas.type)
-                this.wrapInCard = false
+                this.wrapInCard = true
                 break;
             case FoglalkozasType.CsapatFoglalkozas:
                 this.csapatFoglalkozas = this.foglalkozas as CsapatFoglalkozas

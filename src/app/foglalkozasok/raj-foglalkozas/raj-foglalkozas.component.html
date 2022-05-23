@@ -1,17 +1,4 @@
-<section class="time">
-    <mat-form-field class="duration">
-        <input
-            matInput type="number"
-            [(ngModel)]="rajFoglalkozas.duration"
-            [readonly]="!(editable$ | async)"
-        />
-        <mat-hint [align]="'start'">perc</mat-hint>
-    </mat-form-field>
-</section>
-
-<section class="editor-section">
-    <app-editor-wrapper
-        [editable$]="editable$"
-        [(leiras)]="rajFoglalkozas.leiras"
-    ></app-editor-wrapper>
-</section>
+<app-editor-wrapper
+    [editable$]="editable$"
+    [(leiras)]="rajFoglalkozas.leiras"
+></app-editor-wrapper>

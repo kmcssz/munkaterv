@@ -4,8 +4,6 @@
             [start]="start"
             [foglalkozas]="concurrentTervek.tervek.get(selectedCsoport)!"
         ></app-foglalkozas>
-        {{selectedCsoport.name}}
-        {{concurrentTervek.tervek.get(selectedCsoport)?.duration}}
     </div>
     <ng-template #unselected>
         <div *ngFor="let csoport of csoportok">

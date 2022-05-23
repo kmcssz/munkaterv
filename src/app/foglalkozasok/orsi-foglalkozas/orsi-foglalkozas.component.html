@@ -1,9 +1,3 @@
-<section class="time">
-    <mat-form-field class="duration">
-        <input matInput type="number" [(ngModel)]="orsiFoglalkozas.duration" />
-        <mat-hint [align]="'start'">perc</mat-hint>
-    </mat-form-field>
-</section>
 <section>
     <div>
         <mat-slider #ageSlider (change)="changeAge($event.value ?? 10)" thumbLabel tickInterval="1" step="1"

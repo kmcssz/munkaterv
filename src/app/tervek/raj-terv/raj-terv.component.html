@@ -1,41 +1,28 @@
-<section class="duration-section">
-    <mat-form-field class="duration">
-        <input
-            matInput type="number"
-            [(ngModel)]="rajTerv.duration"
-            [readonly]="!(editableTime$ | async)"
-        />
-        <mat-hint [align]="'start'">perc</mat-hint>
-    </mat-form-field>
-</section>
+<app-terv
+    [start]="start"
+    [terv]="rajTerv"
+></app-terv>
 
-<section class="terv-section">
-    <app-terv
-        [start]="start"
-        [terv]="rajTerv"
-    ></app-terv>
-
-    <div *ngIf="rajTerv.computeRemainingDuration() > 0"
-        class="add-new-foglalkozas-buttons"
+<div *ngIf="rajTerv.computeRemainingDuration() > 0"
+    class="add-new-foglalkozas-buttons"
+>
+    <button mat-fab *ngIf="editableContent$ | async"
+        class="add-new-foglalkozas-button"
+        color="silver"
+        matTooltip="Új raj foglalkozás"
+        matTooltipClass="large"
+        (click)="addRajFoglalkozas()"
     >
-        <button mat-fab *ngIf="editableContent$ | async"
-            class="add-new-foglalkozas-button"
-            color="silver"
-            matTooltip="Új raj foglalkozás"
-            matTooltipClass="large"
-            (click)="addRajFoglalkozas()"
-        >
-            <mat-icon>add</mat-icon>
-        </button>
+        <mat-icon>add</mat-icon>
+    </button>
 
-        <button mat-fab *ngIf="editableContent$ | async"
-            class="add-new-foglalkozas-button"
-            color="bronze"
-            matTooltip="Új őrsi foglalkozás"
-            matTooltipClass="large"
-            (click)="addOrsiTerv()"
-        >
-            <mat-icon>add</mat-icon>
-        </button>
-    </div>
-</section>
+    <button mat-fab *ngIf="editableContent$ | async"
+        class="add-new-foglalkozas-button"
+        color="bronze"
+        matTooltip="Új őrsi foglalkozás"
+        matTooltipClass="large"
+        (click)="addOrsiTerv()"
+    >
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

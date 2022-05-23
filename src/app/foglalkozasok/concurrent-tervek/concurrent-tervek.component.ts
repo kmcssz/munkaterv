@@ -26,8 +26,7 @@ export class ConcurrentTervekComponent implements OnInit {
         this.csoportok = Array.from(this.concurrentTervek.tervek.keys())
         this.selectedCsoport$ = this.szemszog$.pipe(
             map(szSz => {
-                const csoportok = Array.from(this.concurrentTervek.tervek.keys())
-                return csoportok.find(terv => terv.contains(szSz.csoport))
+                return this.csoportok.find(terv => terv.contains(szSz.csoport))
             })
         )
     }

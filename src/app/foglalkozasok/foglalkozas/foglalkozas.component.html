@@ -43,7 +43,20 @@
 <ng-container *ngIf="wrapInCard; else foglalkozasContent">
     <mat-card [ngClass]="foglalkozasCssStyle ?? ''" class="foglalkozas-card">
         <mat-card-content class="foglalkozas-card-content">
-            <ng-container *ngTemplateOutlet="foglalkozasContent"></ng-container>
+            <section class="duration-section">
+                <mat-form-field class="duration">
+                    <input
+                        matInput type="number"
+                        [(ngModel)]="foglalkozas.duration"
+
+                    />
+                    <mat-hint [align]="'start'">perc</mat-hint>
+                </mat-form-field>
+            </section>
+
+            <section class="terv-section">
+                <ng-container *ngTemplateOutlet="foglalkozasContent"></ng-container>
+            </section>
         </mat-card-content>
     </mat-card>
 </ng-container>
