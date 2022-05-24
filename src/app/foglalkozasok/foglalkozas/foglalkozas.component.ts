@@ -1,6 +1,19 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
-import { Csoport } from 'src/app/models/csapat'
+import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { map, Observable, Subject, tap } from 'rxjs'
+import { SZEMSZOG } from 'src/app/injection-tokens'
+import { Csoport, CsoportType, isCsapatSzemszog, isOrsSzemszog, isRajSzemszog, Szemszog } from 'src/app/models/csapat'
 import { ConcurrentTervek, CsapatFoglalkozas, CsapatTerv, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, OrsiTerv, RajFoglalkozas, RajTerv } from '../../models/foglalkozas'
+
+const foglalkozasTypeToCssStyle = new Map<FoglalkozasType, string>(
+    [
+        [FoglalkozasType.CsapatTerv, 'csapat-terv'],
+        [FoglalkozasType.RajTerv, 'raj-terv'],
+        [FoglalkozasType.OrsiTerv, 'orsi-terv'],
+        [FoglalkozasType.CsapatFoglalkozas, 'csapat-foglalkozas'],
+        [FoglalkozasType.RajFoglalkozas, 'raj-foglalkozas'],
+        [FoglalkozasType.OrsiFoglalkozas, 'orsi-foglalkozas'],
+    ]
+)
 
 @Component({
     selector: 'app-foglalkozas',
@@ -20,25 +33,21 @@ export class FoglalkozasComponent implements OnChanges {
     rajFoglalkozas?: RajFoglalkozas
     orsiFoglalkozas?: OrsiFoglalkozas
 
-
     foglalkozasCssStyle?: string
-    foglalkozasTypeToCssStyle = new Map<FoglalkozasType, string>(
-        [
-            [FoglalkozasType.CsapatTerv, 'csapat-terv'],
-            [FoglalkozasType.RajTerv, 'raj-terv'],
-            [FoglalkozasType.OrsiTerv, 'orsi-terv'],
-            [FoglalkozasType.CsapatFoglalkozas, 'csapat-foglalkozas'],
-            [FoglalkozasType.RajFoglalkozas, 'raj-foglalkozas'],
-            [FoglalkozasType.OrsiFoglalkozas, 'orsi-foglalkozas'],
-        ]
-    )
-
     wrapInCard!: boolean
+    editableDuration$!: Observable<boolean>
+
+    constructor(
+        @Inject(SZEMSZOG) public szemszog$: Observable<Szemszog>,
+    ) {
+    }
 
     ngOnChanges(_: SimpleChanges): void {
 
-        this.foglalkozasCssStyle = this.foglalkozasTypeToCssStyle.get(this.foglalkozas.type)
-
+        this.foglalkozasCssStyle = foglalkozasTypeToCssStyle.get(this.foglalkozas.type)
+        this.editableDuration$ = this.szemszog$.pipe(
+            map(szSz => canEditDuration(szSz.csoport.type, this.foglalkozas.type)),
+        )
         switch(this.foglalkozas.type) {
             case FoglalkozasType.CsapatTerv:
                 this.csapatTerv = this.foglalkozas as CsapatTerv
@@ -55,8 +64,11 @@ export class FoglalkozasComponent implements OnChanges {
             case FoglalkozasType.ConcurrentTervek:
                 this.concurrentTervek = this.foglalkozas as ConcurrentTervek
                 const firstFoglalkozas = this.concurrentTervek.tervek.values().next().value as Foglalkozas
-                this.foglalkozasCssStyle = this.foglalkozasTypeToCssStyle.get(firstFoglalkozas.type)
+                this.foglalkozasCssStyle = foglalkozasTypeToCssStyle.get(firstFoglalkozas.type)
                 this.wrapInCard = true
+                this.editableDuration$ = this.szemszog$.pipe(
+                    map(szSz => canEditDuration(szSz.csoport.type, firstFoglalkozas.type)),
+                )
                 break;
             case FoglalkozasType.CsapatFoglalkozas:
                 this.csapatFoglalkozas = this.foglalkozas as CsapatFoglalkozas
@@ -75,4 +87,21 @@ export class FoglalkozasComponent implements OnChanges {
         }
     }
 
+}
+
+function canEditDuration(csoportType: CsoportType, foglalkozasType: FoglalkozasType): boolean {
+    return csoportType === CsoportType.Csapat && [
+            FoglalkozasType.CsapatTerv,
+            FoglalkozasType.CsapatFoglalkozas,
+            FoglalkozasType.RajTerv,
+        ].includes(foglalkozasType) ||
+
+        csoportType === CsoportType.Raj && [
+            FoglalkozasType.RajFoglalkozas,
+            FoglalkozasType.OrsiTerv,
+        ].includes(foglalkozasType) ||
+
+        csoportType === CsoportType.Ors && [
+            FoglalkozasType.OrsiFoglalkozas,
+        ].includes(foglalkozasType)
 }

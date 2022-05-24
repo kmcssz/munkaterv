@@ -1,9 +1,12 @@
-<div cdkDropList class="foglalkozasok" (cdkDropListDropped)="drop($event)">
-
+<div cdkDropList
+    class="foglalkozasok"
+    [cdkDropListDisabled]="!(draggable$ | async)"
+    (cdkDropListDropped)="drop($event)"
+>
     <div *ngFor="let foglalkozas of terv.foglalkozasok; let last = last">
 
         <div cdkDrag class="foglalkozas">
-            <div cdkDragHandle class="drag-handle">
+            <div *ngIf="draggable$ | async" cdkDragHandle class="drag-handle">
                 <mat-icon>drag_indicator</mat-icon>
             </div>
 

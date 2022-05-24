@@ -36,9 +36,9 @@ export enum Korosztaj {
 }
 
 export enum CsoportType {
-    Csapat,
-    Raj,
-    Ors,
+    Csapat = 'Csapat',
+    Raj = 'Raj',
+    Ors = 'Ors',
 }
 
 export abstract class Csoport {

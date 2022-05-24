@@ -48,7 +48,7 @@
                     <input
                         matInput type="number"
                         [(ngModel)]="foglalkozas.duration"
-
+                        [readonly]="!(editableDuration$ | async)"
                     />
                     <mat-hint [align]="'start'">perc</mat-hint>
                 </mat-form-field>

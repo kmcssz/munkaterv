@@ -1,7 +1,7 @@
 import { Alprobak, Cserkeszek, Probak, Temak } from "./rendszer"
 import { Pont } from "./proba"
 import { dayInMillis } from "../date-adaptor"
-import { Csoport } from "./csapat"
+import { Csoport, CsoportType } from "./csapat"
 
 export class Esemeny {
 
@@ -21,15 +21,14 @@ export class Munkaterv extends Esemeny {
     }
 }
 
-
 export enum FoglalkozasType {
-    CsapatTerv,
-    RajTerv,
-    OrsiTerv,
-    CsapatFoglalkozas,
-    RajFoglalkozas,
-    OrsiFoglalkozas,
-    ConcurrentTervek
+    CsapatTerv = 'CsapatTerv',
+    RajTerv = 'RajTerv',
+    OrsiTerv = 'OrsiTerv',
+    CsapatFoglalkozas = 'CsapatFoglalkozas',
+    RajFoglalkozas = 'RajFoglalkozas',
+    OrsiFoglalkozas = 'OrsiFoglalkozas',
+    ConcurrentTervek = 'ConcurrentTervek',
 }
 
 export abstract class Foglalkozas {
