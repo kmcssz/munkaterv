@@ -1,6 +1,11 @@
-<angular-editor
-    [id]="uuid"
-    [config]="editorConfig"
-    [ngModel]="leiras"
-    (ngModelChange)="changeLeiras($event.value)"
-></angular-editor>
+<mat-form-field>
+    <mat-label>Program</mat-label>
+    <textarea
+        matInput
+        cdkTextareaAutosize
+        #textArea="cdkTextareaAutosize"
+        [readonly]="!(editable$ | async)"
+        [(ngModel)]="leiras"
+        (ngModelChange)="leirasChange.next($event)"
+    ></textarea>
+</mat-form-field>
