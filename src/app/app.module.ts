@@ -17,7 +17,6 @@ import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
-import { AngularEditorModule } from '@kolkov/angular-editor'
 import { MatDialogModule } from '@angular/material/dialog'
 
 import { AppComponent } from './app.component'
@@ -64,7 +63,6 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore'
         ConcurrentTervekComponent,
     ],
     imports: [
-        AngularEditorModule,
         BrowserAnimationsModule,
         BrowserModule,
         DragDropModule,
