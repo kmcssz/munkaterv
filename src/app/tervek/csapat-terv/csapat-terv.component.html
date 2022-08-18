@@ -14,13 +14,15 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<button *ngIf="editable$ | async"
-    mat-fab
-    class="add-new-foglalkozas-button"
-    color="silver"
-    matTooltip="Új raj foglalkozás"
-    matTooltipClass="large"
-    (click)="addRajFoglalkozas()"
->
-    <mat-icon>add</mat-icon>
-</button>
+<ng-container *ngIf="csapat$ | async as csapat">
+    <button *ngIf="editable$ | async"
+        mat-fab
+        class="add-new-foglalkozas-button"
+        color="silver"
+        matTooltip="Új raj foglalkozás"
+        matTooltipClass="large"
+        (click)="addRajFoglalkozas(csapat)"
+    >
+        <mat-icon>add</mat-icon>
+    </button>
+</ng-container>

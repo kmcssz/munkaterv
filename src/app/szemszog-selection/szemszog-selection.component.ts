@@ -1,11 +1,9 @@
 import { AfterViewInit, Component, Inject, Input, ViewChild } from '@angular/core'
 import { MatButtonToggleGroup } from '@angular/material/button-toggle'
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { filter, Subject } from 'rxjs'
 import { SZEMSZOG } from '../injection-tokens'
 import { Csapat, Csoport, CsoportType, Szemszog } from '../models/csapat'
 
-@UntilDestroy()
 @Component({
     selector: 'app-szemszog-selection',
     templateUrl: './szemszog-selection.component.html',
@@ -24,7 +22,7 @@ export class SzemszogSelectionComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.szemszog$.pipe(
             filter(szemszog => szemszog.csoport.type === CsoportType.Csapat),
-            untilDestroyed(this)
+            //TODO: Should take until destroyed!
         ).subscribe(() => this.buttonGroup.value = undefined)
     }
 
