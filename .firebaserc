@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "munkaterv-f84f0"
+  },
+  "targets": {
+    "munkaterv-f84f0": {
+      "hosting": {
+        "munkaterv": [
+          "munkaterv-f84f0"
+        ]
+      }
+    }
+  }
+}

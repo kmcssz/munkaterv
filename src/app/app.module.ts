@@ -37,7 +37,11 @@ import { AsPipe } from './as-pipe';
 import { TervComponent } from './tervek/terv/terv.component';
 import { MunkatervComponent } from './tervek/munkaterv/munkaterv.component';
 import { OrsiTervComponent } from './tervek/orsi-terv/orsi-terv.component';
-import { ConcurrentTervekComponent } from './foglalkozasok/concurrent-tervek/concurrent-tervek.component'
+import { ConcurrentTervekComponent } from './foglalkozasok/concurrent-tervek/concurrent-tervek.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore'
 
 @NgModule({
     declarations: [
@@ -81,6 +85,9 @@ import { ConcurrentTervekComponent } from './foglalkozasok/concurrent-tervek/con
         OverlayModule,
         AppRoutingModule,
         MatDialogModule,
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideAuth(() => getAuth()),
+        provideFirestore(() => getFirestore()),
     ],
     providers: [
         { provide: DateAdapter, useClass: MagyarDateAdapter },

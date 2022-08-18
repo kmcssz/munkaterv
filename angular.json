@@ -106,6 +106,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "munkaterv:build:production",
+            "firebaseProject": "munkaterv-f84f0",
+            "firebaseHostingSite": "munkaterv-f84f0"
+          }
         }
       }
     }
