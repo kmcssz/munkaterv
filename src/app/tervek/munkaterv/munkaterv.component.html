@@ -19,12 +19,12 @@
 
     <app-szemszog-selection class="szemszog" [csapat]="csapat"></app-szemszog-selection>
 
-    <div class="date">{{formatHungarianDate(munkaterv.start)}}</div>
-    <div class="start">{{formatHungarianTime(munkaterv.start)}}</div>
+    <div class="date">{{formatHungarianDate(start)}}</div>
+    <div class="start">{{formatHungarianTime(start)}}</div>
 
     <app-foglalkozas
-        [start]="munkaterv.start"
-        [foglalkozas]="munkaterv.csapatTerv"
+        [start]="start"
+        [foglalkozas]="csapatTerv"
     ></app-foglalkozas>
 
     <div class="time">{{computeOszoljTime()}}</div>

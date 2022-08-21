@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { ActivatedRoute } from '@angular/router'
-import { CSAPATOK } from '../models/beosztas'
 import { Csapat } from '../models/csapat'
-import { CsapatTerv, Esemeny, Munkaterv } from '../models/foglalkozas'
 import { formatHungarianDateTime } from '../date-adaptor'
-import dateFormat, { masks } from 'dateformat'
+import dateFormat from 'dateformat'
+import { CsoportService } from '../csoport.service'
+import { createTerv, FoglalkozasType, Munkaterv } from '../models/foglalkozas'
+import { FoglalkozasService } from '../foglalkozas.service'
 
 export interface NewMunkatervDialogData {
     date: Date
@@ -20,24 +20,23 @@ export interface NewMunkatervDialogData {
 export class CsapatNaptarComponent implements OnInit {
 
     csapat!: Csapat
-    esemenyek: Esemeny[] = []
-    formatHungarianDateTime = formatHungarianDateTime
+    munkatervek: Munkaterv[] = []
 
     constructor(
-        private route: ActivatedRoute,
+        private fogSor: FoglalkozasService,
+        private csopSor: CsoportService,
         public dialog: MatDialog,
     ) {
     }
 
     ngOnInit(): void {
-        const name = this.route.snapshot.paramMap.get('name')!
-        this.csapat = CSAPATOK.find((csapat) => csapat.name == name)!
+        this.csapat = this.csopSor.getCsapat()
     }
 
     addNewMunkaterv(): void {
         const sevenDaysMillies = 604800000
-        const nextDate = this.esemenyek.length > 0
-            ? new Date(this.esemenyek[0].start.getTime() + sevenDaysMillies)
+        const nextDate = this.munkatervek.length > 0
+            ? new Date(this.munkatervek[0].start + sevenDaysMillies)
             : new Date() // Today :)
 
         const dialogData: NewMunkatervDialogData = {
@@ -53,13 +52,20 @@ export class CsapatNaptarComponent implements OnInit {
                 parseInt(splitTime[0]),
                 parseInt(splitTime[1]),
             )
-            this.esemenyek.push(new Esemeny(selectedDateTime))
-            this.esemenyek.sort((mtA, mtB) => mtB.start.getTime() - mtA.start.getTime())
+            this.munkatervek.push({
+                start: selectedDateTime.getTime(),
+                csapatTerv: this.fogSor.putFoglalkozas(createTerv(FoglalkozasType.CsapatTerv, this.csapat.name)),
+            })
+            this.munkatervek.sort((mtA, mtB) => mtB.start - mtA.start)
         });
     }
 
-    getLink(esemeny: Esemeny): string {
-        return `/csapat/${this.csapat.name}/munkaterv/${esemeny.start.getTime()}`
+    getLink(munkaterv: Munkaterv): string {
+        return `/csapat/${this.csapat.name}/munkaterv/${munkaterv.start}`
+    }
+
+    formatHungarianStartTime(start: number): string {
+        return formatHungarianDateTime(new Date(start))
     }
 }
 

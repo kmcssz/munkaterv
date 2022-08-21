@@ -2,7 +2,7 @@
     <div *ngIf="selectedCsoport$ | async as selectedCsoport; else unselected">
         <app-foglalkozas
             [start]="start"
-            [foglalkozas]="concurrentTervek.tervek.get(selectedCsoport)!"
+            [foglalkozas]="getFoglalkozas(selectedCsoport)"
         ></app-foglalkozas>
     </div>
     <ng-template #unselected>

@@ -3,19 +3,19 @@
         <mat-slider #ageSlider (change)="changeAge($event.value ?? 10)" thumbLabel tickInterval="1" step="1"
             min="10" max="16">
         </mat-slider>
-        {{orsiFoglalkozas.cserkesz.name}}
+        {{orsiFoglalkozas.cserkesz}}
     </div>
     <div>
         <button
             mat-button
             cdkOverlayOrigin
             #probaTrigger="cdkOverlayOrigin"
-            [value]="orsiFoglalkozas.proba.name"
-            matTooltip="{{orsiFoglalkozas.proba.name}}"
+            [value]="orsiFoglalkozas.proba"
+            matTooltip="{{orsiFoglalkozas.proba}}"
             matTooltipClass="large"
             (click)="areProbakOpen = !areProbakOpen"
         >
-            <img class="proba-image" [src]="orsiFoglalkozas.proba.imageUri" />
+            <img class="proba-image" [src]="getProba().imageUri" />
         </button>
 
         <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="probaTrigger"
@@ -34,12 +34,12 @@
         <button mat-button
             cdkOverlayOrigin
             #temaTrigger="cdkOverlayOrigin"
-            matTooltip="{{orsiFoglalkozas.tema.name}}"
+            matTooltip="{{orsiFoglalkozas.tema}}"
             matTooltipClass="large"
             class="tema-emoji"
             (click)="areTemakOpen = !areTemakOpen"
         >
-            {{orsiFoglalkozas.tema.emoji}}
+            {{getTema().emoji}}
         </button>
 
         <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="temaTrigger"
@@ -75,7 +75,7 @@
 </section>
 <section>
     <mat-selection-list (selectionChange)="changePontok($event.options)">
-        <mat-list-option *ngFor="let pontSelection of orsiFoglalkozas.pontSelection | keyvalue"
+        <mat-list-option *ngFor="let pontSelection of pontSelection | keyvalue"
             [selected]="pontSelection.value"
             [value]="pontSelection.key"
         >
@@ -86,6 +86,6 @@
 <section class="editor-section">
     <app-editor-wrapper
         [editable$]="editable$"
-        [(leiras)]="orsiFoglalkozas.leiras"
+        [(leiras)]="orsiFoglalkozas.program!"
     ></app-editor-wrapper>
 </section>

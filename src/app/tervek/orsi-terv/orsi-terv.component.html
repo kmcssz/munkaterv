@@ -3,16 +3,19 @@
     [terv]="orsiTerv"
 ></app-terv>
 
-<div *ngIf="orsiTerv.computeRemainingDuration() > 0"
-    class="add-new-foglalkozas-buttons"
->
-    <button mat-fab *ngIf="editableAdding$ | async"
-        class="add-new-foglalkozas-button"
-        color="bronze"
-        matTooltip="Új őrsi foglalkozás"
-        matTooltipClass="large"
-        (click)="addOrsiFoglalkozas()"
+<ng-container *ngIf="ors$ | async as ors">
+
+    <div *ngIf="fogSor.computeRemainingDuration(orsiTerv) > 0"
+        class="add-new-foglalkozas-buttons"
     >
-        <mat-icon>add</mat-icon>
-    </button>
-</div>
+        <button mat-fab *ngIf="editableAdding$ | async"
+            class="add-new-foglalkozas-button"
+            color="bronze"
+            matTooltip="Új őrsi foglalkozás"
+            matTooltipClass="large"
+            (click)="addOrsiFoglalkozas(ors)"
+        >
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</ng-container>

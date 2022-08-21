@@ -1,11 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core'
+import { Component, Inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ReplaySubject, Subject } from 'rxjs'
+import { CsoportService } from 'src/app/csoport.service'
 import { formatHungarianDate, formatHungarianTime, minutesToMillis } from 'src/app/date-adaptor'
+import { FoglalkozasService } from 'src/app/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
-import { CSAPATOK } from 'src/app/models/beosztas'
 import { Csapat, Szemszog } from 'src/app/models/csapat'
-import { CsapatTerv, Foglalkozas, Munkaterv } from 'src/app/models/foglalkozas'
+import { createTerv, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
 
 @Component({
     selector: 'app-munkaterv',
@@ -18,48 +19,35 @@ import { CsapatTerv, Foglalkozas, Munkaterv } from 'src/app/models/foglalkozas'
 export class MunkatervComponent {
 
     csapat!: Csapat
-    munkaterv!: Munkaterv
+    start!: Date
+    csapatTerv!: Terv
 
     formatHungarianDate = formatHungarianDate
     formatHungarianTime = formatHungarianTime
 
     constructor(
         private route: ActivatedRoute,
+        private fogSor: FoglalkozasService,
+        private csopSor: CsoportService,
         @Inject(SZEMSZOG) private szemszog$: Subject<Szemszog>,
     ) {
         const name = this.route.snapshot.paramMap.get('name')!
-        this.csapat = CSAPATOK.find(cs => cs.name === name)!
+        this.csapat = this.csopSor.getCsoport(name) as Csapat
         this.changeSzemszogToCsapat()
 
         // TODO: Get munkaterv from DB
-        this.munkaterv = new Munkaterv(
-            new Date(parseInt(this.route.snapshot.paramMap.get('start')!)),
-            new CsapatTerv(),
-        )
+        this.start = new Date(parseInt(this.route.snapshot.paramMap.get('start')!)),
+        this.csapatTerv = createTerv(FoglalkozasType.CsapatTerv, this.csapat.name)
+        this.fogSor.putFoglalkozas(this.csapatTerv)
     }
 
     changeSzemszogToCsapat() {
         this.szemszog$.next(new Szemszog(this.csapat, this.csapat))
     }
 
-    computeStartTime(foglalkozas: Foglalkozas): Date {
-        let timeMillis = this.munkaterv.start.getTime()
-        const foglalkozasIndex = this.munkaterv.csapatTerv.foglalkozasok.findIndex(f => f === foglalkozas)
-        for (let i = 0; i < foglalkozasIndex; ++i) {
-            timeMillis += this.munkaterv.csapatTerv.foglalkozasok[i].duration * minutesToMillis
-        }
-        return new Date(timeMillis)
-    }
-
-    computeEndTime(foglalkozas: Foglalkozas): string {
-        return formatHungarianTime(new Date(this.computeStartTime(foglalkozas).getTime() + foglalkozas.duration * minutesToMillis))
-    }
-
     computeOszoljTime(): string {
-        if (this.munkaterv.csapatTerv.foglalkozasok.length === 0) {
-            return formatHungarianTime(this.munkaterv.start)
-        }
-
-        return this.computeEndTime(this.munkaterv.csapatTerv.foglalkozasok[this.munkaterv.csapatTerv.foglalkozasok.length - 1])
+        return formatHungarianTime(
+            new Date(this.start.getTime() + this.fogSor.computeConsumedDuration(this.csapatTerv) * minutesToMillis)
+        )
     }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { CSAPATOK } from '../models/beosztas'
+import { CsoportService } from '../csoport.service'
+import { Csapat } from '../models/csapat'
 
 @Component({
     selector: 'app-csapat-selection',
@@ -8,9 +9,13 @@ import { CSAPATOK } from '../models/beosztas'
 })
 export class CsapatSelectionComponent implements OnInit {
 
-    csapatok = CSAPATOK
+    csapatok: Csapat[]
 
-    constructor() { }
+    constructor(
+        csopSor: CsoportService,
+    ) {
+        this.csapatok = [csopSor.getCsoport("Montreal") as Csapat]
+    }
 
     ngOnInit(): void {
     }

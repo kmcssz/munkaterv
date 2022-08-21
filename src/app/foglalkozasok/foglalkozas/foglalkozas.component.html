@@ -1,43 +1,51 @@
 <ng-template #foglalkozasContent>
-    <div *ngIf="csapatTerv">
+
+    <div *ngIf="foglalkozas.type === FoglalkozasType.CsapatTerv">
         <app-csapat-terv
             [start]="start"
-            [csapatTerv]="csapatTerv"
+            [csapatTerv]="terv!"
         ></app-csapat-terv>
     </div>
-    <div *ngIf="rajTerv">
+
+    <div *ngIf="foglalkozas.type === FoglalkozasType.RajTerv">
         <app-raj-terv
             [start]="start"
-            [rajTerv]="rajTerv"
+            [rajTerv]="terv!"
         ></app-raj-terv>
     </div>
-    <div *ngIf="orsiTerv">
+
+    <div *ngIf="foglalkozas.type === FoglalkozasType.OrsiTerv">
         <app-orsi-terv
             [start]="start"
-            [orsiTerv]="orsiTerv"
+            [orsiTerv]="terv!"
         ></app-orsi-terv>
     </div>
-    <div *ngIf="concurrentTervek">
+
+    <div *ngIf="foglalkozas.type === FoglalkozasType.ConcurrentTervek">
         <app-concurrent-tervek
             [start]="start"
-            [concurrentTervek]="concurrentTervek"
+            [concurrentTervek]="terv!"
         ></app-concurrent-tervek>
     </div>
-    <div *ngIf="csapatFoglalkozas">
+
+    <div *ngIf="foglalkozas.type === FoglalkozasType.CsapatFoglalkozas">
         <app-csapat-foglalkozas
-            [csapatFoglalkozas]="csapatFoglalkozas"
+            [csapatFoglalkozas]="foglalkozas"
         ></app-csapat-foglalkozas>
     </div>
-    <div *ngIf="rajFoglalkozas">
+
+    <div *ngIf="foglalkozas.type === FoglalkozasType.RajFoglalkozas">
         <app-raj-foglalkozas
-            [rajFoglalkozas]="rajFoglalkozas"
+            [rajFoglalkozas]="foglalkozas"
         ></app-raj-foglalkozas>
     </div>
-    <div *ngIf="orsiFoglalkozas">
+
+    <div *ngIf="foglalkozas.type === FoglalkozasType.OrsiFoglalkozas">
         <app-orsi-foglalkozas
-            [orsiFoglalkozas]="orsiFoglalkozas"
+            [orsiFoglalkozas]="orsiFoglalkozas!"
         ></app-orsi-foglalkozas>
     </div>
+
 </ng-template>
 
 <ng-container *ngIf="wrapInCard; else foglalkozasContent">

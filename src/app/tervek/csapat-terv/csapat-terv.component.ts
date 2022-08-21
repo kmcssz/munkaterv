@@ -1,8 +1,9 @@
 import { Component, Inject, Input } from '@angular/core'
 import { filter, map, Observable, Subject } from 'rxjs'
+import { FoglalkozasService } from 'src/app/foglalkozas.service'
 import { SZEMSZOG } from '../../injection-tokens'
 import { Csapat, isCsapatSzemszog, Raj, Szemszog } from '../../models/csapat'
-import { ConcurrentTervek, CsapatFoglalkozas, CsapatTerv, RajTerv } from '../../models/foglalkozas'
+import { createFoglalkozas, createTerv,  FoglalkozasType, Terv } from '../../models/foglalkozas'
 
 @Component({
     selector: 'app-csapat-terv',
@@ -12,13 +13,14 @@ import { ConcurrentTervek, CsapatFoglalkozas, CsapatTerv, RajTerv } from '../../
 export class CsapatTervComponent {
 
     @Input() start!: Date
-    @Input() csapatTerv!: CsapatTerv
+    @Input() csapatTerv!: Terv
 
     destroy$ = new Subject<boolean>()
     editable$: Observable<boolean>
     csapat$: Observable<Csapat>
 
     constructor(
+        private fogSor: FoglalkozasService,
         @Inject(SZEMSZOG) private szemszog$: Observable<Szemszog>,
     ) {
         this.editable$ = szemszog$.pipe(map(isCsapatSzemszog))
@@ -29,14 +31,15 @@ export class CsapatTervComponent {
         )
     }
 
-    addCsapatFoglalkozas() {
-        this.csapatTerv.foglalkozasok.push(new CsapatFoglalkozas())
-        console.log(this.csapatTerv)
+    addCsapatFoglalkozas(csapat: Csapat) {
+        this.fogSor.addChild(this.csapatTerv, createFoglalkozas(FoglalkozasType.CsapatFoglalkozas, csapat.name))
     }
 
-    addRajFoglalkozas(csapat: Csapat) {
-        const rajTervek = new Map<Raj, RajTerv>()
-        csapat.rajok.forEach(raj => rajTervek.set(raj, new RajTerv()))
-        this.csapatTerv.foglalkozasok.push(new ConcurrentTervek(90, rajTervek))
+    addRajTerv(csapat: Csapat) {
+        const concurrentTerv = createTerv(FoglalkozasType.ConcurrentTervek, csapat.name, 90)
+        csapat.rajok.forEach(raj => {
+            this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.RajTerv, raj.name))
+        })
+        this.fogSor.addChild(this.csapatTerv, concurrentTerv)
     }
 }

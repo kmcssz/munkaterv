@@ -1,6 +1,6 @@
-import { Component, Inject, Input } from '@angular/core'
-import { CsapatFoglalkozas } from '../../models/foglalkozas'
-import { CsoportType, isCsapatSzemszog, Szemszog } from '../../models/csapat'
+import { Component, Inject, Input, OnInit } from '@angular/core'
+import { Foglalkozas } from '../../models/foglalkozas'
+import { isCsapatSzemszog, Szemszog } from '../../models/csapat'
 import { map, Observable } from 'rxjs'
 import { SZEMSZOG } from '../../injection-tokens'
 
@@ -9,9 +9,9 @@ import { SZEMSZOG } from '../../injection-tokens'
     templateUrl: './csapat-foglalkozas.component.html',
     styleUrls: ['./csapat-foglalkozas.component.scss']
 })
-export class CsapatFoglalkozasComponent {
+export class CsapatFoglalkozasComponent implements OnInit {
 
-    @Input() csapatFoglalkozas!: CsapatFoglalkozas
+    @Input() csapatFoglalkozas!: Foglalkozas
 
     editable$: Observable<boolean>
 
@@ -19,5 +19,11 @@ export class CsapatFoglalkozasComponent {
         @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
     ) {
         this.editable$ = szemszog$.pipe(map(isCsapatSzemszog))
+    }
+
+    ngOnInit() {
+        if (this.csapatFoglalkozas.program === undefined) {
+            this.csapatFoglalkozas.program = ""
+        }
     }
 }

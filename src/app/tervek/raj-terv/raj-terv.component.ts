@@ -1,8 +1,9 @@
 import { Component, Inject, Input } from '@angular/core'
 import { filter, map, Observable } from 'rxjs'
+import { FoglalkozasService } from 'src/app/foglalkozas.service'
 import { SZEMSZOG } from '../../injection-tokens'
-import { isCsapatSzemszog, isRajSzemszog, Ors, Raj, Szemszog } from '../../models/csapat'
-import { ConcurrentTervek, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, OrsiTerv, RajFoglalkozas, RajTerv } from '../../models/foglalkozas'
+import { isCsapatSzemszog, isRajSzemszog, Raj, Szemszog } from '../../models/csapat'
+import { createFoglalkozas, createTerv, Foglalkozas, FoglalkozasType, Terv } from '../../models/foglalkozas'
 
 @Component({
     selector: 'app-raj-terv',
@@ -12,17 +13,14 @@ import { ConcurrentTervek, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, OrsiTe
 export class RajTervComponent {
 
     @Input() start!: Date
-    @Input() rajTerv!: RajTerv
+    @Input() rajTerv!: Terv
 
     editableTime$: Observable<boolean>
     editableContent$: Observable<boolean>
     raj$: Observable<Raj>
 
-    FoglalkozasType = FoglalkozasType
-    RajFoglalkozas = RajFoglalkozas
-    OrsiFoglalkozas = OrsiFoglalkozas
-
     constructor(
+        public fogSor: FoglalkozasService,
         @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
     ) {
         this.editableTime$ = szemszog$.pipe(map(isCsapatSzemszog))
@@ -35,17 +33,20 @@ export class RajTervComponent {
     }
 
     private addFoglalkozas(foglalkozas: Foglalkozas) {
-        foglalkozas.duration = Math.min(this.rajTerv.computeRemainingDuration(), foglalkozas.duration)
-        this.rajTerv.foglalkozasok.push(foglalkozas)
+        // Clip foglalkozas duration
+        foglalkozas.duration = Math.min(this.fogSor.computeRemainingDuration(this.rajTerv), foglalkozas.duration)
+        this.fogSor.addChild(this.rajTerv, foglalkozas)
     }
 
-    addRajFoglalkozas() {
-        this.addFoglalkozas(new RajFoglalkozas())
+    addRajFoglalkozas(raj: Raj) {
+        this.addFoglalkozas(createFoglalkozas(FoglalkozasType.RajFoglalkozas, raj.name))
     }
 
     addOrsiTerv(raj: Raj) {
-        const orsiTervek = new Map<Ors, OrsiTerv>()
-        raj.orsok.forEach(ors => orsiTervek.set(ors, new OrsiTerv()))
-        this.addFoglalkozas(new ConcurrentTervek(60, orsiTervek))
+        const concurrentTerv = createTerv(FoglalkozasType.ConcurrentTervek, raj.name, 60)
+        raj.orsok.forEach(ors => {
+            this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.OrsiTerv, ors.name))
+        })
+        this.fogSor.addChild(this.rajTerv, concurrentTerv)
     }
 }

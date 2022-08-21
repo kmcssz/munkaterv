@@ -3,7 +3,7 @@
     [cdkDropListDisabled]="!(draggable$ | async)"
     (cdkDropListDropped)="drop($event)"
 >
-    <div *ngFor="let foglalkozas of terv.foglalkozasok; let last = last">
+    <div *ngFor="let foglalkozas of fogSor.getChildren(terv); let last = last">
 
         <div cdkDrag class="foglalkozas">
             <div *ngIf="draggable$ | async" cdkDragHandle class="drag-handle">

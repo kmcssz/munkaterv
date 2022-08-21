@@ -2,6 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { Component, Inject, Input, OnInit } from '@angular/core'
 import { map, Observable } from 'rxjs'
 import { formatHungarianTime } from 'src/app/date-adaptor'
+import { FoglalkozasService } from 'src/app/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { CsoportType, Szemszog } from 'src/app/models/csapat'
 import { Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
@@ -21,13 +22,14 @@ export class TervComponent implements OnInit {
     draggable$!: Observable<boolean>
 
     constructor(
+        public fogSor: FoglalkozasService,
         @Inject(SZEMSZOG) public szemszog$: Observable<Szemszog>,
     ) {
     }
 
     ngOnInit(): void {
         this.draggable$ = this.szemszog$.pipe(
-            map(szSz => canDragTerv(szSz.csoport.type, this.terv.type))
+            map(szSz => canDragTerv(szSz.csoport.type, this.terv.type as FoglalkozasType))
         )
     }
 
@@ -36,12 +38,7 @@ export class TervComponent implements OnInit {
     }
 
     computeStartTime(foglalkozas: Foglalkozas): Date {
-        let timeMillis = this.start.getTime()
-        const foglalkozasIndex = this.terv.foglalkozasok.findIndex(f => f === foglalkozas)
-        for (let i = 0; i < foglalkozasIndex; ++i) {
-            timeMillis += this.terv.foglalkozasok[i].duration * minutesToMillis
-        }
-        return new Date(timeMillis)
+        return new Date(this.start.getTime() + this.fogSor.computeElapsedBeforeDuration(this.terv, foglalkozas) * minutesToMillis)
     }
 
     computeEndTime(foglalkozas: Foglalkozas): string {
