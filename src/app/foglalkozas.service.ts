@@ -15,8 +15,8 @@ export class FoglalkozasService {
 
     constructor() { }
 
-    getById(id: number): Foglalkozas {
-        return this.foglalkozasok.filter(fog => fog.id === id)[0]
+    getByUuid(uuid: string): Foglalkozas {
+        return this.foglalkozasok.filter(fog => fog.uuid === uuid)[0]
     }
 
     getByType(type: FoglalkozasType): Foglalkozas[] {
@@ -24,17 +24,17 @@ export class FoglalkozasService {
     }
 
     getChildren(terv: Terv): Foglalkozas[] {
-        return terv.foglalkozasok.map(id => this.getById(id))
+        return terv.foglalkozasok.map(uuid => this.getByUuid(uuid))
     }
 
-    putFoglalkozas(foglalkozas: Foglalkozas): number {
+    putFoglalkozas(foglalkozas: Foglalkozas): string {
         this.foglalkozasok.push(foglalkozas)
-        return foglalkozas.id
+        return foglalkozas.uuid
     }
 
     addChild(terv: Terv, child: Foglalkozas) {
         this.putFoglalkozas(child)
-        terv.foglalkozasok.push(child.id)
+        terv.foglalkozasok.push(child.uuid)
     }
 
     computeRemainingDuration(terv: Terv): number {
@@ -44,19 +44,19 @@ export class FoglalkozasService {
     computeConsumedDuration(terv: Terv): number {
         return this.getChildren(terv)
             .map(fog => fog.duration)
-            .reduce(addFn)
+            .reduce(addFn, 0)
     }
 
     computeElapsedBeforeDuration(terv: Terv, foglalkozas: Foglalkozas): number {
         let fogFound = false
         return this.getChildren(terv)
             .filter(fog => {
-                if (fog.id === foglalkozas.id) {
+                if (fog.uuid === foglalkozas.uuid) {
                     fogFound = true
                 }
                 return !fogFound
             })
             .map(fog => fog.duration)
-            .reduce(addFn)
+            .reduce(addFn, 0)
     }
 }

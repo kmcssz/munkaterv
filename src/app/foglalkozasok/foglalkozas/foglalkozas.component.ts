@@ -56,6 +56,7 @@ export class FoglalkozasComponent implements OnChanges {
                 this.wrapInCard = false
                 break;
             case FoglalkozasType.RajTerv:
+                this.terv = this.foglalkozas as Terv
                 this.wrapInCard = false
                 break;
             case FoglalkozasType.OrsiTerv:

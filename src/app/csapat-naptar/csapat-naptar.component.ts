@@ -54,7 +54,7 @@ export class CsapatNaptarComponent implements OnInit {
             )
             this.munkatervek.push({
                 start: selectedDateTime.getTime(),
-                csapatTerv: this.fogSor.putFoglalkozas(createTerv(FoglalkozasType.CsapatTerv, this.csapat.name)),
+                csapatTervUuid: this.fogSor.putFoglalkozas(createTerv(FoglalkozasType.CsapatTerv, this.csapat.name)),
             })
             this.munkatervek.sort((mtA, mtB) => mtB.start - mtA.start)
         });

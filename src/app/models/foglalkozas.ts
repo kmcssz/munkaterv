@@ -1,11 +1,8 @@
-import { Alprobak, Cserkeszek, Probak, Temak } from "./rendszer"
-import { Pont } from "./proba"
-import { dayInMillis } from "../date-adaptor"
-import { Csoport, CsoportType } from "./csapat"
+import { v4 as uuidv4 } from 'uuid'
 
 export interface Munkaterv {
     start: number,
-    csapatTerv: number,
+    csapatTervUuid: string,
 }
 
 export enum FoglalkozasType {
@@ -19,7 +16,7 @@ export enum FoglalkozasType {
 }
 
 export interface Foglalkozas {
-    id: number,
+    uuid: string,
     type: string,
     csoport: string,
     duration: number,
@@ -27,7 +24,7 @@ export interface Foglalkozas {
 }
 
 export interface Terv extends Foglalkozas {
-    foglalkozasok: number[],
+    foglalkozasok: string[],
 }
 
 export interface OrsiFoglalkozas extends Foglalkozas {
@@ -45,7 +42,7 @@ export function createFoglalkozas(
     duration: number = 15,
 ): Foglalkozas {
     return {
-        id: Date.now(),
+        uuid: uuidv4(),
         type,
         duration,
         csoport,
@@ -58,7 +55,7 @@ export function createTerv(
     duration: number = 120,
 ): Terv {
     return {
-        id: Date.now(),
+        uuid: uuidv4(),
         type,
         csoport,
         duration,

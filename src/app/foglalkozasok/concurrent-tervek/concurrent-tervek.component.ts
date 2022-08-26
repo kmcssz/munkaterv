@@ -31,7 +31,7 @@ export class ConcurrentTervekComponent implements OnInit {
         this.csoportok = this.fogSor
             .getChildren(this.concurrentTervek)
             .map(fog => fog.csoport)
-            .map(this.csopSor.getCsoport)
+            .map(fog => this.csopSor.getCsoport(fog))
 
         this.selectedCsoport$ = this.szemszog$.pipe(
             map(szSz => {
