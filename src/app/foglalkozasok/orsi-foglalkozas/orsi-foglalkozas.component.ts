@@ -24,7 +24,7 @@ export class OrsiFoglalkozasComponent implements OnInit {
     probak!: Proba[]
     temak: Tema[]
     alprobak!: Alproba[]
-    pontSelection = new Map<Alproba, boolean>()
+    pontSelection = new Map<string, boolean>()
 
     constructor(
         private readonly probaRendszer: ProbaRendszerService,
@@ -59,7 +59,6 @@ export class OrsiFoglalkozasComponent implements OnInit {
         if (this.orsiFoglalkozas.program === undefined) {
             this.orsiFoglalkozas.program = ""
         }
-        console.log(this.orsiFoglalkozas)
         this.changeAge(this.orsiFoglalkozas.age)
         this.changeProba(this.orsiFoglalkozas.probaUid)
         this.changeTema(this.orsiFoglalkozas.temaUid)
@@ -92,7 +91,12 @@ export class OrsiFoglalkozasComponent implements OnInit {
 
     changeAlproba(alprobaUid: string) {
         this.orsiFoglalkozas.alprobaUid = alprobaUid
-        this.orsiFoglalkozas.pontok = this.probaRendszer.getAlproba(alprobaUid).pontok
+        const alproba = this.probaRendszer.getAlproba(alprobaUid)
+        this.pontSelection.clear()
+        alproba.pontok.forEach(pont => {
+            this.pontSelection.set(pont, true)
+        })
+        this.orsiFoglalkozas.pontok = alproba.pontok
     }
 
     changePontok(options: MatListOption[]) {
