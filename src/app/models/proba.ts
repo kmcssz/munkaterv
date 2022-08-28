@@ -1,49 +1,38 @@
-import { v4 as uuidv4 } from 'uuid'
+import { uuidv4 } from "@firebase/util"
+import { filterComparator } from "../utils"
 
-export class Cserkesz {
-
-    constructor(
-        public readonly name: string,
-        public readonly startAge: number,
-        public readonly endAge: number,
-    ) {
-    }
+export interface Cserkesz {
+    uid: string,
+    name: string,
+    startAge: number,
+    endAge: number,
 }
 
-export class Proba {
-
-    public readonly imageUri: string
-
-    constructor(
-        public readonly name: string,
-        imageFileName: string,
-    ) {
-        this.imageUri = `assets/proba-jelvenyek/${imageFileName}.png`
-    }
+export interface Proba {
+    uid: string,
+    name: string,
+    cserkeszUid: string,
 }
 
-export class Tema {
-
-    constructor(
-        public readonly name: string,
-        public readonly emoji: string,
-    ) {
-    }
+export interface Tema {
+    uid: string,
+    name: string,
+    emoji: string,
 }
 
-export class Alproba {
-
-    constructor(
-        public readonly name: string,
-        public readonly pontok: Pont[],
-    ) {
-    }
+export interface Alproba {
+    uid: string,
+    name: string,
+    probaUid: string,
+    temaUid: string,
+    pontok: string[],
 }
 
-export class Pont {
-
-    constructor(
-        public readonly name: string,
-    ) {
-    }
+type Rendszer = Cserkesz | Proba | Tema | Alproba
+export function filterUid<T extends Rendszer>(array: T[], uid: string): T {
+    return filterComparator<T>(
+        array,
+        elem => elem.uid === uid,
+        `Missing ${uid} from ${array}`,
+    )
 }

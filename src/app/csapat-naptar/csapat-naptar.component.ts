@@ -3,9 +3,9 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { Csapat } from '../models/csapat'
 import { formatHungarianDateTime } from '../date-adaptor'
 import dateFormat from 'dateformat'
-import { CsoportService } from '../csoport.service'
+import { CsoportService } from '../services/csoport.service'
 import { createTerv, FoglalkozasType, Munkaterv } from '../models/foglalkozas'
-import { FoglalkozasService } from '../foglalkozas.service'
+import { FoglalkozasService } from '../services/foglalkozas.service'
 
 export interface NewMunkatervDialogData {
     date: Date

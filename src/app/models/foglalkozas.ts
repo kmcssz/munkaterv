@@ -29,10 +29,10 @@ export interface Terv extends Foglalkozas {
 
 export interface OrsiFoglalkozas extends Foglalkozas {
     age: number,
-    cserkesz: string,
-    proba: string,
-    tema: string,
-    alproba: string,
+    cserkeszUid: string,
+    probaUid: string,
+    temaUid: string,
+    alprobaUid: string,
     pontok: string[],
 }
 

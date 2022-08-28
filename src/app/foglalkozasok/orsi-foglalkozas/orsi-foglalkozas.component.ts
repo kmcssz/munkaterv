@@ -1,12 +1,12 @@
 import { Component, Inject, Input, OnInit } from '@angular/core'
 import { MatListOption } from '@angular/material/list'
-import { Cserkeszek, ProbaRendszer, Temak } from '../../models/rendszer'
 import { Alproba, Cserkesz, Proba, Tema } from '../../models/proba'
 import { OrsiFoglalkozas } from '../../models/foglalkozas'
 import { CsoportType, Szemszog } from '../../models/csapat'
 import { SZEMSZOG } from '../../injection-tokens'
 import { map, Observable } from 'rxjs'
-import { ensure } from 'src/app/utils'
+import { ProbaRendszerService } from 'src/app/services/probarendszer.service'
+import { first } from '../../utils'
 
 @Component({
     selector: 'app-orsi-foglalkozas',
@@ -22,61 +22,77 @@ export class OrsiFoglalkozasComponent implements OnInit {
     areTemakOpen = false
 
     probak!: Proba[]
-    temak = Object.values(Temak)
+    temak: Tema[]
     alprobak!: Alproba[]
     pontSelection = new Map<Alproba, boolean>()
 
     constructor(
-        @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
+        private readonly probaRendszer: ProbaRendszerService,
+        @Inject(SZEMSZOG) readonly szemszog$: Observable<Szemszog>
     ) {
+        this.temak = probaRendszer.getTemak()
         this.editable$ = szemszog$.pipe(
             map(szemszog => szemszog.csoport.type === CsoportType.Ors),
         )
     }
 
     ngOnInit(): void {
-        const cserkesz = getCserkesz(this.orsiFoglalkozas.cserkesz)
-        const proba = getProba(this.orsiFoglalkozas.proba)
-        const tema = getTema(cserkesz, proba, this.orsiFoglalkozas.tema)
-        const alproba = getAlproba(cserkesz, proba, tema, this.orsiFoglalkozas.alproba)
-        this.changeAge(this.orsiFoglalkozas.age)
-        this.changeProba(proba)
-        this.changeTema(tema)
-        this.changeAlproba(alproba)
 
+        if (this.orsiFoglalkozas.age === undefined) {
+            this.orsiFoglalkozas.age = 10
+        }
+        if (this.orsiFoglalkozas.cserkeszUid === undefined) {
+            this.orsiFoglalkozas.cserkeszUid = first(this.probaRendszer.getCserkeszek()).uid
+        }
+        if (this.orsiFoglalkozas.probaUid === undefined) {
+            this.orsiFoglalkozas.probaUid = first(this.probaRendszer.getProbakForCserkesz(this.orsiFoglalkozas.cserkeszUid)).uid
+        }
+        if (this.orsiFoglalkozas.temaUid === undefined) {
+            this.orsiFoglalkozas.temaUid = first(this.probaRendszer.getTemak()).uid
+        }
+        if (this.orsiFoglalkozas.alprobaUid === undefined) {
+            this.orsiFoglalkozas.alprobaUid = first(this.probaRendszer.getAlprobak(
+                this.orsiFoglalkozas.probaUid,
+                this.orsiFoglalkozas.temaUid,
+            )).uid
+        }
         if (this.orsiFoglalkozas.program === undefined) {
             this.orsiFoglalkozas.program = ""
         }
+        console.log(this.orsiFoglalkozas)
+        this.changeAge(this.orsiFoglalkozas.age)
+        this.changeProba(this.orsiFoglalkozas.probaUid)
+        this.changeTema(this.orsiFoglalkozas.temaUid)
+        this.changeAlproba(this.orsiFoglalkozas.alprobaUid)
     }
 
     changeAge(age: number) {
         this.orsiFoglalkozas.age = age
-        this.orsiFoglalkozas.cserkesz = getCserkeszForAge(age).name
-        this.probak = getProbakForCserkesz(getCserkesz(this.orsiFoglalkozas.cserkesz))
-        this.changeProba(this.probak[0])
+        this.orsiFoglalkozas.cserkeszUid = this.probaRendszer.getCserkeszByAge(age).uid
+        this.probak = this.probaRendszer.getProbakForCserkesz(this.orsiFoglalkozas.cserkeszUid)
+        this.changeProba(first(this.probak).uid)
     }
 
-    changeProba(proba: Proba) {
-        this.orsiFoglalkozas.proba = proba.name
+    changeProba(probaUid: string) {
+        this.orsiFoglalkozas.probaUid = probaUid
         this.areProbakOpen = false
-        this.temak = getTemakForProba(getCserkesz(this.orsiFoglalkozas.cserkesz), proba)
-        this.changeTema(this.temak[0])
+        this.temak = this.probaRendszer.getTemak()
+        this.changeTema(first(this.temak).uid)
     }
 
-    changeTema(tema: Tema) {
-        this.orsiFoglalkozas.tema = tema.name
+    changeTema(temaUid: string) {
+        this.orsiFoglalkozas.temaUid = temaUid
         this.areTemakOpen = false
-        this.alprobak = getAlprobakForTema(
-            getCserkesz(this.orsiFoglalkozas.cserkesz),
-            getProba(this.orsiFoglalkozas.proba),
-            tema,
+        this.alprobak = this.probaRendszer.getAlprobak(
+            this.orsiFoglalkozas.probaUid,
+            this.orsiFoglalkozas.temaUid,
         )
-        this.changeAlproba(this.alprobak[0])
+        this.changeAlproba(first(this.alprobak).uid)
     }
 
-    changeAlproba(alproba: Alproba) {
-        this.orsiFoglalkozas.alproba = alproba.name
-        this.orsiFoglalkozas.pontok = alproba.pontok.map(pont => pont.name)
+    changeAlproba(alprobaUid: string) {
+        this.orsiFoglalkozas.alprobaUid = alprobaUid
+        this.orsiFoglalkozas.pontok = this.probaRendszer.getAlproba(alprobaUid).pontok
     }
 
     changePontok(options: MatListOption[]) {
@@ -88,56 +104,19 @@ export class OrsiFoglalkozasComponent implements OnInit {
         })
     }
 
-    getProba(): Proba {
-        return getProba(this.orsiFoglalkozas.proba)
+    get cserkesz(): Cserkesz {
+        return this.probaRendszer.getCserkesz(this.orsiFoglalkozas.cserkeszUid)
     }
 
-    getTema(): Tema {
-        const cserkesz = getCserkesz(this.orsiFoglalkozas.cserkesz)
-        const proba = getProba(this.orsiFoglalkozas.proba)
-        return getTema(cserkesz, proba, this.orsiFoglalkozas.tema)
+    get proba(): Proba {
+        return this.probaRendszer.getProba(this.orsiFoglalkozas.probaUid)
     }
-}
 
-function getCserkeszForAge(age: number): Cserkesz {
-    return Object.values(Cserkeszek)
-        .filter((cserkesz) => cserkesz.startAge <= age && age <= cserkesz.endAge)
-        [0]
-}
+    get tema(): Tema {
+        return this.probaRendszer.getTema(this.orsiFoglalkozas.temaUid)
+    }
 
-function getCserkesz(name: string): Cserkesz {
-    return ensure(Array.from(ProbaRendszer.keys())
-        .find(cs => cs.name === name))
-}
-
-function getProba(name: string): Proba {
-    let proba: Proba | undefined
-    ProbaRendszer.forEach((probak, cserkesz) => {
-        proba = Array.from(probak.keys())
-            .find(proba => proba.name === name)
-        if (proba !== undefined) {
-            return
-        }
-    })
-    return ensure(proba)
-}
-
-function getTema(cserkesz: Cserkesz, proba: Proba, name: string) {
-    return ensure(getTemakForProba(cserkesz, proba).find(tema => tema.name === name))
-}
-
-function getAlproba(cserkesz: Cserkesz, proba: Proba, tema: Tema, name: string) {
-    return ensure(getAlprobakForTema(cserkesz, proba, tema).find(alproba => alproba.name === name))
-}
-
-function getProbakForCserkesz(cserkesz: Cserkesz): Proba[] {
-    return Array.from(ProbaRendszer.get(cserkesz)!.keys()!)
-}
-
-function getTemakForProba(cserkesz: Cserkesz, proba: Proba): Tema[] {
-    return Array.from(ProbaRendszer.get(cserkesz)!.get(proba)!.keys())
-}
-
-function getAlprobakForTema(cserkesz: Cserkesz, proba: Proba, tema: Tema): Alproba[] {
-    return Array.from(ProbaRendszer.get(cserkesz)!.get(proba)!.get(tema)!)
+    get alproba(): Alproba {
+        return this.probaRendszer.getAlproba(this.orsiFoglalkozas.alprobaUid)
+    }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Csapat, Csoport, Korosztaj, Ors, Raj } from './models/csapat'
+import { Csapat, Csoport, Korosztaj, Ors, Raj } from '../models/csapat'
 
 @Injectable({
     providedIn: 'root'

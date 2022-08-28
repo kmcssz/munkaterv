@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common'
 import { Injectable } from '@angular/core'
-import { Foglalkozas, FoglalkozasType, Terv } from './models/foglalkozas'
+import { Foglalkozas, FoglalkozasType, Terv } from '../models/foglalkozas'
 
 function addFn(a: number, b: number): number {
     return a + b

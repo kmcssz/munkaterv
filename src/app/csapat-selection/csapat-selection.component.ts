@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { CsoportService } from '../csoport.service'
+import { CsoportService } from '../services/csoport.service'
 import { Csapat } from '../models/csapat'
 
 @Component({

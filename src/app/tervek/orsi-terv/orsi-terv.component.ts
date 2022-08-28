@@ -1,6 +1,6 @@
 import { Component, Inject, Input } from '@angular/core'
 import { filter, map, Observable } from 'rxjs'
-import { FoglalkozasService } from 'src/app/foglalkozas.service'
+import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { isOrsSzemszog, isRajSzemszog, Ors, Szemszog } from 'src/app/models/csapat'
 import { createFoglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'

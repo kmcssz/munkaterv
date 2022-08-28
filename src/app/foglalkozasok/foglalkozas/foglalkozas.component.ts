@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core'
 import { map, Observable } from 'rxjs'
-import { FoglalkozasService } from 'src/app/foglalkozas.service'
+import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { CsoportType, Szemszog } from 'src/app/models/csapat'
 import { Foglalkozas, FoglalkozasType, OrsiFoglalkozas, Terv } from '../../models/foglalkozas'
