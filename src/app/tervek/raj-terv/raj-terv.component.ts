@@ -43,9 +43,10 @@ export class RajTervComponent {
     }
 
     addOrsiTerv(raj: Raj) {
-        const concurrentTerv = createTerv(FoglalkozasType.ConcurrentTervek, raj.name, 60)
+        const defaultOrsiDuration = 60
+        const concurrentTerv = createTerv(FoglalkozasType.ConcurrentTervek, raj.name, defaultOrsiDuration)
         raj.orsok.forEach(ors => {
-            this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.OrsiTerv, ors.name))
+            this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.OrsiTerv, ors.name, defaultOrsiDuration))
         })
         this.fogSor.addChild(this.rajTerv, concurrentTerv)
     }

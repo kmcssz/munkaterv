@@ -37,7 +37,7 @@ export class MunkatervComponent {
 
         // TODO: Get munkaterv from DB
         this.start = new Date(parseInt(this.route.snapshot.paramMap.get('start')!)),
-        this.csapatTerv = createTerv(FoglalkozasType.CsapatTerv, this.csapat.name)
+        this.csapatTerv = createTerv(FoglalkozasType.CsapatTerv, this.csapat.name, 120)
         this.fogSor.putFoglalkozas(this.csapatTerv)
     }
 

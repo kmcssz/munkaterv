@@ -52,7 +52,7 @@ export function createFoglalkozas(
 export function createTerv(
     type: FoglalkozasType,
     csoport: string,
-    duration: number = 120,
+    duration: number,
 ): Terv {
     return {
         uuid: uuidv4(),

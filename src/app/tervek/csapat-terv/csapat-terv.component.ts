@@ -36,9 +36,10 @@ export class CsapatTervComponent {
     }
 
     addRajTerv(csapat: Csapat) {
-        const concurrentTerv = createTerv(FoglalkozasType.ConcurrentTervek, csapat.name, 90)
+        const defaultRajDuration = 90
+        const concurrentTerv = createTerv(FoglalkozasType.ConcurrentTervek, csapat.name, defaultRajDuration)
         csapat.rajok.forEach(raj => {
-            this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.RajTerv, raj.name))
+            this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.RajTerv, raj.name, defaultRajDuration))
         })
         this.fogSor.addChild(this.csapatTerv, concurrentTerv)
     }
