@@ -33,7 +33,12 @@ export interface OrsiFoglalkozas extends Foglalkozas {
     probaUid: string,
     temaUid: string,
     alprobaUid: string,
-    pontok: string[],
+    pontok: ProbaPont[],
+}
+
+export interface ProbaPont {
+    name: string,
+    selected: boolean,
 }
 
 export function createFoglalkozas(

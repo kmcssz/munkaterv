@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core'
 import { MatListOption } from '@angular/material/list'
 import { Alproba, Cserkesz, Proba, Tema } from '../../models/proba'
-import { OrsiFoglalkozas } from '../../models/foglalkozas'
+import { OrsiFoglalkozas, ProbaPont } from '../../models/foglalkozas'
 import { CsoportType, Szemszog } from '../../models/csapat'
 import { SZEMSZOG } from '../../injection-tokens'
 import { map, Observable } from 'rxjs'
@@ -24,7 +24,6 @@ export class OrsiFoglalkozasComponent implements OnInit {
     probak!: Proba[]
     temak: Tema[]
     alprobak!: Alproba[]
-    pontSelection = new Map<string, boolean>()
 
     constructor(
         private readonly probaRendszer: ProbaRendszerService,
@@ -55,6 +54,9 @@ export class OrsiFoglalkozasComponent implements OnInit {
                 this.orsiFoglalkozas.probaUid,
                 this.orsiFoglalkozas.temaUid,
             )).uid
+        }
+        if (this.orsiFoglalkozas.pontok === undefined) {
+            this.orsiFoglalkozas.pontok = this.alproba.pontok.map(pont => createPont(pont))
         }
         if (this.orsiFoglalkozas.program === undefined) {
             this.orsiFoglalkozas.program = ""
@@ -90,21 +92,21 @@ export class OrsiFoglalkozasComponent implements OnInit {
     }
 
     changeAlproba(alprobaUid: string) {
+        if (this.orsiFoglalkozas.alprobaUid != alprobaUid) {
+            this.orsiFoglalkozas.pontok = []
+            const alproba = this.probaRendszer.getAlproba(alprobaUid)
+            alproba.pontok.forEach(pont => {
+                this.orsiFoglalkozas.pontok.push(createPont(pont))
+            })
+        }
         this.orsiFoglalkozas.alprobaUid = alprobaUid
-        const alproba = this.probaRendszer.getAlproba(alprobaUid)
-        this.pontSelection.clear()
-        alproba.pontok.forEach(pont => {
-            this.pontSelection.set(pont, true)
-        })
-        this.orsiFoglalkozas.pontok = alproba.pontok
     }
 
     changePontok(options: MatListOption[]) {
-        this.orsiFoglalkozas.pontok = []
         options.forEach((option) => {
-            if (option.selected) {
-                this.orsiFoglalkozas.pontok.push(option.value)
-            }
+            this.orsiFoglalkozas.pontok
+                .filter(pont => pont.name === option.value)
+                .forEach(pont => pont.selected = option.selected)
         })
     }
 
@@ -123,4 +125,12 @@ export class OrsiFoglalkozasComponent implements OnInit {
     get alproba(): Alproba {
         return this.probaRendszer.getAlproba(this.orsiFoglalkozas.alprobaUid)
     }
+
+    get pontok(): ProbaPont[] {
+        return this.orsiFoglalkozas.pontok
+    }
+}
+
+function createPont(name: string, selected: boolean = true): ProbaPont {
+    return { name, selected }
 }
