@@ -3,7 +3,7 @@ import { filter, map, Observable, Subject } from 'rxjs'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from '../../injection-tokens'
 import { Csapat, isCsapatSzemszog, Raj, Szemszog } from '../../models/csapat'
-import { createFoglalkozas, createTerv,  FoglalkozasType, Terv } from '../../models/foglalkozas'
+import { createConcurrentTervek, createFoglalkozas, createTerv,  FoglalkozasType, Terv } from '../../models/foglalkozas'
 
 @Component({
     selector: 'app-csapat-terv',
@@ -37,7 +37,7 @@ export class CsapatTervComponent {
 
     addRajTerv(csapat: Csapat) {
         const defaultRajDuration = 90
-        const concurrentTerv = createTerv(FoglalkozasType.ConcurrentTervek, csapat.name, defaultRajDuration)
+        const concurrentTerv = createConcurrentTervek(FoglalkozasType.RajTerv, csapat.name, defaultRajDuration)
         csapat.rajok.forEach(raj => {
             this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.RajTerv, raj.name, defaultRajDuration))
         })

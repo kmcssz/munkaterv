@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { Component, Inject, Input, OnInit } from '@angular/core'
 import { map, Observable } from 'rxjs'
 import { formatHungarianTime } from 'src/app/date-adaptor'
-import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
+import { computeConsumedDuration, computeElapsedBeforeDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { CsoportType, Szemszog } from 'src/app/models/csapat'
 import { Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
@@ -37,12 +37,12 @@ export class TervComponent implements OnInit {
         moveItemInArray(this.terv.foglalkozasok, event.previousIndex, event.currentIndex)
     }
 
-    computeStartTime(foglalkozas: Foglalkozas): Date {
-        return new Date(this.start.getTime() + this.fogSor.computeElapsedBeforeDuration(this.terv, foglalkozas) * minutesToMillis)
+    computeStartTime(children: Foglalkozas[], uuid: string): Date {
+        return new Date(this.start.getTime() + computeElapsedBeforeDuration(children, uuid) * minutesToMillis)
     }
 
-    computeEndTime(foglalkozas: Foglalkozas): string {
-        return formatHungarianTime(new Date(this.computeStartTime(foglalkozas).getTime() + foglalkozas.duration * minutesToMillis))
+    computeEndTime(children: Foglalkozas[]): string {
+        return formatHungarianTime(new Date(this.start.getTime() + computeConsumedDuration(children) * minutesToMillis))
     }
 }
 

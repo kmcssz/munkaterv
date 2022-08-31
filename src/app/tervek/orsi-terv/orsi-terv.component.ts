@@ -1,9 +1,9 @@
 import { Component, Inject, Input } from '@angular/core'
 import { filter, map, Observable } from 'rxjs'
-import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
+import { computeRemainingDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { isOrsSzemszog, isRajSzemszog, Ors, Szemszog } from 'src/app/models/csapat'
-import { createFoglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
+import { createFoglalkozas, Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
 
 @Component({
     selector: 'app-orsi-terv',
@@ -19,6 +19,8 @@ export class OrsiTervComponent {
     editableAdding$: Observable<boolean>
     ors$: Observable<Ors>
 
+    computeRemainingDuration = computeRemainingDuration
+
     constructor(
         public fogSor: FoglalkozasService,
         @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
@@ -31,11 +33,15 @@ export class OrsiTervComponent {
         )
     }
 
-    addOrsiFoglalkozas(ors: Ors) {
+    addOrsiFoglalkozas(ors: Ors, children: Foglalkozas[]) {
         this.fogSor.addChild(this.orsiTerv, createFoglalkozas(
             FoglalkozasType.OrsiFoglalkozas,
             ors.name,
-            Math.min(this.fogSor.computeRemainingDuration(this.orsiTerv), 15),
+            Math.min(computeRemainingDuration(this.orsiTerv, children), 15),
         ))
+    }
+
+    get children$() {
+        return this.fogSor.filterChildren(this.orsiTerv)
     }
 }

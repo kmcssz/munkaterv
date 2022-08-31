@@ -1,9 +1,10 @@
-<div cdkDropList
+<div *ngIf="fogSor.filterChildren(terv) | async as children"
+    cdkDropList
     class="foglalkozasok"
     [cdkDropListDisabled]="!(draggable$ | async)"
     (cdkDropListDropped)="drop($event)"
 >
-    <div *ngFor="let foglalkozas of fogSor.getChildren(terv); let last = last">
+    <div *ngFor="let foglalkozas of children; let last = last">
 
         <div cdkDrag class="foglalkozas">
             <div *ngIf="draggable$ | async" cdkDragHandle class="drag-handle">
@@ -11,13 +12,13 @@
             </div>
 
             <app-foglalkozas
-                [start]="computeStartTime(foglalkozas)"
+                [start]="computeStartTime(children, foglalkozas.uuid)"
                 [foglalkozas]="foglalkozas"
             ></app-foglalkozas>
         </div>
 
         <div *ngIf="!last" class="time">
-            {{computeEndTime(foglalkozas)}}
+            {{computeEndTime(children)}}
         </div>
     </div>
 </div>

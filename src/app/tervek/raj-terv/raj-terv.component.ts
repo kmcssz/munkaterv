@@ -1,9 +1,9 @@
 import { Component, Inject, Input } from '@angular/core'
 import { filter, map, Observable } from 'rxjs'
-import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
+import { computeRemainingDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from '../../injection-tokens'
 import { isCsapatSzemszog, isRajSzemszog, Raj, Szemszog } from '../../models/csapat'
-import { createFoglalkozas, createTerv, Foglalkozas, FoglalkozasType, Terv } from '../../models/foglalkozas'
+import { createConcurrentTervek as createConcurrentTerv, createFoglalkozas, createTerv, Foglalkozas, FoglalkozasType, Terv } from '../../models/foglalkozas'
 
 @Component({
     selector: 'app-raj-terv',
@@ -19,6 +19,8 @@ export class RajTervComponent {
     editableContent$: Observable<boolean>
     raj$: Observable<Raj>
 
+    computeRemainingDuration = computeRemainingDuration
+
     constructor(
         public fogSor: FoglalkozasService,
         @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
@@ -32,22 +34,26 @@ export class RajTervComponent {
         )
     }
 
-    private addFoglalkozas(foglalkozas: Foglalkozas) {
+    private addFoglalkozas(foglalkozas: Foglalkozas, children: Foglalkozas[]) {
         // Clip foglalkozas duration
-        foglalkozas.duration = Math.min(this.fogSor.computeRemainingDuration(this.rajTerv), foglalkozas.duration)
+        foglalkozas.duration = Math.min(computeRemainingDuration(this.rajTerv, children), foglalkozas.duration)
         this.fogSor.addChild(this.rajTerv, foglalkozas)
     }
 
-    addRajFoglalkozas(raj: Raj) {
-        this.addFoglalkozas(createFoglalkozas(FoglalkozasType.RajFoglalkozas, raj.name))
+    addRajFoglalkozas(raj: Raj, children: Foglalkozas[]) {
+        this.addFoglalkozas(createFoglalkozas(FoglalkozasType.RajFoglalkozas, raj.name), children)
     }
 
     addOrsiTerv(raj: Raj) {
         const defaultOrsiDuration = 60
-        const concurrentTerv = createTerv(FoglalkozasType.ConcurrentTervek, raj.name, defaultOrsiDuration)
+        const concurrentTerv = createConcurrentTerv(FoglalkozasType.OrsiTerv, raj.name, defaultOrsiDuration)
         raj.orsok.forEach(ors => {
             this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.OrsiTerv, ors.name, defaultOrsiDuration))
         })
         this.fogSor.addChild(this.rajTerv, concurrentTerv)
+    }
+
+    get children$() {
+        return this.fogSor.filterChildren(this.rajTerv)
     }
 }

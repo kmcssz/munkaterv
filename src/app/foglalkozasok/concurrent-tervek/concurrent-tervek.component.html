@@ -1,12 +1,12 @@
 <div>
     <div *ngIf="selectedCsoport$ | async as selectedCsoport; else unselected">
-        <app-foglalkozas
+        <app-foglalkozas *ngIf="getFoglalkozas$(selectedCsoport) | async as foglalkozas"
             [start]="start"
-            [foglalkozas]="getFoglalkozas(selectedCsoport)"
+            [foglalkozas]="foglalkozas"
         ></app-foglalkozas>
     </div>
     <ng-template #unselected>
-        <div *ngFor="let csoport of csoportok">
+        <div *ngFor="let csoport of (csoportok$ | async)">
             {{csoport.emoji}} {{csoport.name}}
         </div>
     </ng-template>

@@ -17,7 +17,7 @@ export enum FoglalkozasType {
 
 export interface Foglalkozas {
     uuid: string,
-    type: string,
+    type: FoglalkozasType,
     csoport: string,
     duration: number,
     program?: string,
@@ -25,6 +25,10 @@ export interface Foglalkozas {
 
 export interface Terv extends Foglalkozas {
     foglalkozasok: string[],
+}
+
+export interface ConcurrentTerv extends Terv {
+    subtype: FoglalkozasType,
 }
 
 export interface OrsiFoglalkozas extends Foglalkozas {
@@ -65,5 +69,16 @@ export function createTerv(
         csoport,
         duration,
         foglalkozasok: [],
+    }
+}
+
+export function createConcurrentTervek(
+    subtype: FoglalkozasType,
+    csoport: string,
+    duration: number,
+): ConcurrentTerv {
+    return {
+        subtype,
+        ...createTerv(FoglalkozasType.ConcurrentTervek, csoport, duration)
     }
 }

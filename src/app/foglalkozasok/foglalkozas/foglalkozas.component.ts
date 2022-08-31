@@ -3,7 +3,7 @@ import { map, Observable } from 'rxjs'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { CsoportType, Szemszog } from 'src/app/models/csapat'
-import { Foglalkozas, FoglalkozasType, OrsiFoglalkozas, Terv } from '../../models/foglalkozas'
+import { ConcurrentTerv, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, Terv } from '../../models/foglalkozas'
 
 const foglalkozasTypeToCssStyle = new Map<FoglalkozasType, string>(
     [
@@ -64,14 +64,14 @@ export class FoglalkozasComponent implements OnChanges {
                 this.wrapInCard = false
                 break;
             case FoglalkozasType.ConcurrentTervek:
-                this.terv = this.foglalkozas as Terv
-                const firstFoglalkozas = this.fogSor.getChildren(this.terv)[0] as Foglalkozas
-                this.foglalkozasCssStyle = foglalkozasTypeToCssStyle.get(firstFoglalkozas.type as FoglalkozasType)
+                const concurrentTerv = this.foglalkozas as ConcurrentTerv
+                this.terv = concurrentTerv
+                this.foglalkozasCssStyle = foglalkozasTypeToCssStyle.get(concurrentTerv.subtype)
                 this.wrapInCard = true
                 this.editableDuration$ = this.szemszog$.pipe(
                     map(szSz => canEditDuration(
                             szSz.csoport.type,
-                            firstFoglalkozas.type as FoglalkozasType,
+                            concurrentTerv.subtype,
                         )
                     ),
                 )

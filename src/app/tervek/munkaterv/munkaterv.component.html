@@ -27,5 +27,9 @@
         [foglalkozas]="csapatTerv"
     ></app-foglalkozas>
 
-    <div class="time">{{computeOszoljTime()}}</div>
+    <div *ngIf="children$ | async as children"
+        class="time"
+    >
+    {{computeOszoljTime(children)}}
+    </div>
 </div>

@@ -4,7 +4,8 @@
 ></app-terv>
 
 <ng-container *ngIf="raj$ | async as raj">
-    <div *ngIf="fogSor.computeRemainingDuration(rajTerv) > 0"
+    <ng-container *ngIf="children$ | async as children">
+    <div *ngIf="computeRemainingDuration(rajTerv, children) > 0"
         class="add-new-foglalkozas-buttons"
     >
         <button mat-fab *ngIf="editableContent$ | async"
@@ -12,7 +13,7 @@
             color="silver"
             matTooltip="Új raj foglalkozás"
             matTooltipClass="large"
-            (click)="addRajFoglalkozas(raj)"
+            (click)="addRajFoglalkozas(raj, children)"
         >
             <mat-icon>add</mat-icon>
         </button>

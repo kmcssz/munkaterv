@@ -1,10 +1,10 @@
 import { Component, Inject, Input, OnInit } from '@angular/core'
-import { map, Observable, Subject } from 'rxjs'
+import { combineLatest, filter, first, flatMap, map, Observable, Subject } from 'rxjs'
 import { CsoportService } from 'src/app/services/csoport.service'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { Csoport, Szemszog } from 'src/app/models/csapat'
-import { Terv } from 'src/app/models/foglalkozas'
+import { Foglalkozas, Terv } from 'src/app/models/foglalkozas'
 import { ensure } from 'src/app/utils'
 
 @Component({
@@ -16,7 +16,7 @@ export class ConcurrentTervekComponent implements OnInit {
 
     @Input() start!: Date
     @Input() concurrentTervek!: Terv
-    csoportok!: Csoport[]
+    csoportok$!: Observable<Csoport[]>
 
     selectedCsoport$!: Observable<Csoport|undefined>
 
@@ -28,20 +28,20 @@ export class ConcurrentTervekComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.csoportok = this.fogSor
-            .getChildren(this.concurrentTervek)
-            .map(fog => fog.csoport)
-            .map(fog => this.csopSor.getCsoport(fog))
+        this.csoportok$ = this.fogSor.filterChildren(this.concurrentTervek).pipe(
+            map(fogak => fogak.map(fog => this.csopSor.getCsoport(fog.csoport))),
+        )
 
-        this.selectedCsoport$ = this.szemszog$.pipe(
-            map(szSz => {
-                return this.csoportok.find(terv => terv.contains(szSz.csoport))
+        this.selectedCsoport$ = combineLatest([this.szemszog$, this.csoportok$]).pipe(
+            map(([szSz, csoportok]) => {
+                return csoportok.find(terv => terv.contains(szSz.csoport))
             })
         )
     }
 
-    getFoglalkozas(csoport: Csoport) {
-        return ensure(this.fogSor.getChildren(this.concurrentTervek)
-            .find(fog => fog.csoport === csoport.name))
+    getFoglalkozas$(csoport: Csoport): Observable<Foglalkozas> {
+        return this.fogSor.filterChildren(this.concurrentTervek).pipe(
+            map(fogak => fogak.filter(fog => fog.csoport === csoport.name)?.[0]),
+        )
     }
 }

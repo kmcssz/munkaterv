@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router'
 import { ReplaySubject, Subject } from 'rxjs'
 import { CsoportService } from 'src/app/services/csoport.service'
 import { formatHungarianDate, formatHungarianTime, minutesToMillis } from 'src/app/date-adaptor'
-import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
+import { computeConsumedDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { Csapat, Szemszog } from 'src/app/models/csapat'
-import { createTerv, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
+import { createTerv, Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
 
 @Component({
     selector: 'app-munkaterv',
@@ -35,7 +35,7 @@ export class MunkatervComponent {
         this.csapat = this.csopSor.getCsoport(name) as Csapat
         this.changeSzemszogToCsapat()
 
-        // TODO: Get munkaterv from DB
+        //TODO: Get munkaterv from DB
         this.start = new Date(parseInt(this.route.snapshot.paramMap.get('start')!)),
         this.csapatTerv = createTerv(FoglalkozasType.CsapatTerv, this.csapat.name, 120)
         this.fogSor.putFoglalkozas(this.csapatTerv)
@@ -45,9 +45,13 @@ export class MunkatervComponent {
         this.szemszog$.next(new Szemszog(this.csapat, this.csapat))
     }
 
-    computeOszoljTime(): string {
+    computeOszoljTime(children: Foglalkozas[]): string {
         return formatHungarianTime(
-            new Date(this.start.getTime() + this.fogSor.computeConsumedDuration(this.csapatTerv) * minutesToMillis)
+            new Date(this.start.getTime() + computeConsumedDuration(children) * minutesToMillis)
         )
+    }
+
+    get children$() {
+        return this.fogSor.filterChildren(this.csapatTerv)
     }
 }
