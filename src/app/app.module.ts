@@ -37,10 +37,9 @@ import { TervComponent } from './tervek/terv/terv.component';
 import { MunkatervComponent } from './tervek/munkaterv/munkaterv.component';
 import { OrsiTervComponent } from './tervek/orsi-terv/orsi-terv.component';
 import { ConcurrentTervekComponent } from './foglalkozasok/concurrent-tervek/concurrent-tervek.component';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
-import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore'
+import { initializeApp } from 'firebase/app'
+import { Firestore, getFirestore } from 'firebase/firestore'
+import { environment } from 'src/environments/environment'
 
 @NgModule({
     declarations: [
@@ -83,13 +82,11 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore'
         OverlayModule,
         AppRoutingModule,
         MatDialogModule,
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideAuth(() => getAuth()),
-        provideFirestore(() => getFirestore()),
     ],
     providers: [
         { provide: DateAdapter, useClass: MagyarDateAdapter },
-        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+        { provide: Firestore, useValue: getFirestore(initializeApp(environment.firebase)) },
     ],
     bootstrap: [AppComponent]
 })

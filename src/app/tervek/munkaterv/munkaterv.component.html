@@ -22,7 +22,7 @@
     <div class="date">{{formatHungarianDate(start)}}</div>
     <div class="start">{{formatHungarianTime(start)}}</div>
 
-    <app-foglalkozas
+    <app-foglalkozas *ngIf="csapatTerv$ | async as csapatTerv"
         [start]="start"
         [foglalkozas]="csapatTerv"
     ></app-foglalkozas>
@@ -30,6 +30,6 @@
     <div *ngIf="children$ | async as children"
         class="time"
     >
-    {{computeOszoljTime(children)}}
+        {{computeOszoljTime(children)}}
     </div>
 </div>

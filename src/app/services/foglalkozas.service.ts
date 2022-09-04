@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore'
-import { CollectionReference } from 'firebase/firestore'
-import { filter, map, Observable } from 'rxjs'
-import { Foglalkozas, FoglalkozasType, Terv } from '../models/foglalkozas'
-import { first } from '../utils'
-import { CsoportService } from './csoport.service'
+import { ActivatedRoute } from '@angular/router'
+import { addDoc, CollectionReference, doc, DocumentData, Firestore, setDoc, updateDoc } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
+import { filter, map, Observable, ReplaySubject, Subject, take } from 'rxjs'
+import { createTerv, Foglalkozas, FoglalkozasType, Terv } from '../models/foglalkozas'
+import { ensure, first } from '../utils'
 
 function addFn(a: number, b: number): number {
     return a + b
@@ -15,17 +15,41 @@ function addFn(a: number, b: number): number {
 })
 export class FoglalkozasService {
 
-    private foglalkozasCollection: AngularFirestoreCollection<Foglalkozas>
-    private foglalkozasok$: Observable<Foglalkozas[]>
+    private fogCollection?: CollectionReference<DocumentData>
+    private readonly _foglalkozasok$ = new ReplaySubject<Foglalkozas[]>(1)
 
     constructor(
-        firestore: AngularFirestore,
-        csopSor: CsoportService,
+        private readonly firestore: Firestore,
     ) {
-        const csapat = csopSor.getCsapat().name //TODO: should be a stream too
-        const start = 14535232 //TODO
-        this.foglalkozasCollection = firestore.collection<Foglalkozas>(`${csapat}/${start}/foglalkozasok`)
-        this.foglalkozasok$ = this.foglalkozasCollection.valueChanges()
+    }
+
+    initilize(csapat: string, start: number) {
+
+        console.log("Creating Firebase Collection", `${csapat}/${start}/foglalkozasok`)
+        this.fogCollection = collection(this.firestore, `${csapat}/${start}/foglalkozasok`)
+
+        this.foglalkozasok$.pipe(
+            filter(fogak => fogak.length === 0),
+            take(1)
+        ).subscribe(_ => {
+            this.putFoglalkozas(createTerv(FoglalkozasType.CsapatTerv, csapat, 120))
+            this.refresh()
+        }) // TODO: Need to unsubscribe
+
+        this.refresh()
+    }
+
+    get foglalkozasok$(): Observable<Foglalkozas[]> {
+        return this._foglalkozasok$
+    }
+
+    refresh() {
+        getDocs(ensure(this.fogCollection))
+            .then(snapshot => {
+                console.log(`Received ${snapshot.size} foglalkozasok from Firebase`)
+                const fogak = snapshot.docs.map(doc => doc.data()) as Foglalkozas[]
+                this._foglalkozasok$.next(fogak)
+            })
     }
 
     filterByUuid(uuid: string): Observable<Foglalkozas> {
@@ -34,24 +58,30 @@ export class FoglalkozasService {
         )
     }
 
-    // getByType(type: FoglalkozasType): Foglalkozas[] {
-    //     return this.foglalkozasok.filter(fog => fog.type === type)
-    // }
+    getByType(type: FoglalkozasType): Observable<Foglalkozas[]> {
+        return this.foglalkozasok$.pipe(
+            map(fogak => filterArrayType(fogak, type)),
+        )
+    }
 
     filterChildren(terv: Terv): Observable<Foglalkozas[]> {
-        return this.foglalkozasok$.pipe(
+        return this._foglalkozasok$.pipe(
             map(fogak => filterArrayUuids(fogak, terv.foglalkozasok))
         )
     }
 
-    putFoglalkozas(foglalkozas: Foglalkozas): string {
-        this.foglalkozasCollection.add(foglalkozas)
+    putFoglalkozas(foglalkozas: Foglalkozas, refresh: boolean = true): string {
+        setDoc(doc(ensure(this.fogCollection), foglalkozas.uuid), foglalkozas)
+        if (refresh) {
+            this.refresh()
+        }
         return foglalkozas.uuid
     }
 
     addChild(terv: Terv, child: Foglalkozas) {
-        this.putFoglalkozas(child)
-        terv.foglalkozasok.push(child.uuid)
+        terv.foglalkozasok.push(this.putFoglalkozas(child, false))
+        setDoc(doc(ensure(this.fogCollection), terv.uuid), terv)
+        this.refresh()
     }
 }
 
@@ -61,6 +91,10 @@ function filterArrayUuid(fogak: Foglalkozas[], uuid: string): Foglalkozas {
 
 function filterArrayUuids(fogak: Foglalkozas[], uuids: string[]): Foglalkozas[] {
     return fogak.filter(fog => uuids.includes(fog.uuid))
+}
+
+function filterArrayType(fogak: Foglalkozas[], type: string): Foglalkozas[] {
+    return fogak.filter(fog => fog.type === type)
 }
 
 export function computeRemainingDuration(terv: Terv, children: Foglalkozas[]): number {

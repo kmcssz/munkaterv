@@ -15,14 +15,13 @@
     "@angular/common": "^14.2.0",
     "@angular/compiler": "^14.2.0",
     "@angular/core": "^14.2.0",
-    "@angular/fire": "^7.4.1",
     "@angular/forms": "^14.2.0",
     "@angular/material": "^14.2.0",
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "dateformat": "^5.0.3",
-    "firebase": "^9.9.2",
+    "firebase": "^9.9.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "uuid": "^8.3.2",
@@ -42,6 +41,6 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.7.4"
+    "typescript": "~4.8.2"
   }
 }

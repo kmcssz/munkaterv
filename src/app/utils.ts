@@ -20,6 +20,16 @@ export function first<T>(
     return array[0]
 }
 
+export function firstOrUndef<T>(
+    array: T[],
+): T | undefined {
+    if (array === undefined || array.length === 0) {
+        return undefined
+    }
+
+    return array[0]
+}
+
 export function filterComparator<T>(
     array: T[],
     comparator: (t: T) => boolean,

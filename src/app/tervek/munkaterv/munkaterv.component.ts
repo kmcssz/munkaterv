@@ -1,12 +1,14 @@
 import { Component, Inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { ReplaySubject, Subject } from 'rxjs'
+import { filter, map, mergeMap, Observable, ReplaySubject, Subject, tap } from 'rxjs'
 import { CsoportService } from 'src/app/services/csoport.service'
 import { formatHungarianDate, formatHungarianTime, minutesToMillis } from 'src/app/date-adaptor'
 import { computeConsumedDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { Csapat, Szemszog } from 'src/app/models/csapat'
 import { createTerv, Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
+import { first, firstOrUndef } from 'src/app/utils'
+import { Firestore } from 'firebase/firestore'
 
 @Component({
     selector: 'app-munkaterv',
@@ -20,25 +22,35 @@ export class MunkatervComponent {
 
     csapat!: Csapat
     start!: Date
-    csapatTerv!: Terv
+    csapatTerv$: Observable<Terv>
+    children$: Observable<Foglalkozas[]>
 
     formatHungarianDate = formatHungarianDate
     formatHungarianTime = formatHungarianTime
 
     constructor(
-        private route: ActivatedRoute,
-        private fogSor: FoglalkozasService,
-        private csopSor: CsoportService,
+        route: ActivatedRoute,
+        private readonly fogSor: FoglalkozasService,
+        csopSor: CsoportService,
         @Inject(SZEMSZOG) private szemszog$: Subject<Szemszog>,
     ) {
-        const name = this.route.snapshot.paramMap.get('name')!
-        this.csapat = this.csopSor.getCsoport(name) as Csapat
+        this.start = new Date(parseInt(route.snapshot.paramMap.get('start')!))
+
+        const csapatName = route.snapshot.paramMap.get('name')!
+        this.csapat = csopSor.getCsoport(csapatName) as Csapat
         this.changeSzemszogToCsapat()
 
-        //TODO: Get munkaterv from DB
-        this.start = new Date(parseInt(this.route.snapshot.paramMap.get('start')!)),
-        this.csapatTerv = createTerv(FoglalkozasType.CsapatTerv, this.csapat.name, 120)
-        this.fogSor.putFoglalkozas(this.csapatTerv)
+        this.fogSor.initilize(csapatName, this.start.getTime())
+
+        this.csapatTerv$ = this.fogSor.getByType(FoglalkozasType.CsapatTerv).pipe(
+            filter(fogak => fogak.length > 0),
+            map(fogak => first(fogak) as Terv),
+            tap(cs=> console.log("CsapatTerv", cs)),
+        )
+        this.children$ = this.csapatTerv$.pipe(
+            mergeMap(csapatTerv => this.fogSor.filterChildren(csapatTerv)),
+            tap(children => console.log("children", children)),
+        )
     }
 
     changeSzemszogToCsapat() {
@@ -49,9 +61,5 @@ export class MunkatervComponent {
         return formatHungarianTime(
             new Date(this.start.getTime() + computeConsumedDuration(children) * minutesToMillis)
         )
-    }
-
-    get children$() {
-        return this.fogSor.filterChildren(this.csapatTerv)
     }
 }
