@@ -25,8 +25,9 @@ export class FoglalkozasService {
 
     initilize(csapat: string, start: number) {
 
-        console.log("Creating Firebase Collection", `${csapat}/${start}/foglalkozasok`)
-        this.fogCollection = collection(this.firestore, `${csapat}/${start}/foglalkozasok`)
+        const path = `${csapat}/foglalkozasok/${start}`
+        console.log("Creating Firebase Collection", path)
+        this.fogCollection = collection(this.firestore, path)
 
         this.foglalkozasok$.pipe(
             filter(fogak => fogak.length === 0),
@@ -70,7 +71,7 @@ export class FoglalkozasService {
         )
     }
 
-    putFoglalkozas(foglalkozas: Foglalkozas, refresh: boolean = true): string {
+    putFoglalkozas(foglalkozas: Foglalkozas, refresh: boolean = false): string {
         setDoc(doc(ensure(this.fogCollection), foglalkozas.uuid), foglalkozas)
         if (refresh) {
             this.refresh()

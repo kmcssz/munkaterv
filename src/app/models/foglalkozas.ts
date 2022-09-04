@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
 
-export interface Munkaterv {
+export interface Esemeny {
+    name: string,
     start: number,
-    csapatTervUuid: string,
 }
 
 export enum FoglalkozasType {

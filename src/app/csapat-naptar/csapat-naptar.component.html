@@ -14,21 +14,22 @@
     </div>
 
     <div class="add-button centered">
-        <button mat-fab
+        <button *ngIf="(esemenyek$ | async) as esemenyek"
+            mat-fab
             color="gold"
             matTooltip="Új munkaterv"
             matTooltipClass="large"
-            (click)="addNewMunkaterv()"
+            (click)="addNewEsemeny(esemenyek)"
         >
             <mat-icon>add</mat-icon>
         </button>
     </div>
-    <div *ngFor="let munkaterv of munkatervek"
+    <div *ngFor="let esemeny of (esemenyek$ | async)"
         class="tervek centered">
         <mat-card class="munkaterv-card">
             <mat-card-content class="munkaterv-card-content">
-                <button mat-button [routerLink]="getLink(munkaterv)">
-                    {{formatHungarianStartTime(munkaterv.start)}}
+                <button mat-button [routerLink]="getLink(esemeny)">
+                    {{formatHungarianStartTime(esemeny.start)}}
                 </button>
             </mat-card-content>
         </mat-card>

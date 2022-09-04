@@ -4,8 +4,10 @@ import { Csapat } from '../models/csapat'
 import { formatHungarianDateTime } from '../date-adaptor'
 import dateFormat from 'dateformat'
 import { CsoportService } from '../services/csoport.service'
-import { createTerv, FoglalkozasType, Munkaterv } from '../models/foglalkozas'
+import { Esemeny } from '../models/foglalkozas'
 import { FoglalkozasService } from '../services/foglalkozas.service'
+import { EsemenyService } from '../services/esemeny.service'
+import { map, Observable } from 'rxjs'
 
 export interface NewMunkatervDialogData {
     date: Date
@@ -20,23 +22,28 @@ export interface NewMunkatervDialogData {
 export class CsapatNaptarComponent implements OnInit {
 
     csapat!: Csapat
-    munkatervek: Munkaterv[] = []
+    esemenyek$: Observable<Esemeny[]>
 
     constructor(
         private fogSor: FoglalkozasService,
         private csopSor: CsoportService,
+        private esemenySor: EsemenyService,
         public dialog: MatDialog,
     ) {
+        this.esemenyek$ = this.esemenySor.esemenyek$.pipe(
+            map(esemenyek => esemenyek.sort((e1, e2) => e2.start - e1.start)),
+        )
     }
 
     ngOnInit(): void {
         this.csapat = this.csopSor.getCsapat()
+        this.esemenySor.initilize(this.csapat.name)
     }
 
-    addNewMunkaterv(): void {
+    addNewEsemeny(esemenyek: Esemeny[]): void {
         const sevenDaysMillies = 604800000
-        const nextDate = this.munkatervek.length > 0
-            ? new Date(this.munkatervek[0].start + sevenDaysMillies)
+        const nextDate = esemenyek.length > 0
+            ? new Date(esemenyek[0].start + sevenDaysMillies)
             : new Date() // Today :)
 
         const dialogData: NewMunkatervDialogData = {
@@ -52,15 +59,14 @@ export class CsapatNaptarComponent implements OnInit {
                 parseInt(splitTime[0]),
                 parseInt(splitTime[1]),
             )
-            this.munkatervek.push({
+            this.esemenySor.addEsemeny({
                 start: selectedDateTime.getTime(),
-                csapatTervUuid: this.fogSor.putFoglalkozas(createTerv(FoglalkozasType.CsapatTerv, this.csapat.name, 120)),
+                name: "Cserkész Foglalkozás",
             })
-            this.munkatervek.sort((mtA, mtB) => mtB.start - mtA.start)
         });
     }
 
-    getLink(munkaterv: Munkaterv): string {
+    getLink(munkaterv: Esemeny): string {
         return `/csapat/${this.csapat.name}/munkaterv/${munkaterv.start}`
     }
 
