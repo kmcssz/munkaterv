@@ -35,14 +35,17 @@ export class TervComponent implements OnInit {
 
     drop(event: CdkDragDrop<string[]>) {
         moveItemInArray(this.terv.foglalkozasok, event.previousIndex, event.currentIndex)
+        this.fogSor.putFoglalkozas(this.terv)
     }
 
     computeStartTime(children: Foglalkozas[], uuid: string): Date {
-        return new Date(this.start.getTime() + computeElapsedBeforeDuration(children, uuid) * minutesToMillis)
+        const durationBefore = computeElapsedBeforeDuration(children, uuid)
+        return new Date(this.start.getTime() + durationBefore * minutesToMillis)
     }
 
-    computeEndTime(children: Foglalkozas[]): string {
-        return formatHungarianTime(new Date(this.start.getTime() + computeConsumedDuration(children) * minutesToMillis))
+    translateAfterTime(children: Foglalkozas[], foglalkozas: Foglalkozas): string {
+        const beforeDuration = computeElapsedBeforeDuration(children, foglalkozas.uuid)
+        return formatHungarianTime(new Date(this.start.getTime() + (beforeDuration + foglalkozas.duration) * minutesToMillis))
     }
 }
 

@@ -1,14 +1,13 @@
 import { Component, Inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { filter, map, mergeMap, Observable, ReplaySubject, Subject, tap } from 'rxjs'
+import { filter, map, mergeMap, Observable, ReplaySubject, Subject } from 'rxjs'
 import { CsoportService } from 'src/app/services/csoport.service'
 import { formatHungarianDate, formatHungarianTime, minutesToMillis } from 'src/app/date-adaptor'
 import { computeConsumedDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { Csapat, Szemszog } from 'src/app/models/csapat'
-import { createTerv, Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
-import { first, firstOrUndef } from 'src/app/utils'
-import { Firestore } from 'firebase/firestore'
+import { Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
+import { first } from 'src/app/utils'
 
 @Component({
     selector: 'app-munkaterv',
@@ -45,11 +44,9 @@ export class MunkatervComponent {
         this.csapatTerv$ = this.fogSor.getByType(FoglalkozasType.CsapatTerv).pipe(
             filter(fogak => fogak.length > 0),
             map(fogak => first(fogak) as Terv),
-            tap(cs=> console.log("CsapatTerv", cs)),
         )
         this.children$ = this.csapatTerv$.pipe(
             mergeMap(csapatTerv => this.fogSor.filterChildren(csapatTerv)),
-            tap(children => console.log("children", children)),
         )
     }
 

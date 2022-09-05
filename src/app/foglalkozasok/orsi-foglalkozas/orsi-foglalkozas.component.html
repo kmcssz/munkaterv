@@ -1,6 +1,7 @@
 <section>
     <div>
         <mat-slider #ageSlider
+            [(ngModel)]="orsiFoglalkozas.age"
             (change)="changeAge($event.value ?? 10)"
             thumbLabel
             tickInterval="1"
@@ -93,5 +94,6 @@
     <app-editor-wrapper
         [editable$]="editable$"
         [(leiras)]="orsiFoglalkozas.program!"
+        (change)="changeProgram()"
     ></app-editor-wrapper>
 </section>

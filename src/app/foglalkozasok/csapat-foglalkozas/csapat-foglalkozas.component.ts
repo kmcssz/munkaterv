@@ -3,6 +3,7 @@ import { Foglalkozas } from '../../models/foglalkozas'
 import { isCsapatSzemszog, Szemszog } from '../../models/csapat'
 import { map, Observable } from 'rxjs'
 import { SZEMSZOG } from '../../injection-tokens'
+import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 
 @Component({
     selector: 'app-csapat-foglalkozas',
@@ -16,6 +17,7 @@ export class CsapatFoglalkozasComponent implements OnInit {
     editable$: Observable<boolean>
 
     constructor(
+        public fogSor: FoglalkozasService,
         @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
     ) {
         this.editable$ = szemszog$.pipe(map(isCsapatSzemszog))
@@ -25,5 +27,9 @@ export class CsapatFoglalkozasComponent implements OnInit {
         if (this.csapatFoglalkozas.program === undefined) {
             this.csapatFoglalkozas.program = ""
         }
+    }
+
+    changed() {
+        this.fogSor.putFoglalkozas(this.csapatFoglalkozas)
     }
 }

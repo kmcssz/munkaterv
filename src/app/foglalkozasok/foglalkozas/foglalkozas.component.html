@@ -53,9 +53,10 @@
         <mat-card-content class="foglalkozas-card-content">
             <section class="duration-section">
                 <mat-form-field class="duration">
-                    <input
-                        matInput type="number"
+                    <input matInput
+                        type="number"
                         [(ngModel)]="foglalkozas.duration"
+                        (change)="durationChanged()"
                         [readonly]="!(editableDuration$ | async)"
                     />
                     <mat-hint [align]="'start'">perc</mat-hint>

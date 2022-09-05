@@ -91,6 +91,9 @@ export class FoglalkozasComponent implements OnChanges {
         }
     }
 
+    durationChanged() {
+        this.fogSor.putFoglalkozas(this.foglalkozas)
+    }
 }
 
 function canEditDuration(csoportType: CsoportType, foglalkozasType: FoglalkozasType): boolean {

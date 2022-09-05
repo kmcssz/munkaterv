@@ -7,7 +7,7 @@ import { Csapat } from '../models/csapat'
     templateUrl: './csapat-selection.component.html',
     styleUrls: ['./csapat-selection.component.scss']
 })
-export class CsapatSelectionComponent implements OnInit {
+export class CsapatSelectionComponent {
 
     csapatok: Csapat[]
 
@@ -16,8 +16,4 @@ export class CsapatSelectionComponent implements OnInit {
     ) {
         this.csapatok = [csopSor.getCsoport("Montreal") as Csapat]
     }
-
-    ngOnInit(): void {
-    }
-
 }

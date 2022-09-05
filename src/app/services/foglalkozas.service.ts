@@ -68,6 +68,7 @@ export class FoglalkozasService {
     filterChildren(terv: Terv): Observable<Foglalkozas[]> {
         return this._foglalkozasok$.pipe(
             map(fogak => filterArrayUuids(fogak, terv.foglalkozasok))
+
         )
     }
 
@@ -91,7 +92,16 @@ function filterArrayUuid(fogak: Foglalkozas[], uuid: string): Foglalkozas {
 }
 
 function filterArrayUuids(fogak: Foglalkozas[], uuids: string[]): Foglalkozas[] {
-    return fogak.filter(fog => uuids.includes(fog.uuid))
+    const foglalkozasok: Foglalkozas[] = []
+    uuids.forEach( uuid => {
+        const foundFoglalkozas = fogak.find(fog => fog.uuid === uuid)
+        if (foundFoglalkozas !== undefined) {
+            foglalkozasok.push(foundFoglalkozas)
+        }
+    })
+    return foglalkozasok
+
+    //Not sorted: return fogak.filter(fog => uuids.includes(fog.uuid))
 }
 
 function filterArrayType(fogak: Foglalkozas[], type: string): Foglalkozas[] {
@@ -109,14 +119,24 @@ export function computeConsumedDuration(children: Foglalkozas[]): number {
 }
 
 export function computeElapsedBeforeDuration(children: Foglalkozas[], uuid: string): number {
-    let fogFound = false
-    return children
-        .filter(fog => {
-            if (fog.uuid === uuid) {
-                fogFound = true
-            }
-            return !fogFound
-        })
-        .map(fog => fog.duration)
-        .reduce(addFn, 0)
+
+    let total = 0
+    for (let child of children) {
+        if (child.uuid === uuid) {
+            return total
+        }
+        total += child.duration
+    }
+    return total
+
+    // let fogFound = false
+    // return children
+    //     .filter(fog => {
+    //         if (fog.uuid === uuid) {
+    //             fogFound = true
+    //         }
+    //         return !fogFound
+    //     })
+    //     .map(fog => fog.duration)
+    //     .reduce(addFn, 0)
 }
