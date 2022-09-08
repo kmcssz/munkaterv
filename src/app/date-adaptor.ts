@@ -36,6 +36,7 @@ const MONTH_NAMES = [
     "június",
     "július",
     "augusztus",
+    "szeptember",
     "október",
     "november",
     "december"
