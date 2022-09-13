@@ -6,6 +6,7 @@
 }
 
 .foglalkozas {
+    position: relative;
     margin: 20px;
 }
 
@@ -43,5 +44,14 @@
 
 .drag-handle {
     position: absolute;
-    transform: translate(-25px, 105px);
+    top: 50%;
+    left: -2em;
+    transform: translate(0, -50%);
+}
+
+.foglalkozas-toolbar {
+    display: grid;
+    position: absolute;
+    top: 1em;
+    right: -2em;
 }

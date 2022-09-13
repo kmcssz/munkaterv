@@ -19,7 +19,7 @@ export class TervComponent implements OnInit {
     @Input() start!: Date
     @Input() terv!: Terv
 
-    draggable$!: Observable<boolean>
+    editable$!: Observable<boolean>
 
     constructor(
         public fogSor: FoglalkozasService,
@@ -28,8 +28,8 @@ export class TervComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.draggable$ = this.szemszog$.pipe(
-            map(szSz => canDragTerv(szSz.csoport.type, this.terv.type as FoglalkozasType))
+        this.editable$ = this.szemszog$.pipe(
+            map(szSz => canEditTerv(szSz.csoport.type, this.terv.type as FoglalkozasType))
         )
     }
 
@@ -47,9 +47,13 @@ export class TervComponent implements OnInit {
         const beforeDuration = computeElapsedBeforeDuration(children, foglalkozas.uuid)
         return formatHungarianTime(new Date(this.start.getTime() + (beforeDuration + foglalkozas.duration) * minutesToMillis))
     }
+
+    delete(foglalkozas: Foglalkozas) {
+        this.fogSor.deleteFoglalkozas(foglalkozas, this.terv)
+    }
 }
 
-function canDragTerv(csoportType: CsoportType, foglalkozasType: FoglalkozasType): boolean {
+function canEditTerv(csoportType: CsoportType, foglalkozasType: FoglalkozasType): boolean {
     return csoportType === CsoportType.Csapat && [
             FoglalkozasType.CsapatTerv,
         ].includes(foglalkozasType) ||

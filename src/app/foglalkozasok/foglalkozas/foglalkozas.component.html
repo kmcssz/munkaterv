@@ -49,23 +49,25 @@
 </ng-template>
 
 <ng-container *ngIf="wrapInCard; else foglalkozasContent">
-    <mat-card [ngClass]="foglalkozasCssStyle ?? ''" class="foglalkozas-card">
-        <mat-card-content class="foglalkozas-card-content">
-            <section class="duration-section">
-                <mat-form-field class="duration">
-                    <input matInput
-                        type="number"
-                        [(ngModel)]="foglalkozas.duration"
-                        (change)="durationChanged()"
-                        [readonly]="!(editableDuration$ | async)"
-                    />
-                    <mat-hint [align]="'start'">perc</mat-hint>
-                </mat-form-field>
-            </section>
+    <div class="foglalkozas-wrapper">
+        <mat-card [ngClass]="foglalkozasCssStyle ?? ''" class="foglalkozas-card">
+            <mat-card-content class="foglalkozas-card-content">
+                <section class="duration-section">
+                    <mat-form-field class="duration">
+                        <input matInput
+                            type="number"
+                            [(ngModel)]="foglalkozas.duration"
+                            (change)="durationChanged()"
+                            [readonly]="!(editableDuration$ | async)"
+                        />
+                        <mat-hint [align]="'start'">perc</mat-hint>
+                    </mat-form-field>
+                </section>
 
-            <section class="terv-section">
-                <ng-container *ngTemplateOutlet="foglalkozasContent"></ng-container>
-            </section>
-        </mat-card-content>
-    </mat-card>
+                <section class="terv-section">
+                    <ng-container *ngTemplateOutlet="foglalkozasContent"></ng-container>
+                </section>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </ng-container>

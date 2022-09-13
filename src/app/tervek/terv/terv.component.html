@@ -1,13 +1,16 @@
 <div *ngIf="fogSor.filterChildren(terv) | async as children"
     cdkDropList
     class="foglalkozasok"
-    [cdkDropListDisabled]="!(draggable$ | async)"
+    [cdkDropListDisabled]="!(editable$ | async)"
     (cdkDropListDropped)="drop($event)"
 >
     <div *ngFor="let foglalkozas of children; let last = last">
 
         <div cdkDrag class="foglalkozas">
-            <div *ngIf="draggable$ | async" cdkDragHandle class="drag-handle">
+            <div *ngIf="editable$ | async"
+                cdkDragHandle
+                class="drag-handle"
+            >
                 <mat-icon>drag_indicator</mat-icon>
             </div>
 
@@ -15,6 +18,14 @@
                 [start]="computeStartTime(children, foglalkozas.uuid)"
                 [foglalkozas]="foglalkozas"
             ></app-foglalkozas>
+
+            <div class="foglalkozas-toolbar">
+                <mat-icon *ngIf="editable$ | async"
+                    matTooltip="Törölni"
+                    matTooltipClass="large"
+                    (click)="delete(foglalkozas)"
+                >delete</mat-icon>
+            </div>
         </div>
 
         <div *ngIf="!last" class="time">

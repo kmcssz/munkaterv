@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { addDoc, CollectionReference, doc, DocumentData, Firestore, setDoc, updateDoc } from 'firebase/firestore'
+import { addDoc, CollectionReference, deleteDoc, doc, DocumentData, Firestore, setDoc, updateDoc } from 'firebase/firestore'
 import { collection, getDocs } from 'firebase/firestore'
 import { filter, map, Observable, ReplaySubject, Subject, take } from 'rxjs'
 import { createTerv, Foglalkozas, FoglalkozasType, Terv } from '../models/foglalkozas'
@@ -84,6 +84,17 @@ export class FoglalkozasService {
         terv.foglalkozasok.push(this.putFoglalkozas(child, false))
         setDoc(doc(ensure(this.fogCollection), terv.uuid), terv)
         this.refresh()
+    }
+
+    deleteFoglalkozas(foglalkozas: Foglalkozas, terv: Terv, refresh: boolean = true): string {
+        terv.foglalkozasok.splice(terv.foglalkozasok.indexOf(foglalkozas.uuid), 1)
+        this.putFoglalkozas(terv)
+        deleteDoc(doc(ensure(this.fogCollection), foglalkozas.uuid))
+
+        if (refresh) {
+            this.refresh()
+        }
+        return foglalkozas.uuid
     }
 }
 
