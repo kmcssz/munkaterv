@@ -37,7 +37,7 @@ export class RajTervComponent {
     private addFoglalkozas(foglalkozas: Foglalkozas, children: Foglalkozas[]) {
         // Clip foglalkozas duration
         foglalkozas.duration = Math.min(computeRemainingDuration(this.rajTerv, children), foglalkozas.duration)
-        this.fogSor.addChild(this.rajTerv, foglalkozas)
+        this.fogSor.addChild(this.rajTerv, foglalkozas, true)
     }
 
     addRajFoglalkozas(raj: Raj, children: Foglalkozas[]) {
@@ -48,9 +48,13 @@ export class RajTervComponent {
         const defaultOrsiDuration = 60
         const concurrentTerv = createConcurrentTerv(FoglalkozasType.OrsiTerv, raj.name, defaultOrsiDuration)
         raj.orsok.forEach(ors => {
-            this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.OrsiTerv, ors.name, defaultOrsiDuration))
+            this.fogSor.addChild(
+                concurrentTerv,
+                createTerv(FoglalkozasType.OrsiTerv, ors.name, defaultOrsiDuration),
+                false,
+            )
         })
-        this.fogSor.addChild(this.rajTerv, concurrentTerv)
+        this.fogSor.addChild(this.rajTerv, concurrentTerv, true)
     }
 
     get children$() {

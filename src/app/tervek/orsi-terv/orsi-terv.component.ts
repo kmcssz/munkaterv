@@ -48,7 +48,7 @@ export class OrsiTervComponent {
             newOrsiFoglalkozas.probaUid = lastFoglalkozas.probaUid
         }
 
-        this.fogSor.addChild(this.orsiTerv, newOrsiFoglalkozas)
+        this.fogSor.addChild(this.orsiTerv, newOrsiFoglalkozas, true)
     }
 
     get children$() {

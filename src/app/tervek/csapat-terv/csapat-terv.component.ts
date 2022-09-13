@@ -32,15 +32,19 @@ export class CsapatTervComponent {
     }
 
     addCsapatFoglalkozas(csapat: Csapat) {
-        this.fogSor.addChild(this.csapatTerv, createFoglalkozas(FoglalkozasType.CsapatFoglalkozas, csapat.name))
+        this.fogSor.addChild(
+            this.csapatTerv,
+            createFoglalkozas(FoglalkozasType.CsapatFoglalkozas, csapat.name),
+            true,
+        )
     }
 
     addRajTerv(csapat: Csapat) {
         const defaultRajDuration = 90
         const concurrentTerv = createConcurrentTervek(FoglalkozasType.RajTerv, csapat.name, defaultRajDuration)
         csapat.rajok.forEach(raj => {
-            this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.RajTerv, raj.name, defaultRajDuration))
+            this.fogSor.addChild(concurrentTerv, createTerv(FoglalkozasType.RajTerv, raj.name, defaultRajDuration), false)
         })
-        this.fogSor.addChild(this.csapatTerv, concurrentTerv)
+        this.fogSor.addChild(this.csapatTerv, concurrentTerv, true)
     }
 }

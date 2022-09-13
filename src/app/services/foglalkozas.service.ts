@@ -74,26 +74,33 @@ export class FoglalkozasService {
 
     putFoglalkozas(foglalkozas: Foglalkozas, refresh: boolean = false): string {
         setDoc(doc(ensure(this.fogCollection), foglalkozas.uuid), foglalkozas)
-        if (refresh) {
-            this.refresh()
-        }
+            .then(() => {
+                if (refresh) {
+                    this.refresh()
+                }
+            })
         return foglalkozas.uuid
     }
 
-    addChild(terv: Terv, child: Foglalkozas) {
+    addChild(terv: Terv, child: Foglalkozas, refresh: boolean = true) {
         terv.foglalkozasok.push(this.putFoglalkozas(child, false))
         setDoc(doc(ensure(this.fogCollection), terv.uuid), terv)
-        this.refresh()
+            .then(() => {
+                if (refresh) {
+                    this.refresh()
+                }
+            })
     }
 
     deleteFoglalkozas(foglalkozas: Foglalkozas, terv: Terv, refresh: boolean = true): string {
         terv.foglalkozasok.splice(terv.foglalkozasok.indexOf(foglalkozas.uuid), 1)
-        this.putFoglalkozas(terv)
+        this.putFoglalkozas(terv, false)
         deleteDoc(doc(ensure(this.fogCollection), foglalkozas.uuid))
-
-        if (refresh) {
-            this.refresh()
-        }
+            .then(() => {
+                if (refresh) {
+                    this.refresh()
+                }
+            })
         return foglalkozas.uuid
     }
 }
