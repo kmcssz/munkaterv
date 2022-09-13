@@ -3,7 +3,7 @@ import { filter, map, Observable } from 'rxjs'
 import { computeRemainingDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { isOrsSzemszog, isRajSzemszog, Ors, Szemszog } from 'src/app/models/csapat'
-import { createFoglalkozas, Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
+import { createFoglalkozas, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, Terv } from 'src/app/models/foglalkozas'
 
 @Component({
     selector: 'app-orsi-terv',
@@ -34,11 +34,21 @@ export class OrsiTervComponent {
     }
 
     addOrsiFoglalkozas(ors: Ors, children: Foglalkozas[]) {
-        this.fogSor.addChild(this.orsiTerv, createFoglalkozas(
+        const newOrsiFoglalkozas = createFoglalkozas(
             FoglalkozasType.OrsiFoglalkozas,
             ors.name,
             Math.min(computeRemainingDuration(this.orsiTerv, children), 15),
-        ))
+        ) as OrsiFoglalkozas
+
+        // Duplicate the fields that are useful from last foglalkozas
+        if (children.length > 0) {
+            const lastFoglalkozas = children[children.length - 1] as OrsiFoglalkozas
+            newOrsiFoglalkozas.age = lastFoglalkozas.age
+            newOrsiFoglalkozas.cserkeszUid = lastFoglalkozas.cserkeszUid
+            newOrsiFoglalkozas.probaUid = lastFoglalkozas.probaUid
+        }
+
+        this.fogSor.addChild(this.orsiTerv, newOrsiFoglalkozas)
     }
 
     get children$() {
