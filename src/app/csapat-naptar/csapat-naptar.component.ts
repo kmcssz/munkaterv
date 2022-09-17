@@ -85,7 +85,8 @@ export class CsapatNaptarComponent implements OnInit {
     }
 
     getTense(esemeny: Esemeny) {
-        return esemeny.start < Date.now() ? 'passed' : 'future'
+        const oneDayinMillis = 86436000
+        return (esemeny.start + oneDayinMillis) < Date.now() ? 'passed' : 'future'
     }
 }
 

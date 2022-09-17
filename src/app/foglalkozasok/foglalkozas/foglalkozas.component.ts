@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core'
+import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { map, Observable } from 'rxjs'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
