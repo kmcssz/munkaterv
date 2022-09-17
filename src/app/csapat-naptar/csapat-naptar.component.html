@@ -26,10 +26,17 @@
     </div>
     <div *ngFor="let esemeny of (esemenyek$ | async)"
         class="tervek centered">
-        <mat-card class="munkaterv-card">
-            <mat-card-content class="munkaterv-card-content">
+        <mat-card [ngClass]="'esemeny-' + getTense(esemeny)">
+            <mat-card-content class="esemeny-card-content">
                 <button mat-button [routerLink]="getLink(esemeny)">
-                    {{formatHungarianStartTime(esemeny.start)}}
+                    <span class="esemeny-name">{{esemeny.name}}</span>
+                    <br/>
+                    <span class="esemeny-date">{{formatHungarianStartDate(esemeny.start)}}</span>
+                    <br/>
+                    <span class="esemeny-time">
+                        {{formatHungarianStartWeekday(esemeny.start)}}
+                        {{formatHungarianStartTime(esemeny.start)}}
+                    </span>
                 </button>
             </mat-card-content>
         </mat-card>

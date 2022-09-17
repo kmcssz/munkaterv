@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { filter, map, mergeMap, Observable, ReplaySubject, Subject } from 'rxjs'
 import { CsoportService } from 'src/app/services/csoport.service'
-import { formatHungarianDate, formatHungarianTime, minutesToMillis } from 'src/app/date-adaptor'
+import { formatHungarianFullDate, formatHungarianTime, minutesToMillis } from 'src/app/date-adaptor'
 import { computeConsumedDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
 import { Csapat, Szemszog } from 'src/app/models/csapat'
@@ -24,7 +24,7 @@ export class MunkatervComponent {
     csapatTerv$: Observable<Terv>
     children$: Observable<Foglalkozas[]>
 
-    formatHungarianDate = formatHungarianDate
+    formatHungarianDate = formatHungarianFullDate
     formatHungarianTime = formatHungarianTime
 
     constructor(

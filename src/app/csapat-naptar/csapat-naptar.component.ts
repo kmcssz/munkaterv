@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { Csapat } from '../models/csapat'
-import { formatHungarianDateTime } from '../date-adaptor'
+import { formatHungarianFullDate, formatHungarianDateTime, formatHungarianTime, formatHungarianDate, formatHungarianWeekday } from '../date-adaptor'
 import dateFormat from 'dateformat'
 import { CsoportService } from '../services/csoport.service'
 import { Esemeny } from '../models/foglalkozas'
@@ -10,6 +10,7 @@ import { EsemenyService } from '../services/esemeny.service'
 import { map, Observable } from 'rxjs'
 
 export interface NewMunkatervDialogData {
+    name: string
     date: Date
     time: string
 }
@@ -47,6 +48,7 @@ export class CsapatNaptarComponent implements OnInit {
             : new Date() // Today :)
 
         const dialogData: NewMunkatervDialogData = {
+            name: 'Cserkészfoglalkozás',
             date: nextDate,
             time: dateFormat(nextDate, 'HH:MM'),
         }
@@ -61,7 +63,7 @@ export class CsapatNaptarComponent implements OnInit {
             )
             this.esemenySor.addEsemeny({
                 start: selectedDateTime.getTime(),
-                name: "Cserkész Foglalkozás",
+                name: data.name,
             })
         });
     }
@@ -70,8 +72,20 @@ export class CsapatNaptarComponent implements OnInit {
         return `/csapat/${this.csapat.name}/munkaterv/${munkaterv.start}`
     }
 
+    formatHungarianStartDate(start: number): string {
+        return formatHungarianDate(new Date(start))
+    }
+
+    formatHungarianStartWeekday(start: number): string {
+        return formatHungarianWeekday(new Date(start))
+    }
+
     formatHungarianStartTime(start: number): string {
-        return formatHungarianDateTime(new Date(start))
+        return formatHungarianTime(new Date(start))
+    }
+
+    getTense(esemeny: Esemeny) {
+        return esemeny.start < Date.now() ? 'passed' : 'future'
     }
 }
 

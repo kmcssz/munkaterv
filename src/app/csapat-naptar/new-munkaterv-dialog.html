@@ -1,19 +1,19 @@
-<h1 mat-dialog-title>Mikor?</h1>
 <div mat-dialog-content>
-    <mat-calendar [(selected)]="data.date"></mat-calendar>
     <form>
-        <!-- <section>
+        <h1 mat-dialog-title>Mi?</h1>
+        <section>
             <mat-form-field appearance="fill">
-                <mat-label>Dátum</mat-label>
+                <mat-label>Esemény</mat-label>
                 <input matInput
-                    name="datum"
-                    [matDatepicker]="picker"
-                    [(ngModel)]="data.date"
+                    type="text"
+                    name="name"
+                    [(ngModel)]="data.name"
                 />
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-        </section> -->
+        </section>
+
+        <h1 mat-dialog-title>Mikor?</h1>
+        <mat-calendar [(selected)]="data.date"></mat-calendar>
         <section>
             <mat-form-field class="">
                 <input matInput

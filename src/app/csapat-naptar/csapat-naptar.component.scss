@@ -39,3 +39,23 @@
     display: flex;
     justify-content: center;
 }
+
+.esemeny-passed {
+    background-color: grey;
+}
+
+.esemeny-future {
+    background-color: darkgreen;
+}
+
+.esemeny-name {
+    font-size: x-large;
+}
+
+.esemeny-date {
+    font-size: large;
+}
+
+.esemeny-time {
+    font-size: medium;
+}

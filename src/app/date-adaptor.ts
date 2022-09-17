@@ -46,7 +46,7 @@ const MONTH_NAMES = [
 export class MagyarDateAdapter extends NativeDateAdapter {
 
     override format(date: Date, displayFormat: Object): string {
-        return formatHungarianDate(date)
+        return formatHungarianFullDate(date)
     }
 
     // override parse(value: any): Date | null {
@@ -55,13 +55,25 @@ export class MagyarDateAdapter extends NativeDateAdapter {
     // }
 }
 
-export function formatHungarianDate(date: Date): string {
+export function formatHungarianFullDate(date: Date): string {
     const day = date.getDate()
     const month = date.getMonth()
     const year = date.getFullYear()
     const weekday = date.getDay()
 
     return `${year}. ${MONTH_NAMES[month]} ${day}. ${WEEKDAY_NAMES[weekday]}.`;
+}
+
+export function formatHungarianDate(date: Date): string {
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+
+    return `${year}. ${MONTH_NAMES[month]} ${day}.`;
+}
+
+export function formatHungarianWeekday(date: Date): string {
+    return WEEKDAY_NAMES[date.getDay()]
 }
 
 export function formatHungarianTime(date: Date): string {
@@ -71,9 +83,10 @@ export function formatHungarianTime(date: Date): string {
     const amPm = hours < 12 ? 'délelőtt' : 'délután'
     const minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`
 
-    return `${amPm} ${hours} óra ${minutes} perc`;
+    const perc = minutes > 0 ? ` ${minutes} perc` : ''
+    return `${amPm} ${hours} óra${perc}`
 }
 
 export function formatHungarianDateTime(date: Date): string {
-    return `${formatHungarianDate(date)} ${formatHungarianTime(date)}`;
+    return `${formatHungarianFullDate(date)} ${formatHungarianTime(date)}`;
 }
