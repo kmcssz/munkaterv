@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
-import { addDoc, CollectionReference, deleteDoc, doc, DocumentData, Firestore, setDoc, updateDoc } from 'firebase/firestore'
+import { CollectionReference, deleteDoc, doc, DocumentData, Firestore, setDoc } from 'firebase/firestore'
 import { collection, getDocs } from 'firebase/firestore'
-import { filter, map, Observable, ReplaySubject, Subject, take } from 'rxjs'
-import { createTerv, Foglalkozas, FoglalkozasType, Terv } from '../models/foglalkozas'
+import { map, Observable, ReplaySubject } from 'rxjs'
+import { Foglalkozas, FoglalkozasType, Terv } from '../models/foglalkozas'
 import { ensure, first } from '../utils'
 
 function addFn(a: number, b: number): number {
@@ -28,15 +27,6 @@ export class FoglalkozasService {
         const path = `${csapat}/foglalkozasok/${start}`
         console.log("Creating Firebase Collection", path)
         this.fogCollection = collection(this.firestore, path)
-
-        this.foglalkozasok$.pipe(
-            filter(fogak => fogak.length === 0),
-            take(1)
-        ).subscribe(_ => {
-            this.putFoglalkozas(createTerv(FoglalkozasType.CsapatTerv, csapat, 120))
-            this.refresh()
-        }) // TODO: Need to unsubscribe
-
         this.refresh()
     }
 

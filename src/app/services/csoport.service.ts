@@ -24,7 +24,7 @@ export class CsoportService {
                 "🏰",
                 Korosztaj.Cserkesz,
                 [
-                    new Ors("Ibolya", "🌸"),
+                    new Ors("Szunyog", "🦟"),
                     new Ors("Páva", "🦚"),
                 ],
             ),
@@ -34,7 +34,7 @@ export class CsoportService {
                 Korosztaj.Cserkesz,
                 [
                     new Ors("Róka", "🦊"),
-                    new Ors("Kígyó", "🐍"),
+                    new Ors("Bambusz", "🎋"),
                 ],
             ),
         ],

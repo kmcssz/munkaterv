@@ -27,12 +27,19 @@ export function isOrsSzemszog(szemszog: Szemszog): boolean {
 }
 
 
+// export enum Korosztaj {
+//     AproCserkesz = "#add8e6",
+//     KisCserkesz = "#0000ff",
+//     Cserkesz = "#008900",
+//     Rover = "#9a9a9a",
+//     Felnot = "#571616",
+// }
 export enum Korosztaj {
-    AproCserkesz = "#add8e6",
-    KisCserkesz = "#0000ff",
-    Cserkesz = "#008900",
-    Rover = "#9a9a9a",
-    Felnot = "#571616",
+    AproCserkesz = 'AproCserkesz',
+    KisCserkesz = 'KisCserkesz',
+    Cserkesz = 'Cserkesz',
+    Rover = 'Rover',
+    Felnot = 'Felnot',
 }
 
 export enum CsoportType {

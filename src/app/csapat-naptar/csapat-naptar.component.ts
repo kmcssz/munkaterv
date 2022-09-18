@@ -4,7 +4,7 @@ import { Csapat } from '../models/csapat'
 import { formatHungarianFullDate, formatHungarianDateTime, formatHungarianTime, formatHungarianDate, formatHungarianWeekday } from '../date-adaptor'
 import dateFormat from 'dateformat'
 import { CsoportService } from '../services/csoport.service'
-import { Esemeny } from '../models/foglalkozas'
+import { createTerv, Esemeny, FoglalkozasType } from '../models/foglalkozas'
 import { FoglalkozasService } from '../services/foglalkozas.service'
 import { EsemenyService } from '../services/esemeny.service'
 import { map, Observable } from 'rxjs'
@@ -65,6 +65,9 @@ export class CsapatNaptarComponent implements OnInit {
                 start: selectedDateTime.getTime(),
                 name: data.name,
             })
+
+            this.fogSor.initilize(this.csapat.name, selectedDateTime.getTime())
+            this.fogSor.putFoglalkozas(createTerv(FoglalkozasType.CsapatTerv, this.csapat.name, 120))
         });
     }
 
