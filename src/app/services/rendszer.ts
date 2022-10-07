@@ -1,6 +1,8 @@
 import { Alproba, Cserkesz, Proba, Tema } from "../models/proba"
 
 export const Cserkeszek: Cserkesz[] = [
+    { uid: "KisJatek", name: "Kis játék", startAge: 5, endAge: 6 },
+    { uid: "NagyJatek", name: "Nagy játék", startAge: 7, endAge: 9 },
     { uid: "Ujonc", name: "Újonc", startAge: 10, endAge: 10 },
     { uid: "Taborvero", name: "Táborverő", startAge: 11, endAge: 12 },
     { uid: "Portyazo", name: "Portyázó", startAge: 13, endAge: 14 },
@@ -8,6 +10,16 @@ export const Cserkeszek: Cserkesz[] = [
 ]
 
 export const Probak: Proba[] = [
+    { uid: "Macko", name: "Mackó próba", cserkeszUid: "KisJatek" },
+    { uid: "Napsugar", name: "Napsugár próba", cserkeszUid: "KisJatek" },
+    { uid: "Fenyo", name: "Fenyő próba", cserkeszUid: "KisJatek" },
+    { uid: "Tulipan", name: "Tulipán próba", cserkeszUid: "KisJatek" },
+    { uid: "Igeret", name: "Igéret próba", cserkeszUid: "NagyJatek" },
+    { uid: "UgyesMokus", name: "Ügyes Mókus próba", cserkeszUid: "NagyJatek" },
+    { uid: "Mehecske", name: "Méhecske próba", cserkeszUid: "NagyJatek" },
+    { uid: "Torzs", name: "Törzs próba", cserkeszUid: "NagyJatek" },
+    { uid: "Bagoly", name: "Bagoly próba", cserkeszUid: "NagyJatek" },
+    { uid: "Nyil", name: "Nyil próba", cserkeszUid: "NagyJatek" },
     { uid: "MagyarCimer", name: "Magyar címer próba", cserkeszUid: "Ujonc" },
     { uid: "SzentKorona", name: "Szent Korona próba", cserkeszUid: "Ujonc" },
     { uid: "PirosSzalag", name: "Piros szalag próba", cserkeszUid: "Taborvero" },
