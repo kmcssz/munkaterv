@@ -63,7 +63,8 @@
         </ng-template>
     </div>
 
-    <div class="alproba" >
+    <div class="alproba"
+        *ngIf="alprobak.length > 0" >
         <mat-form-field appearance="fill">
             <mat-label>Alpróba</mat-label>
             <mat-select
@@ -80,7 +81,7 @@
         </mat-form-field>
     </div>
 </section>
-<section>
+<section *ngIf="pontok.length > 0">
     <mat-selection-list (selectionChange)="changePontok($event.options)">
         <mat-list-option *ngFor="let pont of pontok"
             [selected]="pont.selected"

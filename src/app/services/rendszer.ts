@@ -50,6 +50,10 @@ export const Temak: Tema[] = [
     { uid: "Taborozas", name: "Táborozás, szerszámok", emoji: "⛺" },
     { uid: "Tuzrakas", name: "Tűzrakás, főzés és sütés", emoji: "🔥" },
     { uid: "Testedzes", name: "Testedzés", emoji: "🤸" },
+    { uid: "Enek", name: "Ének", emoji: "🎵" },
+    { uid: "Jatek", name: "Játék", emoji: "🎲" },
+    { uid: "Egyeb", name: "Egyéb", emoji: "➕" },
+
 ]
 
 export const Alprobak: Alproba[] = [
@@ -414,4 +418,6 @@ export const Alprobak: Alproba[] = [
     { uid: "GyakorlatokTeljesitmeny", probaUid: "Koszoru", temaUid: "Testedzes", name: "Gyakorlatok", pontok: ["Teljesítmény túrán veszel részt."] },
     { uid: "UgyessegTajekozodas", probaUid: "Koszoru", temaUid: "Testedzes", name: "Ügyesség", pontok: ["Részt vettél tájékozódási futáson vagy néptáncon."] },
     { uid: "Kitartas20PercFutas", probaUid: "Koszoru", temaUid: "Testedzes", name: "Kitartás", pontok: ["Tudsz 20 percet futni (vagy 1200 métert úszni, vagy 50 km-t kerékpározni)."] },
+
+    
 ]
