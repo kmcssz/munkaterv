@@ -5,12 +5,18 @@ export enum Rang {
     OrsVezeto,
 }
 
+export enum Layout {
+    Desktop,
+    Mobile,
+    Print,
+}
+
 export class Szemszog {
 
     constructor(
         public readonly csapat: Csapat,
         public readonly csoport: Csoport,
-        public printLayout: boolean,
+        public layout: Layout,
     ) {
     }
 }

@@ -1,11 +1,19 @@
-<mat-form-field>
-    <mat-label>Program</mat-label>
+<mat-form-field *ngIf="(layout$ | async) != Layout.Print; else paragraphArea">
+    <mat-label *ngIf="(layout$ | async) == Layout.Desktop">
+        Program
+    </mat-label>
+
     <textarea
+        #textArea="cdkTextareaAutosize"
         matInput
         cdkTextareaAutosize
-        #textArea="cdkTextareaAutosize"
+        [ngClass]="(layout$ | async) != Layout.Desktop ? 'small' : 'large'"
         [readonly]="!(editable$ | async)"
         [(ngModel)]="leiras"
         (ngModelChange)="leirasChange.next($event)"
     ></textarea>
 </mat-form-field>
+
+<ng-template #paragraphArea>
+    <p>{{leiras}}</p>
+</ng-template>

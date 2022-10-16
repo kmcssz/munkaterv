@@ -4,7 +4,14 @@ mat-form-field {
 
 textarea {
     width: 100%;
-    font-size: 2em;
     font-weight: regular;
-    font-family: "BenchNine", sans-serif;
+    // font-family: "BenchNine", sans-serif;
+}
+
+.large {
+    font-size: 2em;
+}
+
+.small {
+    font-size: 1em;
 }

@@ -1,7 +1,9 @@
 <div *ngIf="szemszog$ | async as szemszog"
     class="munkaterv"
 >
-    <div class="top-left-toolbar">
+    <div *ngIf="(layout$ | async) != Layout.Print"
+        class="top-left-toolbar"
+    >
         <a mat-icon-button
             [routerLink]="'/csapat/' + csapat.name"
             [matTooltip]="'Vissza a ' + csapat.name + ' csapathoz'"
@@ -10,15 +12,17 @@
             <mat-icon>arrow_back</mat-icon>
         </a>
         <a mat-icon-button
-            matTooltip="Nyomtatott verzió"
+            [matTooltip]="(layout$ | async) == Layout.Desktop ? 'Telefon verzió' : 'Számitógep verzió'"
             matTooltipClass="large"
             (click)="printLayout(szemszog)"
         >
-            <mat-icon>print</mat-icon>
+            <mat-icon *ngIf="(layout$ | async) == Layout.Desktop">phone_iphone</mat-icon>
+            <mat-icon *ngIf="(layout$ | async) == Layout.Mobile">desktop_mac</mat-icon>
         </a>
     </div>
 
-    <div class="csapat-sign centered">
+    <div *ngIf="(layout$ | async) == Layout.Desktop; else csapatSignPlaceHolder"
+        class="csapat-sign centered">
         <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
         <img class="csapat-logo"
             [src]="csapat.logoUri"
@@ -27,10 +31,20 @@
             (click)="changeSzemszogToCsapat(szemszog)" />
     </div>
 
+    <ng-template #csapatSignPlaceHolder>
+        <div class="csapat-sign">
+            {{szemszog.csoport.emoji}}
+        </div>
+    </ng-template>
+
     <app-szemszog-selection class="szemszog" [csapat]="csapat"></app-szemszog-selection>
 
-    <div class="date">{{formatHungarianDate(start)}}</div>
-    <div class="start">{{formatHungarianTime(start)}}</div>
+    <div class="date" [ngClass]="(layout$ | async) == Layout.Desktop ? 'date-large' : 'date-small'">
+        {{formatHungarianDate(start)}}
+    </div>
+    <div class="start" [ngClass]="(layout$ | async) == Layout.Desktop ? 'start-large' : 'start-small'">
+        {{formatHungarianTime(start)}}
+    </div>
 
     <app-foglalkozas *ngIf="csapatTerv$ | async as csapatTerv"
         [start]="start"
@@ -39,6 +53,7 @@
 
     <div *ngIf="children$ | async as children"
         class="time"
+        [ngClass]="(layout$ | async) == Layout.Desktop ? 'time-large' : 'time-small'"
     >
         {{computeOszoljTime(children)}}
     </div>

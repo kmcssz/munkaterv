@@ -41,24 +41,48 @@
 }
 
 .date {
+    color: $date-and-time;
+    text-align: left;
+}
+
+.date-large {
     position: absolute;
     top: 150px;
     left: 20px;
     font-size: xx-large;
-    color: $date-and-time;
+}
+
+.date-small {
+    font-size: medium;
 }
 
 .start {
+    color: $date-and-time;
+    text-align: left;
+}
+
+.start-large {
     position: absolute;
     top: 235px;
     left: 20px;
     font-size: x-large;
-    color: $date-and-time;
+}
+
+.start-small {
+    font-size: medium;
 }
 
 .time {
-    left: 20px;
-    font-size: x-large;
     text-align: left;
     color: $date-and-time;
+}
+
+.time-large {
+    left: 20px;
+    font-size: x-large;
+}
+
+.time-small {
+    left: 0px;
+    font-size: medium;
 }

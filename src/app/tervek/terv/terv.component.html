@@ -6,8 +6,11 @@
 >
     <div *ngFor="let foglalkozas of children; let last = last">
 
-        <div cdkDrag class="foglalkozas">
-            <div *ngIf="editable$ | async"
+        <div cdkDrag
+            class="foglalkozas"
+            [ngClass]="(layout$ | async) == Layout.Desktop ? 'foglalkozas-large' : 'foglalkozas-small'"
+        >
+            <div *ngIf="(editable$ | async) && (layout$ | async) != Layout.Print"
                 cdkDragHandle
                 class="drag-handle"
             >
@@ -20,7 +23,7 @@
             ></app-foglalkozas>
 
             <div class="foglalkozas-toolbar">
-                <mat-icon *ngIf="editable$ | async"
+                <mat-icon *ngIf="(editable$ | async) && (layout$ | async) != Layout.Print"
                     matTooltip="Törölni"
                     matTooltipClass="large"
                     (click)="delete(foglalkozas)"
@@ -28,7 +31,10 @@
             </div>
         </div>
 
-        <div *ngIf="!last" class="time">
+        <div *ngIf="!last"
+            class="time"
+            [ngClass]="(layout$ | async) == Layout.Desktop ? 'time-large' : 'time-small'"
+        >
             {{translateAfterTime(children, foglalkozas)}}
         </div>
     </div>

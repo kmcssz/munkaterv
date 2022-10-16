@@ -7,14 +7,29 @@
 
 .foglalkozas {
     position: relative;
+}
+
+.foglalkozas-large {
     margin: 20px;
+}
+
+.foglalkozas-small {
+    margin: 0px;
+    margin-right: 20px;
 }
 
 .time {
     left: 20px;
-    font-size: x-large;
     text-align: left;
     color: $date-and-time;
+}
+
+.time-large {
+    font-size: x-large;
+}
+
+.time-small {
+    font-size: medium;
 }
 
 .cdk-drag-preview {

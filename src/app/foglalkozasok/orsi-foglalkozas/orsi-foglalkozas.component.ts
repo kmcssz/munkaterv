@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core'
 import { MatListOption } from '@angular/material/list'
 import { Alproba, Cserkesz, Proba, Tema } from '../../models/proba'
 import { OrsiFoglalkozas, ProbaPont } from '../../models/foglalkozas'
-import { CsoportType, Szemszog } from '../../models/csapat'
+import { CsoportType, Layout, Szemszog } from '../../models/csapat'
 import { SZEMSZOG } from '../../injection-tokens'
 import { map, Observable } from 'rxjs'
 import { ProbaRendszerService } from 'src/app/services/probarendszer.service'
@@ -18,7 +18,10 @@ export class OrsiFoglalkozasComponent implements OnInit {
 
     @Input() orsiFoglalkozas!: OrsiFoglalkozas
 
+    Layout = Layout
+
     editable$: Observable<boolean>
+    layout$: Observable<Layout>
     areProbakOpen = false
     areTemakOpen = false
 
@@ -32,6 +35,7 @@ export class OrsiFoglalkozasComponent implements OnInit {
         @Inject(SZEMSZOG) readonly szemszog$: Observable<Szemszog>
     ) {
         this.temak = probaRendszer.getTemak()
+        this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
         this.editable$ = szemszog$.pipe(
             map(szemszog => szemszog.csoport.type === CsoportType.Ors),
         )
@@ -90,7 +94,7 @@ export class OrsiFoglalkozasComponent implements OnInit {
             this.orsiFoglalkozas.probaUid,
             this.orsiFoglalkozas.temaUid,
         )
-        this.orsiFoglalkozas.pontok = [] 
+        this.orsiFoglalkozas.pontok = []
         this.changeAlproba(first(this.alprobak).uid, save)
     }
 

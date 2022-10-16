@@ -1,5 +1,15 @@
-<app-editor-wrapper
-    [editable$]="editable$"
-    [(leiras)]="rajFoglalkozas.program!"
-    (change)="changed()"
-></app-editor-wrapper>
+<div class="raj-foglalkozas">
+
+    <section *ngIf="(layout$ | async) != Layout.Desktop"
+        class="type-section"
+    >
+        <p>Raj:</p>
+    </section>
+
+    <app-editor-wrapper
+        class="editor"
+        [editable$]="editable$"
+        [(leiras)]="rajFoglalkozas.program!"
+        (change)="changed()"
+    ></app-editor-wrapper>
+</div>

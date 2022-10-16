@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { filter, map, mergeMap, Observable, ReplaySubject, Subject } from 'rxjs'
+import { BehaviorSubject, filter, map, mergeMap, Observable, ReplaySubject, Subject } from 'rxjs'
 import { CsoportService } from 'src/app/services/csoport.service'
 import { formatHungarianFullDate, formatHungarianTime, minutesToMillis } from 'src/app/date-adaptor'
 import { computeConsumedDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
-import { Csapat, Szemszog } from 'src/app/models/csapat'
+import { Csapat, Layout, Szemszog } from 'src/app/models/csapat'
 import { Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
 import { first } from 'src/app/utils'
 
@@ -14,15 +14,18 @@ import { first } from 'src/app/utils'
     templateUrl: './munkaterv.component.html',
     styleUrls: ['./munkaterv.component.scss'],
     providers: [
-        { provide: SZEMSZOG, useFactory: () => new ReplaySubject<Szemszog>(1) },
+        { provide: SZEMSZOG, useFactory: () => new BehaviorSubject<Szemszog|undefined>(undefined) },
     ],
 })
 export class MunkatervComponent {
+
+    Layout = Layout
 
     csapat!: Csapat
     start!: Date
     csapatTerv$: Observable<Terv>
     children$: Observable<Foglalkozas[]>
+    layout$: Observable<Layout>
 
     formatHungarianDate = formatHungarianFullDate
     formatHungarianTime = formatHungarianTime
@@ -33,6 +36,8 @@ export class MunkatervComponent {
         csopSor: CsoportService,
         @Inject(SZEMSZOG) public szemszog$: Subject<Szemszog>,
     ) {
+        this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
+
         this.start = new Date(parseInt(route.snapshot.paramMap.get('start')!))
 
         const csapatName = route.snapshot.paramMap.get('name')!
@@ -41,7 +46,7 @@ export class MunkatervComponent {
         this.szemszog$.next(new Szemszog(
             this.csapat,
             this.csapat,
-            window.innerWidth < 1200,
+            window.innerWidth < 1200 ? Layout.Mobile : Layout.Desktop,
         ))
 
         this.fogSor.initilize(csapatName, this.start.getTime())
@@ -59,7 +64,7 @@ export class MunkatervComponent {
         this.szemszog$.next( new Szemszog(
             szemszog.csapat,
             szemszog.csoport,
-            !szemszog.printLayout,
+            szemszog.layout == Layout.Desktop ? Layout.Mobile : Layout.Desktop,
         ))
     }
 
@@ -67,7 +72,7 @@ export class MunkatervComponent {
         this.szemszog$.next(new Szemszog(
             this.csapat,
             this.csapat,
-            szemszog.printLayout,
+            szemszog.layout,
         ))
     }
 

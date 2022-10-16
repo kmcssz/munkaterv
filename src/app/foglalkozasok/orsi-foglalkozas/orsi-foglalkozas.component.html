@@ -1,4 +1,4 @@
-<section>
+<section *ngIf="(layout$ | async) == Layout.Desktop">
     <div>
         <mat-slider #ageSlider
             [(ngModel)]="orsiFoglalkozas.age"
@@ -81,7 +81,8 @@
         </mat-form-field>
     </div>
 </section>
-<section *ngIf="pontok.length > 0">
+
+<section *ngIf="pontok.length > 0 && (layout$ | async) == Layout.Desktop">
     <mat-selection-list (selectionChange)="changePontok($event.options)">
         <mat-list-option *ngFor="let pont of pontok"
             [selected]="pont.selected"
@@ -91,7 +92,17 @@
         </mat-list-option>
     </mat-selection-list>
 </section>
-<section class="editor-section">
+
+<section *ngIf="(layout$ | async) != Layout.Desktop"
+    class="type-section"
+>
+    <p>Őrsi:</p>
+</section>
+
+<section
+    class="editor-section"
+    [ngClass]="(layout$ | async) == Layout.Desktop ? 'large' : 'small'"
+>
     <app-editor-wrapper
         [editable$]="editable$"
         [(leiras)]="orsiFoglalkozas.program!"

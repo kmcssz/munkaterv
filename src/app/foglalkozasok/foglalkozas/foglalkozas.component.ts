@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@ang
 import { map, Observable } from 'rxjs'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
-import { CsoportType, Szemszog } from 'src/app/models/csapat'
+import { CsoportType, Layout, Szemszog } from 'src/app/models/csapat'
 import { ConcurrentTerv, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, Terv } from '../../models/foglalkozas'
 
 const foglalkozasTypeToCssStyle = new Map<FoglalkozasType, string>(
@@ -28,17 +28,21 @@ export class FoglalkozasComponent implements OnChanges {
     @Input() start!: Date
     @Input() foglalkozas!: Foglalkozas
 
+    Layout = Layout
+
     terv?: Terv
     orsiFoglalkozas?: OrsiFoglalkozas
 
     foglalkozasCssStyle?: string
     wrapInCard!: boolean
     editableDuration$!: Observable<boolean>
+    layout$: Observable<Layout>
 
     constructor(
         private fogSor: FoglalkozasService,
         @Inject(SZEMSZOG) public szemszog$: Observable<Szemszog>,
     ) {
+        this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
     }
 
     ngOnChanges(_: SimpleChanges): void {

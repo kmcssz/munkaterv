@@ -1,8 +1,8 @@
 import { Alproba, Cserkesz, Proba, Tema } from "../models/proba"
 
 export const Cserkeszek: Cserkesz[] = [
-    { uid: "KisJatek", name: "Kis játék", startAge: 5, endAge: 6 },
-    { uid: "NagyJatek", name: "Nagy játék", startAge: 7, endAge: 9 },
+    { uid: "KisJatek", name: "KisJáték", startAge: 5, endAge: 6 },
+    { uid: "NagyJatek", name: "NagyJáték", startAge: 7, endAge: 9 },
     { uid: "Ujonc", name: "Újonc", startAge: 10, endAge: 10 },
     { uid: "Taborvero", name: "Táborverő", startAge: 11, endAge: 12 },
     { uid: "Portyazo", name: "Portyázó", startAge: 13, endAge: 14 },
@@ -419,5 +419,5 @@ export const Alprobak: Alproba[] = [
     { uid: "UgyessegTajekozodas", probaUid: "Koszoru", temaUid: "Testedzes", name: "Ügyesség", pontok: ["Részt vettél tájékozódási futáson vagy néptáncon."] },
     { uid: "Kitartas20PercFutas", probaUid: "Koszoru", temaUid: "Testedzes", name: "Kitartás", pontok: ["Tudsz 20 percet futni (vagy 1200 métert úszni, vagy 50 km-t kerékpározni)."] },
 
-    
+
 ]

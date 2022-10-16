@@ -1,31 +1,52 @@
-<mat-button-toggle-group *ngIf="szemszog$ | async as szemszog"
-    #buttonGroup
-    class="szemszog"
-    name="szemszog"
-    (change)="changeCsoport(szemszog, $event.value)"
->
-    <table>
-        <tr *ngFor="let raj of csapat.rajok"
-            [ngClass]="raj.korosztaj"
+<div *ngIf="(layout$ | async) == Layout.Desktop; else dropDown">
+    <mat-button-toggle-group *ngIf="szemszog$ | async as szemszog"
+        #buttonGroup
+        class="szemszog"
+        name="szemszog"
+        (change)="changeCsoport(szemszog, $event.value)"
+    >
+        <table>
+            <tr *ngFor="let raj of csapat.rajok"
+                [ngClass]="raj.korosztaj"
+            >
+                <td>
+                    <mat-button-toggle
+                        [value]="raj"
+                        [matTooltip]="raj.name + ' raj'"
+                        matTooltipClass="large"
+                    >
+                        {{raj.emoji}}
+                    </mat-button-toggle>
+                </td>
+                <td *ngFor="let ors of raj.orsok">
+                    <mat-button-toggle
+                        [value]="ors"
+                        [matTooltip]="ors.name + ' őrs'"
+                        matTooltipClass="large"
+                    >
+                        {{ors.emoji}}
+                    </mat-button-toggle>
+                </td>
+            </tr>
+        </table>
+    </mat-button-toggle-group>
+</div>
+
+<ng-template #dropDown>
+    <mat-form-field *ngIf="szemszog$ | async as szemszog"
+        appearance="fill"
+    >
+        <mat-select
+            [value]="szemszog.csoport"
+            (valueChange)="changeCsoport(szemszog, $event)"
         >
-            <td>
-                <mat-button-toggle
-                    [value]="raj"
-                    [matTooltip]="raj.name + ' raj'"
-                    matTooltipClass="large"
-                >
-                    {{raj.emoji}}
-                </mat-button-toggle>
-            </td>
-            <td *ngFor="let ors of raj.orsok">
-                <mat-button-toggle
-                    [value]="ors"
-                    [matTooltip]="ors.name + ' őrs'"
-                    matTooltipClass="large"
-                >
-                    {{ors.emoji}}
-                </mat-button-toggle>
-            </td>
-        </tr>
-    </table>
-</mat-button-toggle-group>
+            <mat-option [value]="csapat" selected="selected">{{csapat.name}}i Csapat</mat-option>
+
+            <ng-container *ngFor="let raj of csapat.rajok">
+                <mat-option [value]="raj">{{raj.name}} raj</mat-option>
+
+                <mat-option *ngFor="let ors of raj.orsok" [value]="ors">{{ors.name}} őrs</mat-option>
+            </ng-container>
+        </mat-select>
+      </mat-form-field>
+</ng-template>

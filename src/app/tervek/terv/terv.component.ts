@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs'
 import { formatHungarianTime } from 'src/app/date-adaptor'
 import { computeConsumedDuration, computeElapsedBeforeDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
-import { CsoportType, Szemszog } from 'src/app/models/csapat'
+import { CsoportType, Layout, Szemszog } from 'src/app/models/csapat'
 import { Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
 
 const minutesToMillis = 60 * 1000
@@ -19,12 +19,16 @@ export class TervComponent implements OnInit {
     @Input() start!: Date
     @Input() terv!: Terv
 
+    Layout = Layout
+
     editable$!: Observable<boolean>
+    layout$: Observable<Layout>
 
     constructor(
         public fogSor: FoglalkozasService,
         @Inject(SZEMSZOG) public szemszog$: Observable<Szemszog>,
     ) {
+       this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
     }
 
     ngOnInit(): void {

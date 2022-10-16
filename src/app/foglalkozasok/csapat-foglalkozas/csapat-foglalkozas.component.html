@@ -1,5 +1,15 @@
-<app-editor-wrapper
-    [editable$]="editable$"
-    [(leiras)]="csapatFoglalkozas.program!"
-    (change)="changed()"
-></app-editor-wrapper>
+
+<div class="csapat-foglalkozas">
+    <section *ngIf="(layout$ | async) != Layout.Desktop"
+        class="type-section"
+    >
+        <p>Csapat:</p>
+    </section>
+
+    <app-editor-wrapper
+        class="editor"
+        [editable$]="editable$"
+        [(leiras)]="csapatFoglalkozas.program!"
+        (change)="changed()"
+    ></app-editor-wrapper>
+</div>
