@@ -10,6 +10,7 @@ export class Szemszog {
     constructor(
         public readonly csapat: Csapat,
         public readonly csoport: Csoport,
+        public printLayout: boolean,
     ) {
     }
 }

@@ -1,12 +1,22 @@
-<div class="munkaterv">
-    <a mat-icon-button
-        class="back-button"
-        [routerLink]="'/csapat/' + csapat.name"
-        [matTooltip]="'Vissza a ' + csapat.name + ' csapathoz'"
-        matTooltipClass="large"
-    >
-        <mat-icon class="back-button-icon">arrow_back</mat-icon>
-    </a>
+<div *ngIf="szemszog$ | async as szemszog"
+    class="munkaterv"
+>
+    <div class="top-left-toolbar">
+        <a mat-icon-button
+            [routerLink]="'/csapat/' + csapat.name"
+            [matTooltip]="'Vissza a ' + csapat.name + ' csapathoz'"
+            matTooltipClass="large"
+        >
+            <mat-icon>arrow_back</mat-icon>
+        </a>
+        <a mat-icon-button
+            matTooltip="Nyomtatott verzió"
+            matTooltipClass="large"
+            (click)="printLayout(szemszog)"
+        >
+            <mat-icon>print</mat-icon>
+        </a>
+    </div>
 
     <div class="csapat-sign centered">
         <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
@@ -14,7 +24,7 @@
             [src]="csapat.logoUri"
             [matTooltip]="csapat.name + 'i csapat'"
             matTooltipClass="large"
-            (click)="changeSzemszogToCsapat()" />
+            (click)="changeSzemszogToCsapat(szemszog)" />
     </div>
 
     <app-szemszog-selection class="szemszog" [csapat]="csapat"></app-szemszog-selection>

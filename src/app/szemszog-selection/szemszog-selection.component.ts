@@ -33,7 +33,7 @@ export class SzemszogSelectionComponent implements AfterViewInit, OnDestroy {
         this.destroy$.complete()
     }
 
-    changeCsoport(csoport: Csoport) {
-        this.szemszog$.next(new Szemszog(this.csapat, csoport))
+    changeCsoport(szemszog: Szemszog, csoport: Csoport) {
+        this.szemszog$.next(new Szemszog(this.csapat, csoport, szemszog.printLayout))
     }
 }

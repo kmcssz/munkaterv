@@ -31,13 +31,18 @@ export class MunkatervComponent {
         route: ActivatedRoute,
         private readonly fogSor: FoglalkozasService,
         csopSor: CsoportService,
-        @Inject(SZEMSZOG) private szemszog$: Subject<Szemszog>,
+        @Inject(SZEMSZOG) public szemszog$: Subject<Szemszog>,
     ) {
         this.start = new Date(parseInt(route.snapshot.paramMap.get('start')!))
 
         const csapatName = route.snapshot.paramMap.get('name')!
         this.csapat = csopSor.getCsoport(csapatName) as Csapat
-        this.changeSzemszogToCsapat()
+
+        this.szemszog$.next(new Szemszog(
+            this.csapat,
+            this.csapat,
+            window.innerWidth < 1200,
+        ))
 
         this.fogSor.initilize(csapatName, this.start.getTime())
 
@@ -50,8 +55,20 @@ export class MunkatervComponent {
         )
     }
 
-    changeSzemszogToCsapat() {
-        this.szemszog$.next(new Szemszog(this.csapat, this.csapat))
+    printLayout(szemszog: Szemszog) {
+        this.szemszog$.next( new Szemszog(
+            szemszog.csapat,
+            szemszog.csoport,
+            !szemszog.printLayout,
+        ))
+    }
+
+    changeSzemszogToCsapat(szemszog: Szemszog) {
+        this.szemszog$.next(new Szemszog(
+            this.csapat,
+            this.csapat,
+            szemszog.printLayout,
+        ))
     }
 
     computeOszoljTime(children: Foglalkozas[]): string {
