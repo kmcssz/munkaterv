@@ -2,7 +2,7 @@
     class="munkaterv"
 >
     <div *ngIf="(layout$ | async) != Layout.Print"
-        class="top-left-toolbar"
+        class="toolbar"
     >
         <a mat-icon-button
             [routerLink]="'/csapat/' + csapat.name"
@@ -21,21 +21,20 @@
         </a>
     </div>
 
-    <div *ngIf="(layout$ | async) == Layout.Desktop; else csapatSignPlaceHolder"
-        class="csapat-sign centered">
-        <img class="csapat-background" [src]="'assets/csapatok/background.png'" />
-        <img class="csapat-logo"
-            [src]="csapat.logoUri"
-            [matTooltip]="csapat.name + 'i csapat'"
+    <div *ngIf="(layout$ | async) == Layout.Desktop"
+        class="centered"
+    >
+        <img class="csoport-icon"
+            [matTooltip]="szemszog.csoport.name + ' ' + szemszog.csoport.type"
             matTooltipClass="large"
-            (click)="changeSzemszogToCsapat(szemszog)" />
+            [src]="szemszog.csoport.getIconUri()" />
     </div>
 
-    <ng-template #csapatSignPlaceHolder>
+    <!-- <ng-template #csapatSignPlaceHolder>
         <div class="csapat-sign">
-            {{szemszog.csoport.emoji}}
+            <img class="csapat-logo" [src]="szemszog.csoport.getIconUri()" />
         </div>
-    </ng-template>
+    </ng-template> -->
 
     <app-szemszog-selection class="szemszog" [csapat]="csapat"></app-szemszog-selection>
 

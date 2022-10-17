@@ -8,33 +8,33 @@ export class CsoportService {
 
     csapat = new Csapat(
         "Montreal",
-        "⚜️",
+        "Montreal",
         [
             new Raj(
                 "Katicabogár",
-                "🐞",
+                "Ladybug",
                 Korosztaj.KisCserkesz,
                 [
-                    new Ors("Bagoly", "🦉"),
-                    new Ors("Méhecske", "🐝"),
+                    new Ors("Bagoly", "Owl"),
+                    new Ors("Méhecske", "Bee"),
                 ],
             ),
             new Raj(
                 "Munkács",
-                "🏰",
+                "Castle",
                 Korosztaj.Cserkesz,
                 [
-                    new Ors("Szunyog", "🦟"),
-                    new Ors("Páva", "🦚"),
+                    new Ors("Szunyog", "Mosquito"),
+                    new Ors("Páva", "Peacock"),
                 ],
             ),
             new Raj(
                 "Besztercebánya",
-                "⚒️",
+                "Mine",
                 Korosztaj.Cserkesz,
                 [
-                    new Ors("Róka", "🦊"),
-                    new Ors("Bambusz", "🎋"),
+                    new Ors("Róka", "Fox"),
+                    new Ors("Bambusz", "Bamboo"),
                 ],
             ),
         ],

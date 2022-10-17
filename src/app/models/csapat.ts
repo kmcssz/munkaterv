@@ -52,7 +52,7 @@ export enum Korosztaj {
 export enum CsoportType {
     Csapat = 'Csapat',
     Raj = 'Raj',
-    Ors = 'Ors',
+    Ors = 'Őrs',
 }
 
 export abstract class Csoport {
@@ -60,26 +60,27 @@ export abstract class Csoport {
     constructor(
         public readonly type: CsoportType,
         public readonly name: string,
-        public readonly emoji: string,
+        public readonly icon: string,
     ) {
     }
 
     contains(csoport: Csoport): boolean {
         return this === csoport
     }
+
+    getIconUri(): string {
+        return `assets/csoportok/${this.icon}.png`
+    }
 }
 
 export class Csapat extends Csoport {
 
-    readonly logoUri: string
-
     constructor(
         name: string,
-        emoji: string = "🧑‍🤝‍🧑",
+        icon: string,
         public readonly rajok: Raj[] = [],
     ) {
-        super(CsoportType.Csapat, name, emoji)
-        this.logoUri = `assets/csapatok/${name}.png`
+        super(CsoportType.Csapat, name, icon)
     }
 
     override contains(csoport: Csoport): boolean {
@@ -91,11 +92,11 @@ export class Raj extends Csoport {
 
     constructor(
         name: string,
-        emoji: string,
+        icon: string,
         public readonly korosztaj: Korosztaj,
         public readonly orsok: Ors[] = [],
     ) {
-        super(CsoportType.Raj, name, emoji)
+        super(CsoportType.Raj, name, icon)
     }
 
     override contains(csoport: Csoport): boolean {
@@ -107,8 +108,8 @@ export class Ors extends Csoport {
 
     constructor(
         name: string,
-        emoji: string,
+        icon: string,
     ) {
-        super(CsoportType.Ors, name, emoji)
+        super(CsoportType.Ors, name, icon)
     }
 }

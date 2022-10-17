@@ -6,8 +6,14 @@
         ></app-foglalkozas>
     </div>
     <ng-template #unselected>
-        <div *ngFor="let csoport of (csoportok$ | async)">
-            {{csoport.emoji}} {{csoport.name}}
+        <div class="csoportok">
+            <div *ngFor="let csoport of (csoportok$ | async)"
+                class="csoport"
+                (click)="csangeSzemszog(csoport)"
+            >
+                <img class="icon" [src]="csoport.getIconUri()" />
+                <div>{{csoport.name}} {{csoport.type}}</div>
+            </div>
         </div>
     </ng-template>
 </div>

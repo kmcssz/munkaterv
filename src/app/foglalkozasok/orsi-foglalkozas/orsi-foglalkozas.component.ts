@@ -95,7 +95,9 @@ export class OrsiFoglalkozasComponent implements OnInit {
             this.orsiFoglalkozas.temaUid,
         )
         this.orsiFoglalkozas.pontok = []
-        this.changeAlproba(first(this.alprobak).uid, save)
+        if (this.alprobak.length > 0) {
+            this.changeAlproba(first(this.alprobak).uid, save)
+        }
     }
 
     changeAlproba(alprobaUid: string, save: boolean = true) {

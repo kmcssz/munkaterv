@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core'
-import { combineLatest, filter, first, flatMap, map, Observable, Subject } from 'rxjs'
+import { BehaviorSubject, combineLatest, filter, first, flatMap, map, Observable, Subject } from 'rxjs'
 import { CsoportService } from 'src/app/services/csoport.service'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { SZEMSZOG } from 'src/app/injection-tokens'
@@ -23,7 +23,7 @@ export class ConcurrentTervekComponent implements OnInit {
     constructor(
         private fogSor: FoglalkozasService,
         private csopSor: CsoportService,
-        @Inject(SZEMSZOG) public szemszog$: Subject<Szemszog>,
+        @Inject(SZEMSZOG) public szemszog$: BehaviorSubject<Szemszog>,
     ) {
     }
 
@@ -43,5 +43,10 @@ export class ConcurrentTervekComponent implements OnInit {
         return this.fogSor.filterChildren(this.concurrentTervek).pipe(
             map(fogak => fogak.filter(fog => fog.csoport === csoport.name)?.[0]),
         )
+    }
+
+    csangeSzemszog(csoport: Csoport) {
+        const currentSzemszog = this.szemszog$.value
+        this.szemszog$.next(new Szemszog(currentSzemszog.csapat, csoport, currentSzemszog.layout))
     }
 }

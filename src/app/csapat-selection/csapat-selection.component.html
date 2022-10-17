@@ -1,11 +1,10 @@
 <div class="csapatok" *ngFor="let csapat of csapatok">
     <div class="csapat"
-        matTooltip="{{csapat.name}}"
+        [matTooltip]="csapat.name"
         matTooltipClass="large"
     >
         <a [routerLink]="'csapat/' + csapat.name">
-            <img class="csapat-background" [src]="'assets/csapatok/background.png'"/>
-            <img class="csapat-logo" [src]="csapat.logoUri" />
+            <img class="csapat-logo" [src]="csapat.getIconUri()" />
         </a>
     </div>
 </div>

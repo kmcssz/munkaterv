@@ -1,25 +1,12 @@
 
 .csapatok {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.csapat {
-    width: 400px;
-    height: 400px;
-}
-
-.csapat-background {
-    position: absolute;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    height: 400px;
 }
 
 .csapat-logo {
-    position: relative;
-    top: 75px;
-    left: 75px;
-    height: 250px;
+    padding: 20px;
+    width: 200px;
+    height: 200px;
 }

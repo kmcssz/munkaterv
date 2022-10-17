@@ -15,7 +15,7 @@
                         [matTooltip]="raj.name + ' raj'"
                         matTooltipClass="large"
                     >
-                        {{raj.emoji}}
+                        <img class="icon" [src]="raj.getIconUri()" />
                     </mat-button-toggle>
                 </td>
                 <td *ngFor="let ors of raj.orsok">
@@ -24,7 +24,7 @@
                         [matTooltip]="ors.name + ' őrs'"
                         matTooltipClass="large"
                     >
-                        {{ors.emoji}}
+                        <img class="icon" [src]="ors.getIconUri()" />
                     </mat-button-toggle>
                 </td>
             </tr>

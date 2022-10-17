@@ -21,7 +21,7 @@ export function first<T>(
 }
 
 export function firstOrUndef<T>(
-    array: T[],
+    array?: T[],
 ): T | undefined {
     if (array === undefined || array.length === 0) {
         return undefined

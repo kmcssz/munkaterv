@@ -17,7 +17,6 @@ export interface Proba {
 export interface Tema {
     uid: string,
     name: string,
-    emoji: string,
 }
 
 export interface Alproba {
