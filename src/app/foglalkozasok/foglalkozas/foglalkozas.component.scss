@@ -8,6 +8,7 @@
     width: 100%;
     text-align: left;
     display: flex;
+    color: $text-color;
 }
 
 .foglalkozas-card-content div {
@@ -50,4 +51,5 @@ section {
 .duration {
     width: 2em;
     font-size: x-large;
+    color: $text-color;
 }

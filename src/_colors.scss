@@ -17,9 +17,11 @@ $page-background: #202020;
 $foglalkozas-background: $dark-silver;
 $date-and-time: #A1A1A1;
 
-$csapat-terv-background: $page-background;
-$csapat-foglalkozas-background: linear-gradient(to right, $gold, $foglalkozas-background, 200px, $foglalkozas-background);
-$raj-terv-background: linear-gradient(to right, $silver, $foglalkozas-background, 200px, $foglalkozas-background);
-$raj-foglalkozas-background: linear-gradient(to right, $silver, $page-background, 200px, $page-background);
-$orsi-terv-background: linear-gradient(to right, $bronze, $page-background, 200px, $page-background);
-$orsi-foglalkozas-background: linear-gradient(to right, $bronze, $foglalkozas-background, 200px, $foglalkozas-background);
+$text-color: var(--all-foglalkozas-text-color);
+$time-color: var(--all-foglalkozas-time-color);
+$orsi-foglalkozas-background: linear-gradient(to right, $bronze, var(--orsi-foglalkozas-background-color), 200px, var(--orsi-foglalkozas-background-color));
+$orsi-terv-background: linear-gradient(to right, $bronze, var(--orsi-terv-background-color), 200px, var(--orsi-terv-background-color));
+$raj-foglalkozas-background: linear-gradient(to right, $silver, var(--raj-foglalkozas-background-color), 200px, var(--raj-foglalkozas-background-color));
+$raj-terv-background: linear-gradient(to right, $silver, var(--raj-terv-background-color), 200px, var(--raj-terv-background-color));
+$csapat-terv-background: var(--page-background-color);
+$csapat-foglalkozas-background: linear-gradient(to right, $gold, var(--csapat-foglalkozas-background-color), 200px, var(--csapat-foglalkozas-background-color));

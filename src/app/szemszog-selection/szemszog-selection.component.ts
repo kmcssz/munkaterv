@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, ViewChild } from '@angular/core'
 import { MatButtonToggleGroup } from '@angular/material/button-toggle'
 import { delay, filter, Subject, takeUntil } from 'rxjs'
 import { Csapat, CsoportType } from '../models/csapat'
-import { Layout } from '../models/state'
+import { Layout, Theme } from '../models/state'
 import { StateService } from '../services/state.service'
 
 @Component({
@@ -19,15 +19,20 @@ export class SzemszogSelectionComponent implements OnDestroy {
 
     changed$ = new Subject<void>
     lastLayout: Layout | undefined
+    lastTheme: Theme | undefined
     private readonly destroy$ = new Subject<boolean>()
 
     beforePrintListener = () => {
         this.lastLayout = this.state.layout
         this.state.layout = Layout.Print
+
+        this.lastTheme = this.state.theme
+        this.state.theme = Theme.Light
     }
 
     afterPrintListener = () => {
         this.state.layout = this.lastLayout!
+        this.state.theme = this.lastTheme!
     }
 
     constructor(

@@ -31,16 +31,26 @@ const themeColors = new Map<Theme, Map<string, string>>([
         Theme.Dark, new Map<string, string>([
             ['page-background-color', '#202020'],
             ['page-text-color', '#A1A1A1'],
-            ['foglalkozas-background-color', '#353535'],
-            ['foglalkozas-text-color', 'white'],
+            ['orsi-terv-background-color', '#4a4a4a'],
+            ['orsi-foglalkozas-background-color', '#353535'],
+            ['raj-foglalkozas-background-color', '#4a4a4a'],
+            ['raj-terv-background-color', '#353535'],
+            ['csapat-foglalkozas-background-color', '#353535'],
+            ['all-foglalkozas-text-color', '#e0dfdf'],
+            ['all-foglalkozas-time-color', '#A1A1A1'],
         ])
     ],
     [
         Theme.Light, new Map<string, string>([
             ['page-background-color', 'wheat'],
-            ['page-text-color', 'black'],
-            ['foglalkozas-background-color', '#A1A1A1'],
-            ['foglalkozas-text-color', 'black'],
+            ['page-text-color', 'grey'],
+            ['orsi-terv-background-color', '#edcca1'],
+            ['orsi-foglalkozas-background-color', 'tan'],
+            ['raj-foglalkozas-background-color', '#edcca1'],
+            ['raj-terv-background-color', 'tan'],
+            ['csapat-foglalkozas-background-color', 'tan'],
+            ['all-foglalkozas-text-color', '#313131'],
+            ['all-foglalkozas-time-color', 'grey'],
         ])
     ],
 ])
