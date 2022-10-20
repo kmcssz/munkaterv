@@ -1,8 +1,9 @@
-import { Component, Inject, Input, OnDestroy, ViewChild } from '@angular/core'
+import { Component, Input, OnDestroy, ViewChild } from '@angular/core'
 import { MatButtonToggleGroup } from '@angular/material/button-toggle'
-import { BehaviorSubject, delay, filter, map, Observable, Subject, takeUntil } from 'rxjs'
-import { SZEMSZOG } from '../injection-tokens'
-import { Csapat, Csoport, CsoportType, Layout, Szemszog } from '../models/csapat'
+import { delay, filter, Subject, takeUntil } from 'rxjs'
+import { Csapat, CsoportType } from '../models/csapat'
+import { Layout } from '../models/state'
+import { StateService } from '../services/state.service'
 
 @Component({
     selector: 'app-szemszog-selection',
@@ -16,44 +17,31 @@ export class SzemszogSelectionComponent implements OnDestroy {
 
     Layout = Layout
 
-    layout$: Observable<Layout>
     changed$ = new Subject<void>
     lastLayout: Layout | undefined
     private readonly destroy$ = new Subject<boolean>()
 
     beforePrintListener = () => {
-        const szemszog = this.szemszog$.value
-        this.lastLayout = szemszog.layout
-        this.szemszog$.next(new Szemszog(
-            szemszog.csapat,
-            szemszog.csoport,
-            Layout.Print,
-        ))
+        this.lastLayout = this.state.layout
+        this.state.layout = Layout.Print
     }
 
     afterPrintListener = () => {
-        const szemszog = this.szemszog$.value
-        this.szemszog$.next(new Szemszog(
-            szemszog.csapat,
-            szemszog.csoport,
-            this.lastLayout!,
-        ))
+        this.state.layout = this.lastLayout!
     }
 
     constructor(
-        @Inject(SZEMSZOG) public szemszog$: BehaviorSubject<Szemszog>,
+        public readonly state: StateService,
     ) {
-        this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
 
-        this.szemszog$.pipe(
-            filter(szemszog => szemszog.layout == Layout.Desktop),
+        this.state.asObservable().pipe(
+            filter(state => state.layout == Layout.Desktop),
             delay(50),
             takeUntil(this.destroy$)
         ).subscribe(() => {
             if (this.buttonGroup) {
-                const szemszog = this.szemszog$.value
-                if (szemszog.csoport.type !== CsoportType.Csapat) {
-                    this.buttonGroup.value = szemszog.csoport
+                if (state.szemszog.type !== CsoportType.Csapat) {
+                    this.buttonGroup.value = state.szemszog
                 } else {
                     this.buttonGroup.value = undefined
                 }
@@ -70,9 +58,5 @@ export class SzemszogSelectionComponent implements OnDestroy {
 
         window.removeEventListener("beforeprint", this.beforePrintListener)
         window.removeEventListener("afterprint", this.afterPrintListener)
-    }
-
-    changeCsoport(szemszog: Szemszog, csoport: Csoport) {
-        this.szemszog$.next(new Szemszog(this.csapat, csoport, szemszog.layout))
     }
 }

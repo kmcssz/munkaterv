@@ -1,8 +1,8 @@
-import { Component, Inject, Input, OnInit } from '@angular/core'
-import { map, Observable } from 'rxjs'
-import { SZEMSZOG } from 'src/app/injection-tokens'
+import { Component, Input, OnInit } from '@angular/core'
+import { Layout } from 'src/app/models/state'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
-import { isRajSzemszog, Layout, Szemszog } from '../../models/csapat'
+import { StateService } from 'src/app/services/state.service'
+import { isRajSzemszog } from '../../models/csapat'
 import { Foglalkozas } from '../../models/foglalkozas'
 
 @Component({
@@ -16,15 +16,12 @@ export class RajFoglalkozasComponent implements OnInit {
 
     Layout = Layout
 
-    editable$: Observable<boolean>
-    layout$: Observable<Layout>
+    isRajSzemszog = isRajSzemszog
 
     constructor(
-        public fogSor: FoglalkozasService,
-        @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
+        public readonly fogSor: FoglalkozasService,
+        public readonly state: StateService,
     ) {
-        this.editable$ = szemszog$.pipe(map(isRajSzemszog))
-        this.layout$ = szemszog$.pipe(map(szemszog => szemszog.layout))
     }
 
     ngOnInit() {

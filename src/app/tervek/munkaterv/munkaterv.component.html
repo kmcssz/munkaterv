@@ -1,7 +1,7 @@
-<div *ngIf="szemszog$ | async as szemszog"
-    class="munkaterv"
->
-    <div *ngIf="(layout$ | async) != Layout.Print"
+<!-- <div class="background"></div> -->
+
+<div class="munkaterv">
+    <div *ngIf="state.layout !== Layout.Print"
         class="toolbar"
     >
         <a mat-icon-button
@@ -11,23 +11,47 @@
         >
             <mat-icon>arrow_back</mat-icon>
         </a>
-        <a mat-icon-button
-            [matTooltip]="(layout$ | async) == Layout.Desktop ? 'Telefon verzió' : 'Számitógep verzió'"
+        <a *ngIf="state.layout === Layout.Desktop"
+            mat-icon-button
+            matTooltip="Telefon verzió"
             matTooltipClass="large"
-            (click)="printLayout(szemszog)"
+            (click)="state.layout = Layout.Mobile"
         >
-            <mat-icon *ngIf="(layout$ | async) == Layout.Desktop">phone_iphone</mat-icon>
-            <mat-icon *ngIf="(layout$ | async) == Layout.Mobile">desktop_mac</mat-icon>
+            <mat-icon>phone_iphone</mat-icon>
+        </a>
+        <a *ngIf="state.layout === Layout.Mobile"
+            mat-icon-button
+            matTooltip="Számitógep verzió"
+            matTooltipClass="large"
+            (click)="state.layout = Layout.Desktop"
+        >
+            <mat-icon>desktop_mac</mat-icon>
+        </a>
+        <a *ngIf="state.theme === Theme.Dark"
+            mat-icon-button
+            matTooltip="Világos szinek"
+            matTooltipClass="large"
+            (click)="state.theme = Theme.Light"
+        >
+            <mat-icon>light_mode</mat-icon>
+        </a>
+        <a *ngIf="state.theme === Theme.Light"
+            mat-icon-button
+            matTooltip="Sötét szinek"
+            matTooltipClass="large"
+            (click)="state.theme = Theme.Dark"
+        >
+            <mat-icon>dark_mode</mat-icon>
         </a>
     </div>
 
-    <div *ngIf="(layout$ | async) == Layout.Desktop"
+    <div *ngIf="state.layout === Layout.Desktop"
         class="centered"
     >
         <img class="csoport-icon"
-            [matTooltip]="szemszog.csoport.name + ' ' + szemszog.csoport.type"
+            [matTooltip]="state.szemszog.name + ' ' + state.szemszog.type"
             matTooltipClass="large"
-            [src]="szemszog.csoport.getIconUri()" />
+            [src]="state.szemszog.getIconUri()" />
     </div>
 
     <!-- <ng-template #csapatSignPlaceHolder>
@@ -38,10 +62,10 @@
 
     <app-szemszog-selection class="szemszog" [csapat]="csapat"></app-szemszog-selection>
 
-    <div class="date" [ngClass]="(layout$ | async) == Layout.Desktop ? 'date-large' : 'date-small'">
+    <div class="date" [ngClass]="state.layout === Layout.Desktop ? 'date-large' : 'date-small'">
         {{formatHungarianDate(start)}}
     </div>
-    <div class="start" [ngClass]="(layout$ | async) == Layout.Desktop ? 'start-large' : 'start-small'">
+    <div class="start" [ngClass]="state.layout === Layout.Desktop ? 'start-large' : 'start-small'">
         {{formatHungarianTime(start)}}
     </div>
 
@@ -52,7 +76,7 @@
 
     <div *ngIf="children$ | async as children"
         class="time"
-        [ngClass]="(layout$ | async) == Layout.Desktop ? 'time-large' : 'time-small'"
+        [ngClass]="state.layout === Layout.Desktop ? 'time-large' : 'time-small'"
     >
         {{computeOszoljTime(children)}}
     </div>

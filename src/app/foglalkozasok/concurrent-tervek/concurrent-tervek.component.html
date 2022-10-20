@@ -9,7 +9,7 @@
         <div class="csoportok">
             <div *ngFor="let csoport of (csoportok$ | async)"
                 class="csoport"
-                (click)="csangeSzemszog(csoport)"
+                (click)="state.szemszog = csoport"
             >
                 <img class="icon" [src]="csoport.getIconUri()" />
                 <div>{{csoport.name}} {{csoport.type}}</div>

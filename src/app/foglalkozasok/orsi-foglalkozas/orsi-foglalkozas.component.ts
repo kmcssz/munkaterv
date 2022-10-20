@@ -1,13 +1,13 @@
-import { Component, Inject, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { MatListOption } from '@angular/material/list'
-import { Alproba, Cserkesz, Proba, Tema } from '../../models/proba'
-import { OrsiFoglalkozas, ProbaPont } from '../../models/foglalkozas'
-import { CsoportType, Layout, Szemszog } from '../../models/csapat'
-import { SZEMSZOG } from '../../injection-tokens'
-import { map, Observable } from 'rxjs'
-import { ProbaRendszerService } from 'src/app/services/probarendszer.service'
-import { first } from '../../utils'
+import { Layout } from 'src/app/models/state'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
+import { ProbaRendszerService } from 'src/app/services/probarendszer.service'
+import { StateService } from 'src/app/services/state.service'
+import { isOrsSzemszog } from '../../models/csapat'
+import { OrsiFoglalkozas, ProbaPont } from '../../models/foglalkozas'
+import { Alproba, Cserkesz, Proba, Tema } from '../../models/proba'
+import { first } from '../../utils'
 
 @Component({
     selector: 'app-orsi-foglalkozas',
@@ -19,9 +19,8 @@ export class OrsiFoglalkozasComponent implements OnInit {
     @Input() orsiFoglalkozas!: OrsiFoglalkozas
 
     Layout = Layout
+    isOrsSzemszog = isOrsSzemszog
 
-    editable$: Observable<boolean>
-    layout$: Observable<Layout>
     areProbakOpen = false
     areTemakOpen = false
 
@@ -30,15 +29,11 @@ export class OrsiFoglalkozasComponent implements OnInit {
     alprobak!: Alproba[]
 
     constructor(
-        public fogSor: FoglalkozasService,
+        public readonly fogSor: FoglalkozasService,
         private readonly probaRendszer: ProbaRendszerService,
-        @Inject(SZEMSZOG) readonly szemszog$: Observable<Szemszog>
+        public readonly state: StateService,
     ) {
         this.temak = probaRendszer.getTemak()
-        this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
-        this.editable$ = szemszog$.pipe(
-            map(szemszog => szemszog.csoport.type === CsoportType.Ors),
-        )
     }
 
     ngOnInit(): void {

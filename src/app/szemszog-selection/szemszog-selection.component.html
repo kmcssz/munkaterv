@@ -1,9 +1,9 @@
-<div *ngIf="(layout$ | async) == Layout.Desktop; else dropDown">
-    <mat-button-toggle-group *ngIf="szemszog$ | async as szemszog"
+<div *ngIf="state.layout === Layout.Desktop; else dropDown">
+    <mat-button-toggle-group
         #buttonGroup
         class="szemszog"
         name="szemszog"
-        (change)="changeCsoport(szemszog, $event.value)"
+        (change)="state.szemszog = $event.value"
     >
         <table>
             <tr *ngFor="let raj of csapat.rajok"
@@ -33,12 +33,10 @@
 </div>
 
 <ng-template #dropDown>
-    <mat-form-field *ngIf="szemszog$ | async as szemszog"
-        appearance="fill"
-    >
+    <mat-form-field appearance="fill">
         <mat-select
-            [value]="szemszog.csoport"
-            (valueChange)="changeCsoport(szemszog, $event)"
+            [value]="state.szemszog"
+            (valueChange)="state.szemszog = $event"
         >
             <mat-option [value]="csapat" selected="selected">{{csapat.name}}i Csapat</mat-option>
 

@@ -1,31 +1,29 @@
-import { Component, Inject } from '@angular/core'
+import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { BehaviorSubject, filter, map, mergeMap, Observable, ReplaySubject, Subject } from 'rxjs'
-import { CsoportService } from 'src/app/services/csoport.service'
+import { filter, map, mergeMap, Observable } from 'rxjs'
 import { formatHungarianFullDate, formatHungarianTime, minutesToMillis } from 'src/app/date-adaptor'
-import { computeConsumedDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
-import { SZEMSZOG } from 'src/app/injection-tokens'
-import { Csapat, Layout, Szemszog } from 'src/app/models/csapat'
+import { Csapat } from 'src/app/models/csapat'
 import { Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
+import { Layout, Theme } from 'src/app/models/state'
+import { CsoportService } from 'src/app/services/csoport.service'
+import { computeConsumedDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
+import { StateService } from 'src/app/services/state.service'
 import { first } from 'src/app/utils'
 
 @Component({
     selector: 'app-munkaterv',
     templateUrl: './munkaterv.component.html',
     styleUrls: ['./munkaterv.component.scss'],
-    providers: [
-        { provide: SZEMSZOG, useFactory: () => new BehaviorSubject<Szemszog|undefined>(undefined) },
-    ],
 })
 export class MunkatervComponent {
 
     Layout = Layout
+    Theme = Theme
 
     csapat!: Csapat
     start!: Date
     csapatTerv$: Observable<Terv>
     children$: Observable<Foglalkozas[]>
-    layout$: Observable<Layout>
 
     formatHungarianDate = formatHungarianFullDate
     formatHungarianTime = formatHungarianTime
@@ -34,20 +32,13 @@ export class MunkatervComponent {
         route: ActivatedRoute,
         private readonly fogSor: FoglalkozasService,
         csopSor: CsoportService,
-        @Inject(SZEMSZOG) public szemszog$: Subject<Szemszog>,
+        public state: StateService,
     ) {
-        this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
-
         this.start = new Date(parseInt(route.snapshot.paramMap.get('start')!))
 
         const csapatName = route.snapshot.paramMap.get('name')!
         this.csapat = csopSor.getCsoport(csapatName) as Csapat
-
-        this.szemszog$.next(new Szemszog(
-            this.csapat,
-            this.csapat,
-            window.innerWidth < 1200 ? Layout.Mobile : Layout.Desktop,
-        ))
+        state.szemszog = this.csapat
 
         this.fogSor.initilize(csapatName, this.start.getTime())
 
@@ -58,22 +49,6 @@ export class MunkatervComponent {
         this.children$ = this.csapatTerv$.pipe(
             mergeMap(csapatTerv => this.fogSor.filterChildren(csapatTerv)),
         )
-    }
-
-    printLayout(szemszog: Szemszog) {
-        this.szemszog$.next( new Szemszog(
-            szemszog.csapat,
-            szemszog.csoport,
-            szemszog.layout == Layout.Desktop ? Layout.Mobile : Layout.Desktop,
-        ))
-    }
-
-    changeSzemszogToCsapat(szemszog: Szemszog) {
-        this.szemszog$.next(new Szemszog(
-            this.csapat,
-            this.csapat,
-            szemszog.layout,
-        ))
     }
 
     computeOszoljTime(children: Foglalkozas[]): string {

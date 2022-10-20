@@ -1,11 +1,10 @@
-import { Component, Inject, Input, OnInit } from '@angular/core'
-import { BehaviorSubject, combineLatest, filter, first, flatMap, map, Observable, Subject } from 'rxjs'
+import { Component, Input, OnInit } from '@angular/core'
+import { combineLatest, map, Observable } from 'rxjs'
+import { Csoport } from 'src/app/models/csapat'
+import { Foglalkozas, Terv } from 'src/app/models/foglalkozas'
 import { CsoportService } from 'src/app/services/csoport.service'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
-import { SZEMSZOG } from 'src/app/injection-tokens'
-import { Csoport, Szemszog } from 'src/app/models/csapat'
-import { Foglalkozas, Terv } from 'src/app/models/foglalkozas'
-import { ensure } from 'src/app/utils'
+import { StateService } from 'src/app/services/state.service'
 
 @Component({
     selector: 'app-concurrent-tervek',
@@ -23,7 +22,7 @@ export class ConcurrentTervekComponent implements OnInit {
     constructor(
         private fogSor: FoglalkozasService,
         private csopSor: CsoportService,
-        @Inject(SZEMSZOG) public szemszog$: BehaviorSubject<Szemszog>,
+        public state: StateService,
     ) {
     }
 
@@ -32,9 +31,9 @@ export class ConcurrentTervekComponent implements OnInit {
             map(fogak => fogak.map(fog => this.csopSor.getCsoport(fog.csoport))),
         )
 
-        this.selectedCsoport$ = combineLatest([this.szemszog$, this.csoportok$]).pipe(
-            map(([szSz, csoportok]) => {
-                return csoportok.find(terv => terv.contains(szSz.csoport))
+        this.selectedCsoport$ = combineLatest([this.state.asObservable(), this.csoportok$]).pipe(
+            map(([state, csoportok]) => {
+                return csoportok.find(terv => terv.contains(state.szemszog))
             })
         )
     }
@@ -43,10 +42,5 @@ export class ConcurrentTervekComponent implements OnInit {
         return this.fogSor.filterChildren(this.concurrentTervek).pipe(
             map(fogak => fogak.filter(fog => fog.csoport === csoport.name)?.[0]),
         )
-    }
-
-    csangeSzemszog(csoport: Csoport) {
-        const currentSzemszog = this.szemszog$.value
-        this.szemszog$.next(new Szemszog(currentSzemszog.csapat, csoport, currentSzemszog.layout))
     }
 }

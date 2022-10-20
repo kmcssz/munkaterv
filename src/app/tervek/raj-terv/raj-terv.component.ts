@@ -1,8 +1,7 @@
-import { Component, Inject, Input } from '@angular/core'
-import { filter, map, Observable } from 'rxjs'
+import { Component, Input } from '@angular/core'
 import { computeRemainingDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
-import { SZEMSZOG } from '../../injection-tokens'
-import { isCsapatSzemszog, isRajSzemszog, Raj, Szemszog } from '../../models/csapat'
+import { StateService } from 'src/app/services/state.service'
+import { isRajSzemszog, Raj } from '../../models/csapat'
 import { createConcurrentTervek as createConcurrentTerv, createFoglalkozas, createTerv, Foglalkozas, FoglalkozasType, Terv } from '../../models/foglalkozas'
 
 @Component({
@@ -15,23 +14,14 @@ export class RajTervComponent {
     @Input() start!: Date
     @Input() rajTerv!: Terv
 
-    editableTime$: Observable<boolean>
-    editableContent$: Observable<boolean>
-    raj$: Observable<Raj>
+    isRajSzemszog = isRajSzemszog
 
     computeRemainingDuration = computeRemainingDuration
 
     constructor(
-        public fogSor: FoglalkozasService,
-        @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
+        public readonly fogSor: FoglalkozasService,
+        public readonly state: StateService,
     ) {
-        this.editableTime$ = szemszog$.pipe(map(isCsapatSzemszog))
-        this.editableContent$ = szemszog$.pipe(map(isRajSzemszog))
-
-        this.raj$ = szemszog$.pipe(
-            filter(isRajSzemszog),
-            map(szSz => szSz.csoport as Raj),
-        )
     }
 
     private addFoglalkozas(foglalkozas: Foglalkozas, children: Foglalkozas[]) {
@@ -40,11 +30,12 @@ export class RajTervComponent {
         this.fogSor.addChild(this.rajTerv, foglalkozas, true)
     }
 
-    addRajFoglalkozas(raj: Raj, children: Foglalkozas[]) {
-        this.addFoglalkozas(createFoglalkozas(FoglalkozasType.RajFoglalkozas, raj.name), children)
+    addRajFoglalkozas(children: Foglalkozas[]) {
+        this.addFoglalkozas(createFoglalkozas(FoglalkozasType.RajFoglalkozas, this.state.szemszog.name), children)
     }
 
-    addOrsiTerv(raj: Raj) {
+    addOrsiTerv() {
+        const raj = this.state.szemszog as Raj
         const defaultOrsiDuration = 60
         const concurrentTerv = createConcurrentTerv(FoglalkozasType.OrsiTerv, raj.name, defaultOrsiDuration)
         raj.orsok.forEach(ors => {

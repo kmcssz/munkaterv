@@ -1,8 +1,7 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field'
-import { Component, EventEmitter, Inject, Input, OnDestroy, Output, ViewChild } from '@angular/core'
-import { map, Observable } from 'rxjs'
-import { SZEMSZOG } from '../injection-tokens'
-import { Layout, Szemszog } from '../models/csapat'
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core'
+import { Layout } from '../models/state'
+import { StateService } from '../services/state.service'
 
 @Component({
     selector: 'app-editor-wrapper',
@@ -11,18 +10,15 @@ import { Layout, Szemszog } from '../models/csapat'
 })
 export class EditorWrapperComponent {
 
-    @Input() editable$!: Observable<boolean>
+    @Input() editable!: boolean
     @Input() leiras!: string
     @Output() leirasChange = new EventEmitter<string>()
     @ViewChild('textArea') textArea!: CdkTextareaAutosize
 
     Layout = Layout
 
-    layout$: Observable<Layout>
-
     constructor(
-        @Inject(SZEMSZOG) readonly szemszog$: Observable<Szemszog>
+        public state: StateService,
     ) {
-        this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
     }
 }

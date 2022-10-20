@@ -48,7 +48,7 @@
 
 </ng-template>
 
-<ng-container *ngIf="wrapInCard && (layout$ | async) == Layout.Desktop; else foglalkozasContent">
+<ng-container *ngIf="wrapInCard && state.layout === Layout.Desktop; else foglalkozasContent">
     <div class="foglalkozas-wrapper">
         <mat-card [ngClass]="foglalkozasCssStyle ?? ''" class="foglalkozas-card">
             <mat-card-content class="foglalkozas-card-content">

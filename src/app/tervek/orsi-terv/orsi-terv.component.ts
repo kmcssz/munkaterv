@@ -1,9 +1,8 @@
-import { Component, Inject, Input } from '@angular/core'
-import { filter, map, Observable } from 'rxjs'
+import { Component, Input } from '@angular/core'
 import { computeRemainingDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
-import { SZEMSZOG } from 'src/app/injection-tokens'
-import { isOrsSzemszog, isRajSzemszog, Ors, Szemszog } from 'src/app/models/csapat'
+import { isOrsSzemszog, isRajSzemszog, Ors } from 'src/app/models/csapat'
 import { createFoglalkozas, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, Terv } from 'src/app/models/foglalkozas'
+import { StateService } from 'src/app/services/state.service'
 
 @Component({
     selector: 'app-orsi-terv',
@@ -15,25 +14,20 @@ export class OrsiTervComponent {
     @Input() start!: Date
     @Input() orsiTerv!: Terv
 
-    editableDuration$: Observable<boolean>
-    editableAdding$: Observable<boolean>
-    ors$: Observable<Ors>
+    isOrsSzemszog = isOrsSzemszog
+    isRajSzemszog = isRajSzemszog
 
     computeRemainingDuration = computeRemainingDuration
 
     constructor(
-        public fogSor: FoglalkozasService,
-        @Inject(SZEMSZOG) szemszog$: Observable<Szemszog>
+        public readonly fogSor: FoglalkozasService,
+        public readonly state: StateService,
     ) {
-        this.editableDuration$ = szemszog$.pipe(map(isRajSzemszog))
-        this.editableAdding$ = szemszog$.pipe(map(szSz => isRajSzemszog(szSz) || isOrsSzemszog(szSz)))
-        this.ors$ = szemszog$.pipe(
-            filter(isOrsSzemszog),
-            map(szSz => szSz.csoport as Ors),
-        )
     }
 
-    addOrsiFoglalkozas(ors: Ors, children: Foglalkozas[]) {
+    addOrsiFoglalkozas(children: Foglalkozas[]) {
+        const ors = this.state.szemszog as Ors
+
         const newOrsiFoglalkozas = createFoglalkozas(
             FoglalkozasType.OrsiFoglalkozas,
             ors.name,

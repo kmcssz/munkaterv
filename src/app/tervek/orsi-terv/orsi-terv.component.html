@@ -3,21 +3,18 @@
     [terv]="orsiTerv"
 ></app-terv>
 
-<ng-container *ngIf="ors$ | async as ors">
-    <ng-container *ngIf="children$ | async as children">
-
-        <div *ngIf="computeRemainingDuration(orsiTerv, children) > 0"
-            class="add-new-foglalkozas-buttons"
+<ng-container *ngIf="children$ | async as children">
+    <div *ngIf="computeRemainingDuration(orsiTerv, children) > 0"
+        class="add-new-foglalkozas-buttons"
+    >
+        <button mat-fab *ngIf="isOrsSzemszog(state.szemszog)"
+            class="add-new-foglalkozas-button"
+            color="bronze"
+            matTooltip="Új őrsi foglalkozás"
+            matTooltipClass="large"
+            (click)="addOrsiFoglalkozas(children)"
         >
-            <button mat-fab *ngIf="editableAdding$ | async"
-                class="add-new-foglalkozas-button"
-                color="bronze"
-                matTooltip="Új őrsi foglalkozás"
-                matTooltipClass="large"
-                (click)="addOrsiFoglalkozas(ors, children)"
-            >
-                <mat-icon>add</mat-icon>
-            </button>
-        </div>
-    </ng-container>
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
 </ng-container>

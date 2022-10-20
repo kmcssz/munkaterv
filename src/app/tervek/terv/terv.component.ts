@@ -1,11 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { Component, Inject, Input, OnInit } from '@angular/core'
-import { map, Observable } from 'rxjs'
+import { Component, Input } from '@angular/core'
 import { formatHungarianTime } from 'src/app/date-adaptor'
-import { computeConsumedDuration, computeElapsedBeforeDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
-import { SZEMSZOG } from 'src/app/injection-tokens'
-import { CsoportType, Layout, Szemszog } from 'src/app/models/csapat'
+import { CsoportType } from 'src/app/models/csapat'
 import { Foglalkozas, FoglalkozasType, Terv } from 'src/app/models/foglalkozas'
+import { Layout } from 'src/app/models/state'
+import { computeElapsedBeforeDuration, FoglalkozasService } from 'src/app/services/foglalkozas.service'
+import { StateService } from 'src/app/services/state.service'
 
 const minutesToMillis = 60 * 1000
 
@@ -14,27 +14,17 @@ const minutesToMillis = 60 * 1000
     templateUrl: './terv.component.html',
     styleUrls: ['./terv.component.scss']
 })
-export class TervComponent implements OnInit {
+export class TervComponent {
 
     @Input() start!: Date
     @Input() terv!: Terv
 
     Layout = Layout
 
-    editable$!: Observable<boolean>
-    layout$: Observable<Layout>
-
     constructor(
-        public fogSor: FoglalkozasService,
-        @Inject(SZEMSZOG) public szemszog$: Observable<Szemszog>,
+        public readonly fogSor: FoglalkozasService,
+        public readonly state: StateService,
     ) {
-       this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
-    }
-
-    ngOnInit(): void {
-        this.editable$ = this.szemszog$.pipe(
-            map(szSz => canEditTerv(szSz.csoport.type, this.terv.type as FoglalkozasType))
-        )
     }
 
     drop(event: CdkDragDrop<string[]>) {
@@ -55,18 +45,18 @@ export class TervComponent implements OnInit {
     delete(foglalkozas: Foglalkozas) {
         this.fogSor.deleteFoglalkozas(foglalkozas, this.terv)
     }
-}
 
-function canEditTerv(csoportType: CsoportType, foglalkozasType: FoglalkozasType): boolean {
-    return csoportType === CsoportType.Csapat && [
-            FoglalkozasType.CsapatTerv,
-        ].includes(foglalkozasType) ||
+    canEditTerv(): boolean {
+        return this.state.szemszog.type === CsoportType.Csapat && [
+                FoglalkozasType.CsapatTerv,
+            ].includes(this.terv.type) ||
 
-        csoportType === CsoportType.Raj && [
-            FoglalkozasType.RajTerv,
-        ].includes(foglalkozasType) ||
+            this.state.szemszog.type === CsoportType.Raj && [
+                FoglalkozasType.RajTerv,
+            ].includes(this.terv.type) ||
 
-        csoportType === CsoportType.Ors && [
-            FoglalkozasType.OrsiTerv,
-        ].includes(foglalkozasType)
+            this.state.szemszog.type === CsoportType.Ors && [
+                FoglalkozasType.OrsiTerv,
+            ].includes(this.terv.type)
+    }
 }

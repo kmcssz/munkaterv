@@ -3,27 +3,26 @@
     [terv]="rajTerv"
 ></app-terv>
 
-<ng-container *ngIf="raj$ | async as raj">
-    <ng-container *ngIf="children$ | async as children">
+<ng-container *ngIf="children$ | async as children">
     <div *ngIf="computeRemainingDuration(rajTerv, children) > 0"
         class="add-new-foglalkozas-buttons"
     >
-        <button mat-fab *ngIf="editableContent$ | async"
+        <button mat-fab *ngIf="isRajSzemszog(state.szemszog)"
             class="add-new-foglalkozas-button"
             color="silver"
             matTooltip="Új raj foglalkozás"
             matTooltipClass="large"
-            (click)="addRajFoglalkozas(raj, children)"
+            (click)="addRajFoglalkozas(children)"
         >
             <mat-icon>add</mat-icon>
         </button>
 
-        <button mat-fab *ngIf="editableContent$ | async"
+        <button mat-fab *ngIf="isRajSzemszog(state.szemszog)"
             class="add-new-foglalkozas-button"
             color="bronze"
             matTooltip="Új őrsi foglalkozás"
             matTooltipClass="large"
-            (click)="addOrsiTerv(raj)"
+            (click)="addOrsiTerv()"
         >
             <mat-icon>add</mat-icon>
         </button>

@@ -1,8 +1,9 @@
-import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core'
 import { map, Observable } from 'rxjs'
+import { CsoportType } from 'src/app/models/csapat'
+import { Layout } from 'src/app/models/state'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
-import { SZEMSZOG } from 'src/app/injection-tokens'
-import { CsoportType, Layout, Szemszog } from 'src/app/models/csapat'
+import { StateService } from 'src/app/services/state.service'
 import { ConcurrentTerv, Foglalkozas, FoglalkozasType, OrsiFoglalkozas, Terv } from '../../models/foglalkozas'
 
 const foglalkozasTypeToCssStyle = new Map<FoglalkozasType, string>(
@@ -36,21 +37,19 @@ export class FoglalkozasComponent implements OnChanges {
     foglalkozasCssStyle?: string
     wrapInCard!: boolean
     editableDuration$!: Observable<boolean>
-    layout$: Observable<Layout>
 
     constructor(
         private fogSor: FoglalkozasService,
-        @Inject(SZEMSZOG) public szemszog$: Observable<Szemszog>,
+        public state: StateService,
     ) {
-        this.layout$ = this.szemszog$.pipe(map(szemszog => szemszog.layout))
     }
 
     ngOnChanges(_: SimpleChanges): void {
 
         this.foglalkozasCssStyle = foglalkozasTypeToCssStyle.get(this.foglalkozas.type as FoglalkozasType)
-        this.editableDuration$ = this.szemszog$.pipe(
-            map(szSz => canEditDuration(
-                szSz.csoport.type,
+        this.editableDuration$ = this.state.asObservable().pipe(
+            map(state => canEditDuration(
+                state.szemszog.type,
                 this.foglalkozas.type as FoglalkozasType)
             ),
         )
@@ -72,9 +71,9 @@ export class FoglalkozasComponent implements OnChanges {
                 this.terv = concurrentTerv
                 this.foglalkozasCssStyle = foglalkozasTypeToCssStyle.get(concurrentTerv.subtype)
                 this.wrapInCard = true
-                this.editableDuration$ = this.szemszog$.pipe(
-                    map(szSz => canEditDuration(
-                            szSz.csoport.type,
+                this.editableDuration$ = this.state.asObservable().pipe(
+                    map(state => canEditDuration(
+                            state.szemszog.type,
                             concurrentTerv.subtype,
                         )
                     ),

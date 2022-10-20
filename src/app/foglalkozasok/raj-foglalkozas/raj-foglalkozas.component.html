@@ -1,6 +1,6 @@
 <div class="raj-foglalkozas">
 
-    <section *ngIf="(layout$ | async) != Layout.Desktop"
+    <section *ngIf="state.layout !== Layout.Desktop"
         class="type-section"
     >
         <p>Raj:</p>
@@ -8,7 +8,7 @@
 
     <app-editor-wrapper
         class="editor"
-        [editable$]="editable$"
+        [editable]="isRajSzemszog(state.szemszog)"
         [(leiras)]="rajFoglalkozas.program!"
         (change)="changed()"
     ></app-editor-wrapper>

@@ -5,32 +5,16 @@ export enum Rang {
     OrsVezeto,
 }
 
-export enum Layout {
-    Desktop,
-    Mobile,
-    Print,
+export function isCsapatSzemszog(csoport: Csoport): boolean {
+    return csoport.type === CsoportType.Csapat
 }
 
-export class Szemszog {
-
-    constructor(
-        public readonly csapat: Csapat,
-        public readonly csoport: Csoport,
-        public layout: Layout,
-    ) {
-    }
+export function isRajSzemszog(csoport: Csoport): boolean {
+    return csoport.type === CsoportType.Raj
 }
 
-export function isCsapatSzemszog(szemszog: Szemszog): boolean {
-    return szemszog.csoport.type === CsoportType.Csapat
-}
-
-export function isRajSzemszog(szemszog: Szemszog): boolean {
-    return szemszog.csoport.type === CsoportType.Raj
-}
-
-export function isOrsSzemszog(szemszog: Szemszog): boolean {
-    return szemszog.csoport.type === CsoportType.Ors
+export function isOrsSzemszog(csoport: Csoport): boolean {
+    return csoport.type === CsoportType.Ors
 }
 
 

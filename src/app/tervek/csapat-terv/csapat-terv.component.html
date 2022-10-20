@@ -3,26 +3,24 @@
     [terv]="csapatTerv"
 ></app-terv>
 
-<ng-container *ngIf="csapat$ | async as csapat">
-    <button *ngIf="editable$ | async"
-        mat-fab
-        class="add-new-foglalkozas-button"
-        color="gold"
-        matTooltip="Új csapat foglalkozás"
-        matTooltipClass="large"
-        (click)="addCsapatFoglalkozas(csapat)"
-    >
-        <mat-icon>add</mat-icon>
-    </button>
+<button *ngIf="isCsapatSzemszog(state.szemszog)"
+    mat-fab
+    class="add-new-foglalkozas-button"
+    color="gold"
+    matTooltip="Új csapat foglalkozás"
+    matTooltipClass="large"
+    (click)="addCsapatFoglalkozas()"
+>
+    <mat-icon>add</mat-icon>
+</button>
 
-    <button *ngIf="editable$ | async"
-        mat-fab
-        class="add-new-foglalkozas-button"
-        color="silver"
-        matTooltip="Új raj foglalkozás"
-        matTooltipClass="large"
-        (click)="addRajTerv(csapat)"
-    >
-        <mat-icon>add</mat-icon>
-    </button>
-</ng-container>
+<button *ngIf="isCsapatSzemszog(state.szemszog)"
+    mat-fab
+    class="add-new-foglalkozas-button"
+    color="silver"
+    matTooltip="Új raj foglalkozás"
+    matTooltipClass="large"
+    (click)="addRajTerv()"
+>
+    <mat-icon>add</mat-icon>
+</button>
