@@ -20,8 +20,8 @@ export class MunkatervComponent {
     Layout = Layout
     Theme = Theme
 
-    csapat!: Csapat
-    start!: Date
+    csapat: Csapat
+    start: Date
     csapatTerv$: Observable<Terv>
     children$: Observable<Foglalkozas[]>
 

@@ -9,6 +9,7 @@ export enum Layout {
 export enum Theme {
     Dark,
     Light,
+    Print,
 }
 
 export interface State {

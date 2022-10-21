@@ -13,8 +13,13 @@ export class StateService {
     private _layout = window.innerWidth < 1200 ? Layout.Mobile : Layout.Desktop
 
     private _szemszog?: Csoport
+    private _lastSzemszog?: Csoport
 
     private _subject = new ReplaySubject<StateService>(1)
+
+    constructor() {
+        this._subject.next(this)
+    }
 
     asObservable(): Observable<StateService> {
         return this._subject.asObservable()
@@ -43,7 +48,11 @@ export class StateService {
         return this._szemszog!
     }
     set szemszog(csoport: Csoport) {
+        this._lastSzemszog = this._szemszog
         this._szemszog = csoport
         this._subject.next(this)
+    }
+    get lastSzemszog(): Csoport | undefined {
+        return this._lastSzemszog
     }
 }

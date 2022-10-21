@@ -27,7 +27,7 @@ export class SzemszogSelectionComponent implements OnDestroy {
         this.state.layout = Layout.Print
 
         this.lastTheme = this.state.theme
-        this.state.theme = Theme.Light
+        this.state.theme = Theme.Print
     }
 
     afterPrintListener = () => {

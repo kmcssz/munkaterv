@@ -12,9 +12,9 @@ export class AppComponent {
     title = 'munkaterv';
 
     constructor(
-        stateService: StateService,
+        state: StateService,
     ) {
-        stateService.asObservable().subscribe(state => {
+        state.asObservable().subscribe(state => {
             themeColors.get(state.theme)
                 ?.forEach((color, property) => {
                     document.documentElement.style.setProperty(
@@ -43,6 +43,19 @@ const themeColors = new Map<Theme, Map<string, string>>([
     [
         Theme.Light, new Map<string, string>([
             ['page-background-color', 'wheat'],
+            ['page-text-color', 'grey'],
+            ['orsi-terv-background-color', '#edcca1'],
+            ['orsi-foglalkozas-background-color', 'tan'],
+            ['raj-foglalkozas-background-color', '#edcca1'],
+            ['raj-terv-background-color', 'tan'],
+            ['csapat-foglalkozas-background-color', 'tan'],
+            ['all-foglalkozas-text-color', '#313131'],
+            ['all-foglalkozas-time-color', 'grey'],
+        ])
+    ],
+    [
+        Theme.Print, new Map<string, string>([
+            ['page-background-color', 'white'],
             ['page-text-color', 'grey'],
             ['orsi-terv-background-color', '#edcca1'],
             ['orsi-foglalkozas-background-color', 'tan'],

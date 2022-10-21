@@ -43,6 +43,21 @@
         >
             <mat-icon>dark_mode</mat-icon>
         </a>
+        <a mat-icon-button
+            [matTooltip]="csapat.name + 'i csapat'"
+            matTooltipClass="large"
+            (click)="state.szemszog = csapat"
+        >
+            <img class="breadcrum-csoport-icon" [src]="csapat.getIconUri()" />
+        </a>
+        <a *ngIf="state.lastSzemszog && state.lastSzemszog !== csapat"
+            mat-icon-button
+            [matTooltip]="state.lastSzemszog.name + ' ' + state.lastSzemszog.type"
+            matTooltipClass="large"
+            (click)="state.szemszog = state.lastSzemszog"
+        >
+            <img class="breadcrum-csoport-icon" [src]="state.lastSzemszog.getIconUri()" />
+        </a>
     </div>
 
     <div *ngIf="state.layout === Layout.Desktop"
