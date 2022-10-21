@@ -38,7 +38,7 @@ export class MunkatervComponent {
 
         const csapatName = route.snapshot.paramMap.get('name')!
         this.csapat = csopSor.getCsoport(csapatName) as Csapat
-        state.szemszog = this.csapat
+        state.restoreSavedSzemszog(this.csapat)
 
         this.fogSor.initilize(csapatName, this.start.getTime())
 

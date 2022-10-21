@@ -55,6 +55,13 @@ export abstract class Csoport {
     getIconUri(): string {
         return `assets/csoportok/${this.icon}.png`
     }
+
+    find(name: string): Csoport | undefined {
+        if (this.name === name) {
+            return this
+        }
+        return undefined
+    }
 }
 
 export class Csapat extends Csoport {
@@ -69,6 +76,16 @@ export class Csapat extends Csoport {
 
     override contains(csoport: Csoport): boolean {
         return super.contains(csoport) || this.rajok.some(raj => raj.contains(csoport))
+    }
+
+    override find(name: string): Csoport | undefined {
+        for (let raj of this.rajok) {
+            const csoport = raj.find(name)
+            if (csoport !== undefined) {
+                return csoport
+            }
+        }
+        return super.find(name)
     }
 }
 
@@ -85,6 +102,16 @@ export class Raj extends Csoport {
 
     override contains(csoport: Csoport): boolean {
         return super.contains(csoport) || this.orsok.some(ors => ors.contains(csoport))
+    }
+
+    override find(name: string): Csoport | undefined {
+        for (let ors of this.orsok) {
+            const csoport = ors.find(name)
+            if (csoport !== undefined) {
+                return csoport
+            }
+        }
+        return super.find(name)
     }
 }
 
