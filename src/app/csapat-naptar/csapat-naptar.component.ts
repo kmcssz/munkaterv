@@ -8,6 +8,7 @@ import { createTerv, Esemeny, FoglalkozasType } from '../models/foglalkozas'
 import { FoglalkozasService } from '../services/foglalkozas.service'
 import { EsemenyService } from '../services/esemeny.service'
 import { map, Observable } from 'rxjs'
+import { parseHostBindings } from '@angular/compiler'
 
 export interface NewMunkatervDialogData {
     name: string
@@ -89,7 +90,18 @@ export class CsapatNaptarComponent implements OnInit {
 
     getTense(esemeny: Esemeny) {
         const oneDayinMillis = 86436000
-        return (esemeny.start + oneDayinMillis) < Date.now() ? 'passed' : 'future'
+
+        const startOfToday = new Date()
+        startOfToday.setHours(0)
+
+        if (esemeny.start < startOfToday.getTime()) {
+            return 'passed'
+        }
+
+        const endOfToday = new Date()
+        endOfToday.setHours(23, 59, 59, 999)
+
+        return esemeny.start < endOfToday.getTime() ? 'present' : 'future'
     }
 }
 
