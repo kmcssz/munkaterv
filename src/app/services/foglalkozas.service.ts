@@ -22,9 +22,9 @@ export class FoglalkozasService {
     ) {
     }
 
-    initilize(csapat: string, start: number) {
+    initilize(csapat: string, date: string) {
 
-        const path = `${csapat}/foglalkozasok/${start}`
+        const path = `${csapat}/foglalkozasok/${date}`
         console.log("Creating Firebase Collection", path)
         this.fogCollection = collection(this.firestore, path)
         this.refresh()

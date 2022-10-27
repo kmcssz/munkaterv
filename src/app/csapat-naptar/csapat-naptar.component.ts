@@ -4,7 +4,7 @@ import { Csapat } from '../models/csapat'
 import { formatHungarianFullDate, formatHungarianDateTime, formatHungarianTime, formatHungarianDate, formatHungarianWeekday } from '../date-adaptor'
 import dateFormat from 'dateformat'
 import { CsoportService } from '../services/csoport.service'
-import { createTerv, Esemeny, FoglalkozasType } from '../models/foglalkozas'
+import { buildDate, createTerv, Esemeny, FoglalkozasType, getDatePart } from '../models/foglalkozas'
 import { FoglalkozasService } from '../services/foglalkozas.service'
 import { EsemenyService } from '../services/esemeny.service'
 import { map, Observable } from 'rxjs'
@@ -33,7 +33,7 @@ export class CsapatNaptarComponent implements OnInit {
         public dialog: MatDialog,
     ) {
         this.esemenyek$ = this.esemenySor.esemenyek$.pipe(
-            map(esemenyek => esemenyek.sort((e1, e2) => e2.start - e1.start)),
+            map(esemenyek => esemenyek.sort((e1, e2) => Date.parse(e2.date) - Date.parse(e1.date))),
         )
     }
 
@@ -45,7 +45,7 @@ export class CsapatNaptarComponent implements OnInit {
     addNewEsemeny(esemenyek: Esemeny[]): void {
         const sevenDaysMillies = 604800000
         const nextDate = esemenyek.length > 0
-            ? new Date(esemenyek[0].start + sevenDaysMillies)
+            ? new Date(Date.parse(esemenyek[0].date) + sevenDaysMillies)
             : new Date() // Today :)
 
         const dialogData: NewMunkatervDialogData = {
@@ -56,36 +56,27 @@ export class CsapatNaptarComponent implements OnInit {
         this.dialog.open(NewMunkatervDialog, {
             data: dialogData,
         }).afterClosed().subscribe((data: NewMunkatervDialogData) => {
-            const selectedDateTime = new Date(data.date)
-            const splitTime = data.time.split(':')
-            selectedDateTime.setHours(
-                parseInt(splitTime[0]),
-                parseInt(splitTime[1]),
-            )
+
             this.esemenySor.addEsemeny({
-                start: selectedDateTime.getTime(),
+                date: getDatePart(data.date),
                 name: data.name,
             })
 
-            this.fogSor.initilize(this.csapat.name, selectedDateTime.getTime())
+            this.fogSor.initilize(this.csapat.name, getDatePart(data.date))
             this.fogSor.putFoglalkozas(createTerv(FoglalkozasType.CsapatTerv, this.csapat.name, 120))
         });
     }
 
     getLink(munkaterv: Esemeny): string {
-        return `/csapat/${this.csapat.name}/munkaterv/${munkaterv.start}`
+        return `/csapat/${this.csapat.name}/munkaterv/${munkaterv.date}`
     }
 
-    formatHungarianStartDate(start: number): string {
-        return formatHungarianDate(new Date(start))
+    formatHungarianStartDate(date: string): string {
+        return formatHungarianDate(buildDate(date))
     }
 
-    formatHungarianStartWeekday(start: number): string {
-        return formatHungarianWeekday(new Date(start))
-    }
-
-    formatHungarianStartTime(start: number): string {
-        return formatHungarianTime(new Date(start))
+    formatHungarianStartWeekday(date: string): string {
+        return formatHungarianWeekday(buildDate(date))
     }
 
     getTense(esemeny: Esemeny) {
@@ -94,14 +85,15 @@ export class CsapatNaptarComponent implements OnInit {
         const startOfToday = new Date()
         startOfToday.setHours(0)
 
-        if (esemeny.start < startOfToday.getTime()) {
+        const esemenyDate = Date.parse(esemeny.date)
+        if (esemenyDate < startOfToday.getTime()) {
             return 'passed'
         }
 
         const endOfToday = new Date()
         endOfToday.setHours(23, 59, 59, 999)
 
-        return esemeny.start < endOfToday.getTime() ? 'present' : 'future'
+        return esemenyDate < endOfToday.getTime() ? 'present' : 'future'
     }
 }
 

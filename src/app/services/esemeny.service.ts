@@ -41,7 +41,7 @@ export class EsemenyService {
     }
 
     addEsemeny(esemeny: Esemeny) {
-        setDoc(doc(ensure(this.esemenyCollection), `${esemeny.start}`), esemeny)
+        setDoc(doc(ensure(this.esemenyCollection), `${esemeny.date}`), esemeny)
         this.refresh()
     }
 }

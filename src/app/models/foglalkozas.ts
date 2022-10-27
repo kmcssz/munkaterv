@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export interface Esemeny {
     name: string,
-    start: number,
+    date: string,
 }
 
 export enum FoglalkozasType {
@@ -25,6 +25,10 @@ export interface Foglalkozas {
 
 export interface Terv extends Foglalkozas {
     foglalkozasok: string[],
+}
+
+export interface CsapatTerv extends Terv {
+    startTime: string
 }
 
 export interface ConcurrentTerv extends Terv {
@@ -81,4 +85,24 @@ export function createConcurrentTervek(
         subtype,
         ...createTerv(FoglalkozasType.ConcurrentTervek, csoport, duration)
     }
+}
+
+export function createCsapatTerv(
+    csoport: string,
+    time: string,
+): CsapatTerv {
+    return {
+        startTime: time,
+        ...createTerv(FoglalkozasType.CsapatTerv, csoport, 0)
+    }
+}
+
+export function buildDate(date: string, time?: string): Date {
+    const [year, month, day] = date.split('-').map(part => parseInt(part))
+    const [hour, minute] = (time ?? '13:00').split(':').map(part => parseInt(part))
+    return new Date(year, month - 1, day, hour, minute)
+}
+
+export function getDatePart(date: Date): string {
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
 }

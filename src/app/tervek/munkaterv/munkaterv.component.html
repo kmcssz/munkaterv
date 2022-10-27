@@ -1,6 +1,6 @@
 <!-- <div class="background"></div> -->
 
-<div class="munkaterv">
+<div class="munkaterv" *ngIf="csapatTerv$ | async as csapatTerv">
     <div *ngIf="state.layout !== Layout.Print"
         class="toolbar"
     >
@@ -78,14 +78,29 @@
     <app-szemszog-selection class="szemszog" [csapat]="csapat"></app-szemszog-selection>
 
     <div class="date" [ngClass]="state.layout === Layout.Desktop ? 'date-large' : 'date-small'">
-        {{formatHungarianDate(start)}}
+        {{formatDate()}}
     </div>
     <div class="start" [ngClass]="state.layout === Layout.Desktop ? 'start-large' : 'start-small'">
-        {{formatHungarianTime(start)}}
+        <div *ngIf="state.szemszog.type !== CsoportType.Csapat; else timeSelector">
+            {{formatTime(csapatTerv)}}
+        </div>
+        <ng-template #timeSelector>
+            <mat-form-field class="startTime">
+                <input matInput
+                        name="ido"
+                        type="time"
+                        value="13:00"
+                        [(ngModel)]="csapatTerv.startTime"
+                        (ngModelChange)="storeCsapatTerv(csapatTerv)"
+                        [readonly]="state.szemszog.type !== CsoportType.Csapat"
+                />
+                <mat-hint [align]="'start'">idő</mat-hint>
+            </mat-form-field>
+        </ng-template>
     </div>
 
-    <app-foglalkozas *ngIf="csapatTerv$ | async as csapatTerv"
-        [start]="start"
+    <app-foglalkozas
+        [start]="buildDate(date, csapatTerv.startTime)"
         [foglalkozas]="csapatTerv"
     ></app-foglalkozas>
 
@@ -93,6 +108,6 @@
         class="time"
         [ngClass]="state.layout === Layout.Desktop ? 'time-large' : 'time-small'"
     >
-        {{computeOszoljTime(children)}}
+        {{computeOszoljTime(csapatTerv, children)}}
     </div>
 </div>

@@ -30,11 +30,11 @@
                 <button mat-button [routerLink]="getLink(esemeny)">
                     <span class="esemeny-name">{{esemeny.name}}</span>
                     <br/>
-                    <span class="esemeny-date">{{formatHungarianStartDate(esemeny.start)}}</span>
-                    <br/>
-                    <span class="esemeny-time">
-                        {{formatHungarianStartWeekday(esemeny.start)}}
-                        {{formatHungarianStartTime(esemeny.start)}}
+                    <span class="esemeny-date">
+                        {{formatHungarianStartDate(esemeny.date)}}
+                    </span>
+                    <span class="esemeny-date">
+                        {{formatHungarianStartWeekday(esemeny.date)}}
                     </span>
                 </button>
             </mat-card-content>

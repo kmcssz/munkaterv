@@ -13,18 +13,8 @@
         </section>
 
         <h1 mat-dialog-title>Mikor?</h1>
+
         <mat-calendar [(selected)]="data.date"></mat-calendar>
-        <section>
-            <mat-form-field class="">
-                <input matInput
-                    name="ido"
-                    type="time"
-                    value="13:00"
-                    [(ngModel)]="data.time"
-                />
-                <mat-hint [align]="'start'">Kezdés ídő</mat-hint>
-            </mat-form-field>
-        </section>
         <section class="ok-button-section">
             <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
                 Kész
