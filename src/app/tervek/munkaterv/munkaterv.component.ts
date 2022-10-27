@@ -53,7 +53,7 @@ export class MunkatervComponent {
 
     computeOszoljTime(csapatTerv: CsapatTerv, children: Foglalkozas[]): string {
         return formatHungarianTime(
-            new Date(buildDate(this.date + 'T' + csapatTerv.startTime).getTime() + computeConsumedDuration(children) * minutesToMillis)
+            new Date(buildDate(this.date, csapatTerv.startTime).getTime() + computeConsumedDuration(children) * minutesToMillis)
         )
     }
 
