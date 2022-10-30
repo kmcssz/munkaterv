@@ -104,5 +104,5 @@ export function buildDate(date: string, time?: string): Date {
 }
 
 export function getDatePart(date: Date): string {
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }

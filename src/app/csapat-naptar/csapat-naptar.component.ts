@@ -57,12 +57,13 @@ export class CsapatNaptarComponent implements OnInit {
             data: dialogData,
         }).afterClosed().subscribe((data: NewMunkatervDialogData) => {
 
+            const date = getDatePart(data.date)
             this.esemenySor.addEsemeny({
-                date: getDatePart(data.date),
+                date,
                 name: data.name,
             })
 
-            this.fogSor.initilize(this.csapat.name, getDatePart(data.date))
+            this.fogSor.initilize(this.csapat.name, date)
             this.fogSor.putFoglalkozas(createTerv(FoglalkozasType.CsapatTerv, this.csapat.name, 120))
         });
     }
