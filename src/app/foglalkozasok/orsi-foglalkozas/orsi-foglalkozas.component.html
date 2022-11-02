@@ -31,7 +31,7 @@
             <mat-button-toggle-group (change)="changeProba($event.value)">
                 <mat-button-toggle *ngFor="let proba of probak"
                     [value]="proba.uid"
-                    matTooltip="{{proba.name}}"
+                    [matTooltip]="proba.name"
                     matTooltipClass="large"
                 >
                     <img class="proba-image" src="assets/probak/{{proba.uid}}Proba.png" />
@@ -68,12 +68,13 @@
         </span>
     </div>
 
-    <div class="alproba"
-        *ngIf="alprobak.length > 0" >
+    <div *ngIf="age >= 10 && alprobak.length > 0"
+        class="alproba"
+    >
         <mat-form-field appearance="fill">
             <mat-label>Alpróba</mat-label>
             <mat-select
-                [disabled]="alprobak.length == 1"
+                [disabled]="alprobak.length === 1"
                 [value]="alproba!.uid"
                 (selectionChange)="changeAlproba($event.value)"
             >
@@ -85,17 +86,29 @@
             </mat-select>
         </mat-form-field>
     </div>
-</section>
 
-<section *ngIf="pontok && pontok.length > 0 && state.layout === Layout.Desktop">
-    <mat-selection-list (selectionChange)="changePontok($event.options)">
-        <mat-list-option *ngFor="let pont of pontok"
-            [selected]="pont.selected"
-            [value]="pont.name"
+    <div *ngIf="pontok && pontok.length > 0 && state.layout === Layout.Desktop"
+        class="proba-pont"
+    >
+        <mat-form-field
+            [matTooltip]="pontok.length === 1 ? pontok[0].name : ''"
+            matTooltipClass="large"
+            appearance="fill"
         >
-            {{pont.name}}
-        </mat-list-option>
-    </mat-selection-list>
+            <mat-label>Próba pontok</mat-label>
+            <mat-select multiple
+                [disabled]="pontok.length === 1"
+                [value]="pontok.length === 1 ? pontok : []"
+                (selectionChange)="changePontok($event.value)"
+            >
+                <mat-option *ngFor="let pont of pontok"
+                    [value]="pont"
+                >
+                    {{pont.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
 </section>
 
 <section *ngIf="state.layout !== Layout.Desktop"

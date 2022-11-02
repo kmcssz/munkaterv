@@ -33,7 +33,7 @@ export class CsoportService {
                 "Mine",
                 Korosztaj.Cserkesz,
                 [
-                    new Ors("Róka", "Fox"),
+                    new Ors("Rovar", "Beetle"),
                     new Ors("Bambusz", "Bamboo"),
                 ],
             ),

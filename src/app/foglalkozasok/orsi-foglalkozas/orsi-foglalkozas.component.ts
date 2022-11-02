@@ -76,10 +76,15 @@ export class OrsiFoglalkozasComponent implements OnInit {
     }
 
     changeProba(probaUid: string, save: boolean = true) {
+        console.log("proba", probaUid)
         this.orsiFoglalkozas.probaUid = probaUid
         this.areProbakOpen = false
         this.temak = this.probaRendszer.getTemak()
-        this.changeTema(first(this.temak).uid, save)
+        if (this.orsiFoglalkozas.age < 10) {
+            this.changeTema("Egyeb")
+        } else {
+            this.changeTema(first(this.temak).uid, save)
+        }
     }
 
     changeTema(temaUid: string, save: boolean = true) {
@@ -102,17 +107,31 @@ export class OrsiFoglalkozasComponent implements OnInit {
             alproba.pontok.forEach(pont => {
                 this.orsiFoglalkozas.pontok.push(createPont(pont))
             })
+            if (this.orsiFoglalkozas.pontok.length === 1) {
+                this.orsiFoglalkozas.pontok[0].selected = true
+                this.updatePontok(this.orsiFoglalkozas.pontok, false)
+            }
+
         }
         this.orsiFoglalkozas.alprobaUid = alprobaUid
         this.saveFoglalkozas(save)
     }
 
     changePontok(options: MatListOption[], save: boolean = true) {
-        options.forEach((option) => {
+        this.updatePontok(options.map(option  =>
+            createPont(
+                option.value,
+                option.selected)
+            )
+        )
+    }
+
+    updatePontok(pontok: ProbaPont[], save: boolean = true) {
+        pontok.forEach(probaPont =>
             this.orsiFoglalkozas.pontok
-                .filter(pont => pont.name === option.value)
-                .forEach(pont => pont.selected = option.selected)
-        })
+                .filter(pont => pont.name === probaPont.name)
+                .forEach(pont => pont.selected = probaPont.selected)
+        )
         this.saveFoglalkozas(save)
     }
 
@@ -124,6 +143,10 @@ export class OrsiFoglalkozasComponent implements OnInit {
         if (save) {
             this.fogSor.putFoglalkozas(this.orsiFoglalkozas)
         }
+    }
+
+    get age(): number {
+        return this.orsiFoglalkozas.age
     }
 
     get cserkesz(): Cserkesz {

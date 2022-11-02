@@ -48,6 +48,10 @@ mat-slider {
     margin-top: 10px;
 }
 
+.proba-pont {
+    margin-top: 10px;
+}
+
 .editor-section {
     width: 100%;
 }
@@ -66,5 +70,8 @@ mat-slider {
     }
     .mat-slider-thumb-label-text {
         opacity: 1 !important;
+    }
+    .mat-select-panel {
+        max-width: fit-content !important;
     }
 }
