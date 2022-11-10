@@ -14,6 +14,6 @@ export class CsapatSelectionComponent {
     constructor(
         csopSor: CsoportService,
     ) {
-        this.csapatok = [csopSor.getCsoport("Montreal") as Csapat]
+        this.csapatok = csopSor.csapatok
     }
 }

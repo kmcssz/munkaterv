@@ -5,8 +5,8 @@ import { CsapatNaptarComponent } from './csapat-naptar/csapat-naptar.component'
 import { MunkatervComponent } from './tervek/munkaterv/munkaterv.component'
 
 const routes: Routes = [
-    { path: 'csapat/:name/munkaterv/:date', component: MunkatervComponent },
-    { path: 'csapat/:name', component: CsapatNaptarComponent },
+    { path: 'csapat/:csapat/munkaterv/:date', component: MunkatervComponent },
+    { path: 'csapat/:csapat', component: CsapatNaptarComponent },
     { path: '', component: CsapatSelectionComponent },
 ]
 

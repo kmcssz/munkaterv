@@ -1,5 +1,6 @@
-<div class="csapatok" *ngFor="let csapat of csapatok">
-    <div class="csapat"
+<div class="csapatok">
+    <div *ngFor="let csapat of csapatok"
+        class="csapat"
         [matTooltip]="csapat.name"
         matTooltipClass="large"
     >

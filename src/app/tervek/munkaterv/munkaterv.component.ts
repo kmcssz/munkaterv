@@ -14,6 +14,7 @@ import { first } from 'src/app/utils'
     selector: 'app-munkaterv',
     templateUrl: './munkaterv.component.html',
     styleUrls: ['./munkaterv.component.scss'],
+    providers: [CsoportService],
 })
 export class MunkatervComponent {
 
@@ -36,11 +37,10 @@ export class MunkatervComponent {
     ) {
         this.date = route.snapshot.paramMap.get('date')!
 
-        const csapatName = route.snapshot.paramMap.get('name')!
-        this.csapat = csopSor.getCsoport(csapatName) as Csapat
+        this.csapat = csopSor.getCsapat()
         state.restoreSavedSzemszog(this.csapat)
 
-        this.fogSor.initilize(csapatName, this.date)
+        this.fogSor.initilize(this.csapat.name, this.date)
 
         this.csapatTerv$ = this.fogSor.getByType(FoglalkozasType.CsapatTerv).pipe(
             filter(fogak => fogak.length > 0),

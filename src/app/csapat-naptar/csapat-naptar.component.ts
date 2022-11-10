@@ -1,14 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { Csapat } from '../models/csapat'
-import { formatHungarianFullDate, formatHungarianDateTime, formatHungarianTime, formatHungarianDate, formatHungarianWeekday } from '../date-adaptor'
 import dateFormat from 'dateformat'
-import { CsoportService } from '../services/csoport.service'
-import { buildDate, createTerv, Esemeny, FoglalkozasType, getDatePart } from '../models/foglalkozas'
-import { FoglalkozasService } from '../services/foglalkozas.service'
-import { EsemenyService } from '../services/esemeny.service'
 import { map, Observable } from 'rxjs'
-import { parseHostBindings } from '@angular/compiler'
+import { formatHungarianDate, formatHungarianWeekday } from '../date-adaptor'
+import { Csapat } from '../models/csapat'
+import { buildDate, createTerv, Esemeny, FoglalkozasType, getDatePart } from '../models/foglalkozas'
+import { CsoportService } from '../services/csoport.service'
+import { EsemenyService } from '../services/esemeny.service'
+import { FoglalkozasService } from '../services/foglalkozas.service'
 
 export interface NewMunkatervDialogData {
     name: string
@@ -20,6 +19,7 @@ export interface NewMunkatervDialogData {
     selector: 'app-csapat-naptar',
     templateUrl: './csapat-naptar.component.html',
     styleUrls: ['./csapat-naptar.component.scss'],
+    providers: [CsoportService],
 })
 export class CsapatNaptarComponent implements OnInit {
 

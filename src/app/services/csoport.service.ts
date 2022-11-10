@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import { Csapat, Csoport, Korosztaj, Ors, Raj } from '../models/csapat'
 
 @Injectable({
@@ -6,53 +7,93 @@ import { Csapat, Csoport, Korosztaj, Ors, Raj } from '../models/csapat'
 })
 export class CsoportService {
 
-    csapat = new Csapat(
-        "Montreal",
-        "Montreal",
-        [
-            new Raj(
-                "Katicabogár",
-                "Ladybug",
-                Korosztaj.KisCserkesz,
-                [
-                    new Ors("Bagoly", "Owl"),
-                    new Ors("Méhecske", "Bee"),
-                ],
-            ),
-            new Raj(
-                "Munkács",
-                "Castle",
-                Korosztaj.Cserkesz,
-                [
-                    new Ors("Szunyog", "Mosquito"),
-                    new Ors("Páva", "Peacock"),
-                ],
-            ),
-            new Raj(
-                "Besztercebánya",
-                "Mine",
-                Korosztaj.Cserkesz,
-                [
-                    new Ors("Rovar", "Beetle"),
-                    new Ors("Bambusz", "Bamboo"),
-                ],
-            ),
-        ],
-    )
+    public readonly csapatok = [
+        new Csapat(
+            "Montreal",
+            "Montreal",
+            [
+                new Raj(
+                    "Katicabogár",
+                    "Ladybug",
+                    Korosztaj.KisCserkesz,
+                    [
+                        new Ors("Bagoly", "Owl"),
+                        new Ors("Méhecske", "Bee"),
+                    ],
+                ),
+                new Raj(
+                    "Munkács",
+                    "Castle",
+                    Korosztaj.Cserkesz,
+                    [
+                        new Ors("Szunyog", "Mosquito"),
+                        new Ors("Páva", "Peacock"),
+                    ],
+                ),
+                new Raj(
+                    "Besztercebánya",
+                    "Mine",
+                    Korosztaj.Cserkesz,
+                    [
+                        new Ors("Rovar", "Beetle"),
+                        new Ors("Bambusz", "Bamboo"),
+                    ],
+                ),
+            ],
+        ),
+        new Csapat(
+            "Garfield",
+            "Garfield",
+            [
+                new Raj(
+                    "Hosszúlábú Gólya",
+                    "Stork",
+                    Korosztaj.KisCserkesz,
+                    [
+                        new Ors("Rózsa", "Rose"),
+                        new Ors("Kobra", "Snake"),
+                        new Ors("Turul", "Eagle"),
+                        new Ors("Delfin", "Dolphin"),
+                        new Ors("Majom", "Monkey"),
+                        new Ors("Pillangó", "Butterfly"),
+                    ],
+                ),
+                new Raj(
+                    "Cserkész",
+                    "Cserkesz",
+                    Korosztaj.Cserkesz,
+                    [
+                        new Ors("Vízicsiko", "Seahorse"),
+                        new Ors("Nyílméreg Béka", "PoisonFrog"),
+                    ],
+                ),
+            ],
+        ),
+    ]
 
-    constructor() { }
+    private csapatName?: string
+
+    constructor(
+        route: ActivatedRoute,
+    ) {
+        route.params.subscribe(params => {
+            this.csapatName = params['csapat'] ?? undefined
+        })
+    }
 
     getCsoport(name: string): Csoport {
-        if (this.csapat.name === name) {
-            return this.csapat
+
+        const csapat = this.getCsapat()
+        if (csapat.name === name) {
+            return csapat
         }
 
-        const foundRaj = this.csapat.rajok.filter(raj => raj.name === name)
+        const foundRaj = csapat.rajok.filter(raj => raj.name === name)
         if (foundRaj.length !== 0) {
             return foundRaj[0]
         }
 
-        const foundOrs = this.csapat.rajok.flatMap(raj => raj.orsok).filter(ors => ors.name === name)
+        const foundOrs = csapat.rajok.flatMap(raj => raj.orsok).filter(ors => ors.name === name)
         if (foundOrs.length !== 0) {
             return foundOrs[0]
         }
@@ -60,7 +101,9 @@ export class CsoportService {
     }
 
     getCsapat(): Csapat {
-        //const name = this.route.snapshot.paramMap.get('name')!
-        return this.csapat
+        if (this.csapatName === undefined) {
+            throw new Error("Csapat not in route");
+        }
+        return this.csapatok.find(csapat => csapat.name === this.csapatName)!
     }
 }

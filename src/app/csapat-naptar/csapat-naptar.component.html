@@ -1,13 +1,15 @@
-<div class="csapat-terv">
-    <a mat-icon-button
-        routerLink="/"
-        class="back-button"
-        matTooltip="Vissza csapatokhoz"
-        matTooltipClass="large"
-    >
-        <mat-icon class="back-button-icon">arrow_back</mat-icon>
-    </a>
+<a mat-icon-button
+    routerLink="/"
+    class="back-button"
+    matTooltip="Vissza csapatokhoz"
+    matTooltipClass="large"
+>
+    <mat-icon class="back-button-icon">arrow_back</mat-icon>
+</a>
 
+<div *ngIf="csapat"
+    class="csapat-terv"
+>
     <div class="csapat-sign centered">
         <img class="csapat-logo" [src]="csapat.getIconUri()" />
     </div>
