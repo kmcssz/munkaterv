@@ -87,12 +87,12 @@
         <ng-template #timeSelector>
             <mat-form-field class="startTime">
                 <input matInput
-                        name="ido"
-                        type="time"
-                        value="13:00"
-                        [(ngModel)]="csapatTerv.startTime"
-                        (ngModelChange)="storeCsapatTerv(csapatTerv)"
-                        [readonly]="state.szemszog.type !== CsoportType.Csapat"
+                    name="ido"
+                    type="time"
+                    value="13:00"
+                    [(ngModel)]="csapatTerv.startTime"
+                    (ngModelChange)="storeCsapatTerv(csapatTerv)"
+                    [readonly]="state.szemszog.type !== CsoportType.Csapat"
                 />
                 <mat-hint [align]="'start'">idő</mat-hint>
             </mat-form-field>
