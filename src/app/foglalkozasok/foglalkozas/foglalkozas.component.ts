@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core'
-import { map, Observable } from 'rxjs'
+import { map, Observable, take } from 'rxjs'
 import { CsoportType } from 'src/app/models/csapat'
 import { Layout } from 'src/app/models/state'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
@@ -95,7 +95,17 @@ export class FoglalkozasComponent implements OnChanges {
     }
 
     durationChanged() {
-        this.fogSor.putFoglalkozas(this.foglalkozas)
+        if (this.foglalkozas.type === FoglalkozasType.ConcurrentTervek) {
+            this.fogSor.filterChildren(this.terv!)
+                .pipe(take(1))
+                .subscribe(tervek => {
+                    tervek.forEach(terv => {
+                        terv.duration = this.foglalkozas.duration
+                        this.fogSor.putFoglalkozas(terv, false)
+                    })
+                    this.fogSor.putFoglalkozas(this.foglalkozas, true)
+                })
+        }
     }
 }
 
