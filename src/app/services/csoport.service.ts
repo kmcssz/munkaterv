@@ -17,7 +17,7 @@ export class CsoportService {
                     "Ladybug",
                     Korosztaj.KisCserkesz,
                     [
-                        new Ors("Bagoly", "Owl"),
+                        new Ors("Vizsla", "Dog"),
                         new Ors("Méhecske", "Bee"),
                     ],
                 ),
