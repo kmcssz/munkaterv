@@ -15,5 +15,7 @@
 </mat-form-field>
 
 <ng-template #paragraphArea>
-    <p>{{leiras}}</p>
+    <p *ngFor="let paragraph of leiras.split('\n')">
+        {{paragraph}}
+    </p>
 </ng-template>

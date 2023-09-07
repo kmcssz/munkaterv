@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { MatListOption } from '@angular/material/list'
+import { MatSelect } from '@angular/material/select'
 import { Layout } from 'src/app/models/state'
 import { FoglalkozasService } from 'src/app/services/foglalkozas.service'
 import { ProbaRendszerService } from 'src/app/services/probarendszer.service'
@@ -117,21 +118,26 @@ export class OrsiFoglalkozasComponent implements OnInit {
         this.saveFoglalkozas(save)
     }
 
-    changePontok(options: MatListOption[], save: boolean = true) {
-        this.updatePontok(options.map(option  =>
-            createPont(
-                option.value,
-                option.selected)
-            )
-        )
+    getSelectedPontok() {
+        return this.pontok.filter(pont => pont.selected)
+    }
+
+    detectPontSelection(source: MatSelect) {
+        console.log("options", source.options)
+        source.options.forEach( op => console.log(op))
+        this.updatePontok(source.options.map(option  =>
+            createPont(option.value, option.selected)
+        ))
     }
 
     updatePontok(pontok: ProbaPont[], save: boolean = true) {
+        console.log("ponok", pontok)
         pontok.forEach(probaPont =>
             this.orsiFoglalkozas.pontok
                 .filter(pont => pont.name === probaPont.name)
                 .forEach(pont => pont.selected = probaPont.selected)
         )
+        console.log("orsiFoglalkozas.ponok", this.orsiFoglalkozas.pontok)
         this.saveFoglalkozas(save)
     }
 

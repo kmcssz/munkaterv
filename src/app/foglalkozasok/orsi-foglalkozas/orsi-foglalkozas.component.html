@@ -98,11 +98,11 @@
             <mat-label>Próba pontok</mat-label>
             <mat-select multiple
                 [disabled]="pontok.length === 1"
-                [value]="pontok.length === 1 ? pontok : []"
-                (selectionChange)="changePontok($event.value)"
+                [value]="getSelectedPontok()"
+                (selectionChange)="detectPontSelection($event.source)"
             >
                 <mat-option *ngFor="let pont of pontok"
-                    [value]="pont"
+                    [value]="pont.name"
                 >
                     {{pont.name}}
                 </mat-option>
@@ -125,6 +125,13 @@
     class="editor-section"
     [ngClass]="state.layout === Layout.Desktop ? 'large' : 'small'"
 >
+    <ul>
+        <div *ngFor="let pont of pontok">
+            <li *ngIf="pont.selected"
+                [ngClass]="state.layout !== Layout.Desktop ? 'small-text' : 'large-text'"
+            >{{alproba.name}}: {{pont.name}}</li>
+        </div>
+    </ul>
     <app-editor-wrapper
         [editable]="isOrsSzemszog(state.szemszog)"
         [(leiras)]="orsiFoglalkozas.program!"
