@@ -5,7 +5,7 @@
             [matTooltip]="cserkesz.name"
             matTooltipPosition="above"
             matTooltipClass="large"
-            (change)="changeAge($event.value ?? 10)"
+            (dragEnd)="changeAge(orsiFoglalkozas.age)"
             thumbLabel
             tickInterval="1"
             step="1"

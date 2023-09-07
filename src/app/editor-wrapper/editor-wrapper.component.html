@@ -4,9 +4,9 @@
     </mat-label>
 
     <textarea
-        #textArea="cdkTextareaAutosize"
         matInput
         cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
         [ngClass]="state.layout !== Layout.Desktop ? 'small' : 'large'"
         [readonly]="!editable"
         [(ngModel)]="leiras"

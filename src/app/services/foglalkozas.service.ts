@@ -63,9 +63,10 @@ export class FoglalkozasService {
     }
 
     putFoglalkozas(foglalkozas: Foglalkozas, refresh: boolean = false): string {
+        // console.log("Saving foglalkozas", foglalkozas)
         setDoc(doc(ensure(this.fogCollection), foglalkozas.uuid), foglalkozas)
             .then(() => {
-                console.log("Saved foglalkozas", foglalkozas)
+                // console.log("Saved foglalkozas", foglalkozas)
                 if (refresh) {
                     this.refresh()
                 }

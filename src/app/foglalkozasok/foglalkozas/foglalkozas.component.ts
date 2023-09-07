@@ -105,6 +105,8 @@ export class FoglalkozasComponent implements OnChanges {
                     })
                     this.fogSor.putFoglalkozas(this.foglalkozas, true)
                 })
+        } else {
+            this.fogSor.putFoglalkozas(this.foglalkozas, true)
         }
     }
 }
