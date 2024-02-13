@@ -1,16 +1,16 @@
 <section *ngIf="state.layout === Layout.Desktop">
     <div>
         <mat-slider #ageSlider
-            [(ngModel)]="orsiFoglalkozas.age"
             [matTooltip]="cserkesz.name"
-            matTooltipPosition="above"
+            matTooltipPosition="below"
             matTooltipClass="large"
-            (dragEnd)="changeAge(orsiFoglalkozas.age)"
-            thumbLabel
-            tickInterval="1"
+            discrete
             step="1"
             min="5"
             max="16">
+          <input matSliderThumb
+                 [(ngModel)]="orsiFoglalkozas.age"
+                 (dragEnd)="changeAge(orsiFoglalkozas.age)" />
         </mat-slider>
     </div>
     <div>
@@ -96,7 +96,9 @@
             appearance="fill"
         >
             <mat-label>Próba pontok</mat-label>
-            <mat-select multiple
+            <mat-select
+                [multiple]="true"
+                [formControl]="probakFormControl"
                 [disabled]="pontok.length === 1"
                 [value]="getSelectedPontok()"
                 (selectionChange)="detectPontSelection($event.source)"
@@ -128,8 +130,9 @@
     <ul>
         <div *ngFor="let pont of pontok">
             <li *ngIf="pont.selected"
-                [ngClass]="state.layout !== Layout.Desktop ? 'small-text' : 'large-text'"
+                class="small-text"
             >{{alproba.name}}: {{pont.name}}</li>
+          <!--[ngClass]="state.layout !== Layout.Desktop ? 'small-text' : 'large-text'"-->
         </div>
     </ul>
     <app-editor-wrapper

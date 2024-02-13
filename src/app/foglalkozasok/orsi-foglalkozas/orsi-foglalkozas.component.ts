@@ -9,6 +9,7 @@ import { isOrsSzemszog } from '../../models/csapat'
 import { OrsiFoglalkozas, ProbaPont } from '../../models/foglalkozas'
 import { Alproba, Cserkesz, Proba, Tema } from '../../models/proba'
 import { first } from '../../utils'
+import { FormControl } from '@angular/forms'
 
 @Component({
     selector: 'app-orsi-foglalkozas',
@@ -24,6 +25,7 @@ export class OrsiFoglalkozasComponent implements OnInit {
 
     areProbakOpen = false
     areTemakOpen = false
+    probakFormControl = new FormControl('');
 
     probak!: Proba[]
     temak: Tema[]

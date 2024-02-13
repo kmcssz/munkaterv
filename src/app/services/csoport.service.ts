@@ -35,7 +35,7 @@ export class CsoportService {
                     "Mine",
                     Korosztaj.Cserkesz,
                     [
-                        new Ors("Rovar", "Beetle"),
+                        new Ors("Süsü a Sárkány", "Dragon"),
                         new Ors("Bambusz", "Bamboo"),
                     ],
                 ),
