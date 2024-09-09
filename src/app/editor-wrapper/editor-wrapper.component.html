@@ -4,9 +4,9 @@
     </mat-label>
 
     <textarea
-        #textArea="cdkTextareaAutosize"
         matInput
         cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
         [ngClass]="state.layout !== Layout.Desktop ? 'small' : 'large'"
         [readonly]="!editable"
         [(ngModel)]="leiras"
@@ -15,5 +15,7 @@
 </mat-form-field>
 
 <ng-template #paragraphArea>
-    <p>{{leiras}}</p>
+    <p *ngFor="let paragraph of leiras.split('\n')">
+        {{paragraph}}
+    </p>
 </ng-template>

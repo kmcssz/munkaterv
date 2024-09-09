@@ -1,4 +1,5 @@
-<a mat-icon-button
+<a mat-fab
+    color="primary"
     routerLink="/"
     class="back-button"
     matTooltip="Vissza csapatokhoz"
@@ -17,7 +18,7 @@
     <div class="add-button centered">
         <button *ngIf="(esemenyek$ | async) as esemenyek"
             mat-fab
-            color="gold"
+            color="accent"
             matTooltip="Új munkaterv"
             matTooltipClass="large"
             (click)="addNewEsemeny(esemenyek)"

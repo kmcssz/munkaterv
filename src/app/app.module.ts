@@ -2,7 +2,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
 import { OverlayModule } from '@angular/cdk/overlay'
 import { HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { MatCardModule } from '@angular/material/card'
@@ -82,6 +82,7 @@ import { environment } from 'src/environments/environment'
         OverlayModule,
         AppRoutingModule,
         MatDialogModule,
+        ReactiveFormsModule,
     ],
     providers: [
         { provide: DateAdapter, useClass: MagyarDateAdapter },

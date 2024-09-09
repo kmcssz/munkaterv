@@ -102,7 +102,3 @@ export function buildDate(date: string, time?: string): Date {
     const [hour, minute] = (time ?? '13:00').split(':').map(part => parseInt(part))
     return new Date(year, month - 1, day, hour, minute)
 }
-
-export function getDatePart(date: Date): string {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-}

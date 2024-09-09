@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import dateFormat from 'dateformat'
-import { map, Observable } from 'rxjs'
-import { formatHungarianDate, formatHungarianWeekday } from '../date-adaptor'
+import { map, Observable, tap } from 'rxjs'
+import { formatHungarianDate, formatHungarianWeekday, getDatePart, healDate, parseDate } from '../date-adaptor'
 import { Csapat } from '../models/csapat'
-import { buildDate, createTerv, Esemeny, FoglalkozasType, getDatePart } from '../models/foglalkozas'
+import { buildDate, createTerv, Esemeny, FoglalkozasType } from '../models/foglalkozas'
 import { CsoportService } from '../services/csoport.service'
 import { EsemenyService } from '../services/esemeny.service'
 import { FoglalkozasService } from '../services/foglalkozas.service'
@@ -33,7 +33,11 @@ export class CsapatNaptarComponent implements OnInit {
         public dialog: MatDialog,
     ) {
         this.esemenyek$ = this.esemenySor.esemenyek$.pipe(
-            map(esemenyek => esemenyek.sort((e1, e2) => Date.parse(e2.date) - Date.parse(e1.date))),
+            map(esemenyek => esemenyek.map(esemeny => {
+                esemeny.date = healDate(esemeny.date)
+                return esemeny
+            })),
+            map(esemenyek => esemenyek.sort((e1, e2) => parseDate(e2.date).getTime() - parseDate(e1.date).getTime())),
         )
     }
 
@@ -43,9 +47,10 @@ export class CsapatNaptarComponent implements OnInit {
     }
 
     addNewEsemeny(esemenyek: Esemeny[]): void {
+
         const sevenDaysMillies = 604800000
         const nextDate = esemenyek.length > 0
-            ? new Date(Date.parse(esemenyek[0].date) + sevenDaysMillies)
+            ? new Date(parseDate(esemenyek[0].date).getTime() + sevenDaysMillies)
             : new Date() // Today :)
 
         const dialogData: NewMunkatervDialogData = {
@@ -84,9 +89,9 @@ export class CsapatNaptarComponent implements OnInit {
         const oneDayinMillis = 86436000
 
         const startOfToday = new Date()
-        startOfToday.setHours(0)
+        startOfToday.setHours(0, 0, 0, 0)
 
-        const esemenyDate = Date.parse(esemeny.date)
+        const esemenyDate = parseDate(esemeny.date).getTime()
         if (esemenyDate < startOfToday.getTime()) {
             return 'passed'
         }
