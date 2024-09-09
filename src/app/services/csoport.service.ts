@@ -19,11 +19,12 @@ export class CsoportService {
                     [
                         new Ors("Vizsla", "Dog"),
                         new Ors("Méhecske", "Bee"),
+                        new Ors("Bagoly", "Owl"),
                     ],
                 ),
                 new Raj(
-                    "Munkács",
-                    "Castle",
+                    "Túró Rudi",
+                    "TuroRudi",
                     Korosztaj.Cserkesz,
                     [
                         new Ors("Szunyog", "Mosquito"),
@@ -31,12 +32,12 @@ export class CsoportService {
                     ],
                 ),
                 new Raj(
-                    "Besztercebánya",
-                    "Mine",
+                    "Paprikás Csirke",
+                    "ChickenPaprikash",
                     Korosztaj.Cserkesz,
                     [
-                        new Ors("Süsü a Sárkány", "Dragon"),
-                        new Ors("Bambusz", "Bamboo"),
+                        new Ors("Nyomott Tücsök", "Cricket"),
+                        new Ors("Kecske", "Goat"),
                     ],
                 ),
             ],
